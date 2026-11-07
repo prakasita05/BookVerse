@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Details — BookVerse</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Dashboard & Book Detail Stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/book-detail.css') }}">
+</head>
+
+<body>
+
+<!-- Dashboard Header -->
+<header class="dashboard-header">
+  <div class="header-container">
+    <a href="/home" class="header-logo">bookverse</a>
+    
+    <nav class="header-nav">
+      <a href="/home" class="nav-link">Home</a>
+      <a href="/library" class="nav-link">My Library</a>
+      <a href="#" class="nav-link">Shelves</a>
+      <a href="#" class="nav-link">Wishlist</a>
+      <a href="#" class="nav-link">Discover</a>
+      <a href="#" class="nav-link">Tracker</a>
+    </nav>
+
+    <div class="header-search">
+      <span class="search-icon">🔍</span>
+      <input type="text" class="search-input" placeholder="Search books...">
+    </div>
+
+    <div class="header-user">
+      <div class="user-avatar" id="user-avatar">?</div>
+      <span style="font-size: 14px; font-weight: 500;" id="user-name-display">Guest</span>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="dashboard-main">
+  
+  <!-- Back Navigation -->
+  <div class="mb-lg">
+    <a href="/library" class="back-link">
+      ← Back to Library
+    </a>
+  </div>
+
+  <!-- Book Header Section -->
+  <section class="book-header-section mb-2xl">
+    <div class="book-header-grid">
+      <!-- Book Cover -->
+      <div class="book-cover-large-wrapper">
+        <img id="book-cover" 
+             src="" 
+             alt="Book cover" 
+             class="book-cover-large"
+             onerror="this.src='https://via.placeholder.com/300x450?text=No+Cover'">
+      </div>
+
+      <!-- Book Info -->
+      <div class="book-info-main">
+        <h1 id="book-title" class="book-detail-title">Loading...</h1>
+        <p id="book-author" class="book-detail-author">by Author</p>
+        
+        <div class="book-meta-row">
+          <span id="book-genre" class="book-detail-genre">Genre</span>
+          <span id="book-pages" class="book-detail-pages">0 pages</span>
+          <div class="book-rating-display">
+            <span class="rating-stars" id="rating-stars">★★★★★</span>
+            <span id="rating-value" class="rating-value">0.0</span>
+            <span id="rating-count" class="rating-count">(0 reviews)</span>
+          </div>
+        </div>
+
+        <p id="book-description" class="book-description">
+          Book description loading...
+        </p>
+
+        <!-- Action Buttons -->
+        <div class="book-actions">
+          <button class="btn-primary" onclick="startReading()">
+            📖 Start Reading
+          </button>
+          <button class="btn-secondary" onclick="addToShelf()">
+            🔖 Add to Shelf
+          </button>
+          <button class="btn-secondary" onclick="toggleWishlist()">
+            ♥ Wishlist
+          </button>
+        </div>
+
+        <!-- Reading Progress (if reading) -->
+        <div id="reading-progress-section" class="reading-progress-section" style="display: none;">
+          <div class="progress-header">
+            <span class="progress-label">Your Progress</span>
+            <span id="progress-percentage" class="progress-percentage">0%</span>
+          </div>
+          <div class="reading-progress-bar">
+            <div id="progress-fill" class="reading-progress-fill" style="width: 0%"></div>
+          </div>
+          <p id="progress-pages" class="progress-pages">0 / 0 pages</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reader Reviews Section -->
+  <section class="reviews-section">
+    <div class="reviews-container">
+      
+      <!-- Reviews Header -->
+      <div class="reviews-header">
+        <h2 class="section-title">Reader Reviews</h2>
+        <div class="reviews-controls">
+          <button class="sort-btn active" data-sort="newest" onclick="sortReviews('newest')">
+            Newest
+          </button>
+          <button class="sort-btn" data-sort="popular" onclick="sortReviews('popular')">
+            Most Liked
+          </button>
+          <button class="write-review-btn" onclick="showReviewForm()">
+            ✍️ Write a Review
+          </button>
+        </div>
+      </div>
+
+      <!-- Write Review Form (Hidden by default) -->
+      <div id="review-form-container" class="review-form-container" style="display: none;">
+        <h3 class="form-title">Share Your Thoughts</h3>
+        <form id="review-form" onsubmit="submitReview(event)">
+          <!-- Star Rating -->
+          <div class="form-group">
+            <label class="form-label">Your Rating *</label>
+            <div class="star-rating-input" id="star-rating-input">
+              <span class="star-input" data-rating="1">☆</span>
+              <span class="star-input" data-rating="2">☆</span>
+              <span class="star-input" data-rating="3">☆</span>
+              <span class="star-input" data-rating="4">☆</span>
+              <span class="star-input" data-rating="5">☆</span>
+            </div>
+            <input type="hidden" id="rating-value-input" name="rating" required>
+          </div>
+
+          <!-- Review Text -->
+          <div class="form-group">
+            <label class="form-label" for="review-text">Your Review *</label>
+            <textarea id="review-text" 
+                      name="review_text" 
+                      class="review-textarea" 
+                      placeholder="What did you think of this book? Share your insights, favorite moments, or how it made you feel..."
+                      required></textarea>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="form-actions">
+            <button type="button" class="btn-cancel" onclick="hideReviewForm()">
+              Cancel
+            </button>
+            <button type="submit" class="btn-submit">
+              Publish Review
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Reviews List -->
+      <div id="reviews-list" class="reviews-list">
+        <div class="loading-message">
+          <p>Loading reviews...</p>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div id="reviews-empty" class="reviews-empty" style="display: none;">
+        <div class="empty-icon">📖</div>
+        <h3>No reviews yet</h3>
+        <p>Be the first to share your thoughts on this book!</p>
+        <button class="write-review-btn" onclick="showReviewForm()">
+          Write the First Review
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- Book Detail & Review JavaScript -->
+<script src="{{ url_for('static', filename='js/book-detail.js') }}"></script>
+
+</body>
+</html>

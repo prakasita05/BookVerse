@@ -1,0 +1,223 @@
+/* ====================================================
+   BookVerse — Cinematic Entrance Page
+   landing.css (Minimal Entrance Design)
+   ==================================================== */
+
+/* ---- Google Fonts ---- */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500&display=swap');
+
+/* ---- Design Tokens ---- */
+:root {
+  --bg-void:        #050806;
+  --gold-muted:     #c9a96e;
+  --gold-warm:      #b8914a;
+  --cream-ivory:    #f3edd9;
+  --cream-dim:      #c7bea8;
+  --cream-faint:    #877d69;
+}
+
+/* ---- Global Reset ---- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-void);
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--cream-ivory);
+  cursor: default;
+}
+
+/* ====================================================
+   CONTAINER & FULLSCREEN VIDEO HERO
+   ==================================================== */
+.landing-root {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--bg-void);
+}
+
+/* Fallback image while video loads */
+.video-poster-fallback {
+  position: absolute;
+  inset: 0;
+  background-image: url('../images/bg_botanical.png');
+  background-size: cover;
+  background-position: center center;
+  filter: brightness(0.38) saturate(0.7);
+  z-index: 0;
+}
+
+/* Fullscreen Background Video */
+.bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.bg-video.loaded {
+  opacity: 1;
+}
+
+/* Ultra-Subtle Radial Vignette Overlay */
+.vignette-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 65% 60% at 50% 50%,
+      rgba(5, 8, 6, 0.38) 0%,
+      rgba(5, 8, 6, 0.12) 55%,
+      rgba(5, 8, 6, 0.62) 100%),
+    linear-gradient(to bottom,
+      rgba(5, 8, 6, 0.3) 0%,
+      transparent 20%,
+      transparent 80%,
+      rgba(5, 8, 6, 0.5) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Ambient Dust Particle Canvas Layer */
+#dust-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ====================================================
+   HERO CENTER BRANDING & SINGLE CTA ACTION
+   ==================================================== */
+.hero-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  user-select: none;
+  width: 540px;
+}
+
+.brand-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(5.2rem, 11.5vw, 9.8rem);
+  font-weight: 300;
+  letter-spacing: 0.32em;
+  color: var(--cream-ivory);
+  line-height: 1;
+  text-shadow:
+    0 0 65px rgba(201, 169, 110, 0.25),
+    0 2px 45px rgba(0, 0, 0, 0.95);
+  margin-bottom: 16px;
+}
+
+.brand-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: 0.24em;
+  color: var(--gold-muted);
+  opacity: 0.88;
+  margin-bottom: 28px;
+  text-shadow: 0 1px 12px rgba(0,0,0,0.85);
+}
+
+.brand-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  color: var(--cream-dim);
+  opacity: 0.72;
+  line-height: 1.95;
+  margin-bottom: 44px;
+  text-shadow: 0 1px 12px rgba(0,0,0,0.92);
+}
+
+/* Minimal Outlined CTA Button — "Enter the Library" */
+.enter-btn {
+  pointer-events: all;
+  display: inline-block;
+  text-decoration: none;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  color: var(--cream-ivory);
+  padding: 14px 44px;
+  border: 1px solid rgba(201, 169, 110, 0.55);
+  border-radius: 40px;
+  background: rgba(8, 12, 9, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition:
+    background 0.45s ease,
+    border-color 0.45s ease,
+    color 0.45s ease,
+    box-shadow 0.45s ease,
+    transform 0.45s ease,
+    letter-spacing 0.45s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+.enter-btn:hover {
+  background: rgba(201, 169, 110, 0.16);
+  border-color: rgba(201, 169, 110, 0.92);
+  color: #ffffff;
+  box-shadow:
+    0 0 32px rgba(201, 169, 110, 0.3),
+    inset 0 0 20px rgba(201, 169, 110, 0.12);
+  letter-spacing: 0.34em;
+  transform: translateY(-2px);
+}
+
+/* Entrance Animations */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.brand-title   { animation: fade-in-up 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both; }
+.brand-sub     { animation: fade-in-up 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both; }
+.brand-tagline { animation: fade-in-up 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.9s both; }
+.enter-btn     { animation: fade-in-up 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.2s both; }
+
+/* ====================================================
+   RESPONSIVE DESIGN BREAKPOINTS
+   ==================================================== */
+@media (max-width: 1024px) {
+  .hero-center { width: 440px; }
+}
+
+@media (max-width: 768px) {
+  .brand-title { font-size: clamp(4rem, 14vw, 6.5rem); letter-spacing: 0.2em; }
+  .hero-center { width: 90vw; }
+}
+
+@media (max-width: 520px) {
+  .brand-title { font-size: clamp(3.2rem, 16vw, 5rem); letter-spacing: 0.14em; }
+  .enter-btn { padding: 12px 32px; font-size: 13px; letter-spacing: 0.22em; }
+}

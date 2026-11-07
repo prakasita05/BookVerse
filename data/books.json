@@ -1,0 +1,136 @@
+{
+  "books": [
+    {
+      "id": 1,
+      "title": "The Midnight Library",
+      "author": "Matt Haig",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1602190253i/52578297.jpg",
+      "genre": "Fiction",
+      "pages": 304,
+      "description": "Between life and death there is a library, and within that library, the shelves go on forever.",
+      "publication_year": 2020,
+      "isbn": "9780525559474"
+    },
+    {
+      "id": 2,
+      "title": "Atomic Habits",
+      "author": "James Clear",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1655988385i/40121378.jpg",
+      "genre": "Self-Help",
+      "pages": 320,
+      "description": "Tiny changes, remarkable results. Transform your life with the power of atomic habits.",
+      "publication_year": 2018,
+      "isbn": "9780735211292"
+    },
+    {
+      "id": 3,
+      "title": "The Song of Achilles",
+      "author": "Madeline Miller",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1683220176i/13623.jpg",
+      "genre": "Historical Fiction",
+      "pages": 416,
+      "description": "A tale of gods, kings, immortal fame, and the human heart.",
+      "publication_year": 2011,
+      "isbn": "9780062060624"
+    },
+    {
+      "id": 4,
+      "title": "Project Hail Mary",
+      "author": "Andy Weir",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1597695864i/54493401.jpg",
+      "genre": "Science Fiction",
+      "pages": 496,
+      "description": "A lone astronaut must save the earth from disaster in this incredible new science-based thriller.",
+      "publication_year": 2021,
+      "isbn": "9780593135204"
+    },
+    {
+      "id": 5,
+      "title": "The Seven Husbands of Evelyn Hugo",
+      "author": "Taylor Jenkins Reid",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1618151315i/32620332.jpg",
+      "genre": "Historical Fiction",
+      "pages": 400,
+      "description": "Aging Hollywood icon Evelyn Hugo finally tells the truth about her glamorous and scandalous life.",
+      "publication_year": 2017,
+      "isbn": "9781501161933"
+    },
+    {
+      "id": 6,
+      "title": "Circe",
+      "author": "Madeline Miller",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1565909496i/35959740.jpg",
+      "genre": "Fantasy",
+      "pages": 400,
+      "description": "The daring, dazzling transformation of a god into a witch.",
+      "publication_year": 2018,
+      "isbn": "9780316556347"
+    },
+    {
+      "id": 7,
+      "title": "The Invisible Life of Addie LaRue",
+      "author": "V.E. Schwab",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1584633432i/50623864.jpg",
+      "genre": "Fantasy",
+      "pages": 448,
+      "description": "A life no one will remember. A story you will never forget.",
+      "publication_year": 2020,
+      "isbn": "9780765387561"
+    },
+    {
+      "id": 8,
+      "title": "Educated",
+      "author": "Tara Westover",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1506026635i/35133922.jpg",
+      "genre": "Memoir",
+      "pages": 352,
+      "description": "A memoir about a young girl who leaves her survivalist family and goes on to earn a PhD from Cambridge.",
+      "publication_year": 2018,
+      "isbn": "9780399590504"
+    },
+    {
+      "id": 9,
+      "title": "Where the Crawdads Sing",
+      "author": "Delia Owens",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1582135294i/36809135.jpg",
+      "genre": "Mystery",
+      "pages": 384,
+      "description": "A mysterious and captivating story of a girl who raises herself in the marshes.",
+      "publication_year": 2018,
+      "isbn": "9780735219090"
+    },
+    {
+      "id": 10,
+      "title": "The House in the Cerulean Sea",
+      "author": "TJ Klune",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1595348270i/45047384.jpg",
+      "genre": "Fantasy",
+      "pages": 398,
+      "description": "A magical island. An unusual orphanage. A caseworker who will change everything.",
+      "publication_year": 2020,
+      "isbn": "9781250217318"
+    },
+    {
+      "id": 11,
+      "title": "The Night Circus",
+      "author": "Erin Morgenstern",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1387124618i/9361589.jpg",
+      "genre": "Fantasy",
+      "pages": 512,
+      "description": "A mesmerizing tale of two magicians locked in a fierce competition.",
+      "publication_year": 2011,
+      "isbn": "9780385534635"
+    },
+    {
+      "id": 12,
+      "title": "Sapiens",
+      "author": "Yuval Noah Harari",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1703329310i/23692271.jpg",
+      "genre": "Non-Fiction",
+      "pages": 443,
+      "description": "A brief history of humankind from the Stone Age to the Silicon Age.",
+      "publication_year": 2011,
+      "isbn": "9780062316097"
+    }
+  ]
+}

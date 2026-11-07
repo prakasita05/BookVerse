@@ -1,0 +1,764 @@
+/* ====================================================
+   BookVerse — Book Detail & Review System Styles
+   book-detail.css
+   ==================================================== */
+
+/* ====================================================
+   BACK LINK
+   ==================================================== */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--forest-muted);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.back-link:hover {
+  color: var(--forest-deep);
+}
+
+/* ====================================================
+   BOOK HEADER SECTION
+   ==================================================== */
+.book-header-section {
+  background: white;
+  border-radius: 16px;
+  padding: var(--space-2xl);
+  box-shadow: var(--shadow-card);
+}
+
+.book-header-grid {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: var(--space-2xl);
+}
+
+.book-cover-large-wrapper {
+  position: relative;
+}
+
+.book-cover-large {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.book-info-main {
+  display: flex;
+  flex-direction: column;
+}
+
+.book-detail-title {
+  font-family: var(--font-serif);
+  font-size: 42px;
+  font-weight: 500;
+  color: var(--forest-deep);
+  margin-bottom: var(--space-sm);
+  line-height: 1.2;
+}
+
+.book-detail-author {
+  font-family: var(--font-sans);
+  font-size: 20px;
+  color: var(--walnut-brown);
+  margin-bottom: var(--space-lg);
+}
+
+.book-meta-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
+  flex-wrap: wrap;
+}
+
+.book-detail-genre {
+  padding: 8px 16px;
+  background: rgba(61, 90, 64, 0.08);
+  border-radius: 16px;
+  color: var(--forest-muted);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.book-detail-pages {
+  font-size: 14px;
+  color: #888;
+}
+
+.book-rating-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rating-stars {
+  color: var(--gold-antique);
+  font-size: 18px;
+}
+
+.rating-value {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--forest-deep);
+}
+
+.rating-count {
+  font-size: 14px;
+  color: #888;
+}
+
+.book-description {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: var(--space-xl);
+}
+
+.book-actions {
+  display: flex;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  padding: 14px 28px;
+  background: var(--forest-muted);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: var(--forest-deep);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+  padding: 14px 28px;
+  background: white;
+  color: var(--forest-muted);
+  border: 1px solid var(--forest-muted);
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(61, 90, 64, 0.05);
+  transform: translateY(-2px);
+}
+
+.reading-progress-section {
+  padding: var(--space-lg);
+  background: linear-gradient(135deg, rgba(61, 90, 64, 0.03), rgba(201, 169, 110, 0.03));
+  border-radius: 12px;
+  border: 1px solid rgba(61, 90, 64, 0.1);
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+}
+
+.progress-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--forest-muted);
+}
+
+.progress-percentage {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--forest-deep);
+}
+
+.progress-pages {
+  font-size: 13px;
+  color: #888;
+  margin-top: var(--space-sm);
+}
+
+/* ====================================================
+   REVIEWS SECTION
+   ==================================================== */
+.reviews-section {
+  margin-top: var(--space-2xl);
+}
+
+.reviews-container {
+  background: white;
+  border-radius: 16px;
+  padding: var(--space-2xl);
+  box-shadow: var(--shadow-card);
+}
+
+.reviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-xl);
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.reviews-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.sort-btn {
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid rgba(61, 90, 64, 0.2);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sort-btn:hover {
+  background: rgba(61, 90, 64, 0.05);
+  color: var(--forest-muted);
+}
+
+.sort-btn.active {
+  background: var(--forest-muted);
+  color: white;
+  border-color: var(--forest-muted);
+}
+
+.write-review-btn {
+  padding: 10px 20px;
+  background: var(--gold-antique);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.write-review-btn:hover {
+  background: var(--gold-soft);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ====================================================
+   REVIEW FORM
+   ==================================================== */
+.review-form-container {
+  background: linear-gradient(135deg, rgba(61, 90, 64, 0.02), rgba(201, 169, 110, 0.02));
+  border: 1px solid rgba(61, 90, 64, 0.1);
+  border-radius: 12px;
+  padding: var(--space-xl);
+  margin-bottom: var(--space-xl);
+}
+
+.form-title {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--forest-deep);
+  margin-bottom: var(--space-lg);
+}
+
+.form-group {
+  margin-bottom: var(--space-lg);
+}
+
+.form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--forest-deep);
+  margin-bottom: var(--space-sm);
+}
+
+.star-rating-input {
+  display: flex;
+  gap: 8px;
+  font-size: 32px;
+  cursor: pointer;
+}
+
+.star-input {
+  color: #ddd;
+  transition: color 0.2s ease;
+  user-select: none;
+}
+
+.star-input:hover,
+.star-input.active {
+  color: var(--gold-antique);
+}
+
+.review-textarea {
+  width: 100%;
+  min-height: 150px;
+  padding: var(--space-md);
+  border: 1px solid rgba(61, 90, 64, 0.2);
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  resize: vertical;
+  transition: all 0.3s ease;
+}
+
+.review-textarea:focus {
+  outline: none;
+  border-color: var(--forest-muted);
+  box-shadow: 0 0 0 3px rgba(61, 90, 64, 0.1);
+}
+
+.form-actions {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: flex-end;
+}
+
+.btn-cancel {
+  padding: 12px 24px;
+  background: transparent;
+  color: #666;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+  background: #f5f5f5;
+  border-color: #ccc;
+}
+
+.btn-submit {
+  padding: 12px 24px;
+  background: var(--forest-muted);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-submit:hover {
+  background: var(--forest-deep);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ====================================================
+   REVIEWS LIST
+   ==================================================== */
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.review-card {
+  padding: var(--space-xl);
+  background: rgba(248, 246, 241, 0.4);
+  border: 1px solid rgba(61, 90, 64, 0.08);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.review-card:hover {
+  background: rgba(248, 246, 241, 0.7);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-md);
+}
+
+.review-author-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.review-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--forest-muted), var(--gold-antique));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.review-author-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.review-author-name {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--forest-deep);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.review-author-name:hover {
+  color: var(--forest-muted);
+}
+
+.review-date {
+  font-size: 13px;
+  color: #888;
+}
+
+.review-rating {
+  color: var(--gold-antique);
+  font-size: 18px;
+}
+
+.review-text {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.8;
+  color: #444;
+  margin-bottom: var(--space-lg);
+}
+
+.review-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 1px solid rgba(61, 90, 64, 0.08);
+}
+
+.review-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.review-action-btn:hover {
+  background: rgba(61, 90, 64, 0.05);
+  color: var(--forest-muted);
+}
+
+.review-action-btn.liked {
+  color: var(--gold-antique);
+}
+
+.review-action-btn .icon {
+  font-size: 16px;
+}
+
+.review-edit-menu {
+  position: relative;
+}
+
+.review-menu-btn {
+  padding: 4px 8px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  color: #999;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.review-menu-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #666;
+}
+
+/* ====================================================
+   COMMENTS SECTION
+   ==================================================== */
+.comments-section {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: 1px solid rgba(61, 90, 64, 0.08);
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.comment-card {
+  display: flex;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background: white;
+  border-radius: 8px;
+  border: 1px solid rgba(61, 90, 64, 0.06);
+}
+
+.comment-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--walnut-brown), var(--gold-antique));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.comment-content {
+  flex: 1;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: 4px;
+}
+
+.comment-author {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--forest-deep);
+  text-decoration: none;
+}
+
+.comment-author:hover {
+  color: var(--forest-muted);
+}
+
+.comment-date {
+  font-size: 12px;
+  color: #999;
+}
+
+.comment-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #555;
+}
+
+.comment-form {
+  display: flex;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.comment-input {
+  flex: 1;
+  padding: 10px 16px;
+  border: 1px solid rgba(61, 90, 64, 0.2);
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.comment-input:focus {
+  outline: none;
+  border-color: var(--forest-muted);
+  box-shadow: 0 0 0 3px rgba(61, 90, 64, 0.1);
+}
+
+.comment-submit-btn {
+  padding: 10px 20px;
+  background: var(--forest-muted);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.comment-submit-btn:hover {
+  background: var(--forest-deep);
+}
+
+.toggle-comments-btn {
+  padding: 8px 16px;
+  background: transparent;
+  border: none;
+  color: var(--forest-muted);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.toggle-comments-btn:hover {
+  color: var(--forest-deep);
+}
+
+/* ====================================================
+   EMPTY STATE
+   ==================================================== */
+.reviews-empty {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-xl);
+}
+
+.empty-icon {
+  font-size: 64px;
+  margin-bottom: var(--space-md);
+  opacity: 0.3;
+}
+
+.reviews-empty h3 {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  color: var(--forest-deep);
+  margin-bottom: var(--space-sm);
+}
+
+.reviews-empty p {
+  color: #888;
+  margin-bottom: var(--space-lg);
+}
+
+.loading-message {
+  text-align: center;
+  padding: var(--space-2xl);
+  color: #999;
+}
+
+/* ====================================================
+   RESPONSIVE DESIGN
+   ==================================================== */
+@media (max-width: 1024px) {
+  .book-header-grid {
+    grid-template-columns: 240px 1fr;
+    gap: var(--space-xl);
+  }
+  
+  .book-detail-title {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .book-header-section {
+    padding: var(--space-lg);
+  }
+  
+  .book-header-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+  
+  .book-cover-large-wrapper {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  .book-detail-title {
+    font-size: 28px;
+    text-align: center;
+  }
+  
+  .book-detail-author {
+    text-align: center;
+  }
+  
+  .book-meta-row {
+    justify-content: center;
+  }
+  
+  .book-actions {
+    justify-content: center;
+  }
+  
+  .reviews-container {
+    padding: var(--space-lg);
+  }
+  
+  .reviews-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .star-rating-input {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .book-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+  }
+  
+  .review-card {
+    padding: var(--space-lg);
+  }
+  
+  .review-author-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .comment-form {
+    flex-direction: column;
+  }
+  
+  .comment-submit-btn {
+    width: 100%;
+  }
+}

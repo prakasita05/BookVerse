@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BookVerse — Your personal reading companion and digital library">
+  <title>Dashboard — BookVerse</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Dashboard Stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+
+<body>
+
+<!-- ============================================================
+     DASHBOARD HEADER / NAVIGATION
+     ============================================================ -->
+
+<header class="dashboard-header">
+  <div class="header-container">
+
+    <a href="/home" class="header-logo">bookverse</a>
+
+    <nav class="header-nav">
+      <a href="/home" class="nav-link active">Home</a>
+      <a href="/library" class="nav-link">My Library</a>
+      <a href="#" class="nav-link">Shelves</a>
+      <a href="#" class="nav-link">Wishlist</a>
+      <a href="#" class="nav-link">Discover</a>
+      <a href="#" class="nav-link">Tracker</a>
+    </nav>
+
+    <div class="header-search">
+      <span class="search-icon"></span>
+      <input
+        type="text"
+        id="search-input"
+        class="search-input"
+        placeholder="Search books, authors, genres..."
+      >
+    </div>
+
+    <div class="header-user">
+      <div class="user-avatar" id="user-avatar">?</div>
+      <span style="font-size: 14px; font-weight: 500;" id="user-name-display">Guest</span>
+    </div>
+
+  </div>
+</header>
+
+
+<!-- ============================================================
+     MAIN DASHBOARD CONTENT
+     ============================================================ -->
+
+<main class="dashboard-main">
+
+  <!-- Immersive Library Hero Entrance -->
+  <section class="enchanted-library-hero">
+    
+    <!-- Atmospheric library background scene -->
+    <div class="library-backdrop">
+      <div class="library-shelves-layer"></div>
+      <div class="botanical-vines-layer"></div>
+      <div class="ambient-light-layer"></div>
+    </div>
+    
+    <!-- Floating magical particles -->
+    <div class="magic-particles" aria-hidden="true"></div>
+    
+    <!-- Hero content -->
+    <div class="hero-content">
+      <div class="hero-icon">📚</div>
+      <h1 class="hero-title" id="user-greeting">Welcome to BookVerse</h1>
+      <p class="hero-subtitle">Your enchanted library awaits</p>
+      <p class="hero-message">
+        Step into a world where every book opens new realms,<br>
+        and every page turns with the whisper of adventure.
+      </p>
+      <button
+        class="continue-reading-btn"
+        onclick="document.querySelector('.reading-card')?.scrollIntoView({behavior: 'smooth'})"
+      >
+        <span class="btn-icon">📖</span>
+        <span>Continue Your Journey</span>
+      </button>
+    </div>
+
+  </section>
+
+
+  <!-- Currently Reading Section -->
+  <section class="mb-2xl">
+
+    <div class="section-header">
+      <h2 class="section-title">Currently Reading</h2>
+      <a href="/library?filter=reading" class="section-link">
+        View all →
+      </a>
+    </div>
+
+    <div
+      class="currently-reading-grid"
+      id="currently-reading-container"
+    >
+      <!-- Populated by JavaScript -->
+
+      <div style="text-align: center; padding: 48px; color: #999;">
+        <p>Loading your reading progress...</p>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- Reading Stats Section -->
+  <section class="mb-2xl">
+
+    <div class="section-header enchanted-header">
+      <h2 class="section-title">
+        <span class="title-icon">✨</span>
+        Your Reading Universe
+      </h2>
+    </div>
+
+    <!-- Illustrated stats container -->
+    <div class="enchanted-stats-wrapper">
+      <div class="stats-botanical-border"></div>
+      <div class="stats-grid">
+
+      <div class="stat-card">
+        <div class="stat-icon">📚</div>
+        <div class="stat-value" id="stat-books-read">0</div>
+        <div class="stat-label">Books Read</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">📖</div>
+        <div class="stat-value" id="stat-currently-reading">0</div>
+        <div class="stat-label">Currently Reading</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">🔖</div>
+        <div class="stat-value" id="stat-want-to-read">0</div>
+        <div class="stat-label">Want to Read</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">🔥</div>
+        <div class="stat-value" id="stat-day-streak">0</div>
+        <div class="stat-label">Day Streak</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">📄</div>
+        <div class="stat-value" id="stat-pages-read">0</div>
+        <div class="stat-label">Pages Read</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">💬</div>
+        <div class="stat-value" id="stat-saved-quotes">0</div>
+        <div class="stat-label">Saved Quotes</div>
+      </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Reading Schedule Section -->
+  <section class="mb-2xl">
+
+    <div class="section-header">
+      <h2 class="section-title">This Week's Reading Plan</h2>
+    </div>
+
+    <div class="schedule-container">
+      <div class="schedule-days" id="schedule-days">
+        <!-- Populated by JavaScript -->
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- Popular & Recommended Section -->
+  <section class="mb-2xl">
+
+    <div class="section-header">
+      <h2 class="section-title">Popular & Recommended</h2>
+
+      <a href="#" class="section-link">
+        Explore more →
+      </a>
+    </div>
+
+    <div
+      class="books-grid"
+      id="popular-books-container"
+    >
+      <!-- Populated by JavaScript -->
+
+      <div
+        style="text-align: center; padding: 48px; color: #999; grid-column: 1 / -1;"
+      >
+        <p>Loading recommendations...</p>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- Recently Added Section -->
+  <section class="mb-2xl">
+
+    <div class="section-header">
+      <h2 class="section-title">Recently Added</h2>
+
+      <a href="/library" class="section-link">
+        View library →
+      </a>
+    </div>
+
+    <div
+      class="books-grid"
+      id="recently-added-container"
+    >
+      <!-- Populated by JavaScript -->
+
+      <div
+        style="text-align: center; padding: 48px; color: #999; grid-column: 1 / -1;"
+      >
+        <p>Loading recent books...</p>
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- Dashboard JavaScript -->
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+</body>
+</html>

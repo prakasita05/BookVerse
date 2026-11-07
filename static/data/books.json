@@ -1,0 +1,148 @@
+{
+  "books": [
+    {
+      "id": 1,
+      "title": "The Midnight Library",
+      "author": "Matt Haig",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1602190253i/52578297.jpg",
+      "genre": "Fiction",
+      "pages": 304,
+      "description": "Between life and death there is a library, and within that library, the shelves go on forever.",
+      "rating": 4.2,
+      "progress": 67,
+      "status": "reading"
+    },
+    {
+      "id": 2,
+      "title": "Atomic Habits",
+      "author": "James Clear",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1655988385i/40121378.jpg",
+      "genre": "Self-Help",
+      "pages": 320,
+      "description": "Tiny changes, remarkable results. Transform your life with the power of atomic habits.",
+      "rating": 4.4,
+      "progress": 45,
+      "status": "reading"
+    },
+    {
+      "id": 3,
+      "title": "The Song of Achilles",
+      "author": "Madeline Miller",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1683220176i/13623.jpg",
+      "genre": "Historical Fiction",
+      "pages": 416,
+      "description": "A tale of gods, kings, immortal fame, and the human heart.",
+      "rating": 4.3,
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "id": 4,
+      "title": "Project Hail Mary",
+      "author": "Andy Weir",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1597695864i/54493401.jpg",
+      "genre": "Science Fiction",
+      "pages": 496,
+      "description": "A lone astronaut must save the earth from disaster in this incredible new science-based thriller.",
+      "rating": 4.5,
+      "progress": 0,
+      "status": "want-to-read"
+    },
+    {
+      "id": 5,
+      "title": "The Seven Husbands of Evelyn Hugo",
+      "author": "Taylor Jenkins Reid",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1618151315i/32620332.jpg",
+      "genre": "Historical Fiction",
+      "pages": 400,
+      "description": "Aging Hollywood icon Evelyn Hugo finally tells the truth about her glamorous and scandalous life.",
+      "rating": 4.4,
+      "progress": 0,
+      "status": "want-to-read"
+    },
+    {
+      "id": 6,
+      "title": "Circe",
+      "author": "Madeline Miller",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1565909496i/35959740.jpg",
+      "genre": "Fantasy",
+      "pages": 400,
+      "description": "The daring, dazzling transformation of a god into a witch.",
+      "rating": 4.2,
+      "progress": 0,
+      "status": "want-to-read"
+    },
+    {
+      "id": 7,
+      "title": "The Invisible Life of Addie LaRue",
+      "author": "V.E. Schwab",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1584633432i/50623864.jpg",
+      "genre": "Fantasy",
+      "pages": 448,
+      "description": "A life no one will remember. A story you will never forget.",
+      "rating": 4.2,
+      "progress": 23,
+      "status": "reading"
+    },
+    {
+      "id": 8,
+      "title": "Educated",
+      "author": "Tara Westover",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1506026635i/35133922.jpg",
+      "genre": "Memoir",
+      "pages": 352,
+      "description": "A memoir about a young girl who leaves her survivalist family and goes on to earn a PhD from Cambridge.",
+      "rating": 4.5,
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "id": 9,
+      "title": "Where the Crawdads Sing",
+      "author": "Delia Owens",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1582135294i/36809135.jpg",
+      "genre": "Mystery",
+      "pages": 384,
+      "description": "A mysterious and captivating story of a girl who raises herself in the marshes.",
+      "rating": 4.3,
+      "progress": 0,
+      "status": "want-to-read"
+    },
+    {
+      "id": 10,
+      "title": "The House in the Cerulean Sea",
+      "author": "TJ Klune",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1595348270i/45047384.jpg",
+      "genre": "Fantasy",
+      "pages": 398,
+      "description": "A magical island. An unusual orphanage. A caseworker who will change everything.",
+      "rating": 4.3,
+      "progress": 0,
+      "status": "want-to-read"
+    },
+    {
+      "id": 11,
+      "title": "The Night Circus",
+      "author": "Erin Morgenstern",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1387124618i/9361589.jpg",
+      "genre": "Fantasy",
+      "pages": 512,
+      "description": "A mesmerizing tale of two magicians locked in a fierce competition.",
+      "rating": 4.0,
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "id": 12,
+      "title": "Sapiens",
+      "author": "Yuval Noah Harari",
+      "cover": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1703329310i/23692271.jpg",
+      "genre": "Non-Fiction",
+      "pages": 443,
+      "description": "A brief history of humankind from the Stone Age to the Silicon Age.",
+      "rating": 4.4,
+      "progress": 0,
+      "status": "want-to-read"
+    }
+  ]
+}
