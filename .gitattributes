@@ -1,1 +1,2 @@
 static/videos/rain_books_4k_seamless_loop.mp4 filter=lfs diff=lfs merge=lfs -text
+ASSETS/rain_books_4k_seamless_loop.mp4 filter=lfs diff=lfs merge=lfs -text
