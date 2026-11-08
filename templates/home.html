@@ -4,15 +4,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="BookVerse — Your personal reading companion and digital library">
+  <meta name="description" content="BookVerse — Your enchanted personal reading library and dashboard">
   <title>Dashboard — BookVerse</title>
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts: Cormorant Garamond + Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <!-- Dashboard Stylesheet -->
+  <!-- Dashboard Stylesheet (only) -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
 </head>
 
@@ -22,33 +22,52 @@
      DASHBOARD HEADER / NAVIGATION
      ============================================================ -->
 
-<header class="dashboard-header">
+<header class="dashboard-header" role="banner">
   <div class="header-container">
 
-    <a href="/home" class="header-logo">bookverse</a>
+    <!-- Logo -->
+    <a href="/home" class="header-logo" aria-label="BookVerse Home">bookverse</a>
 
-    <nav class="header-nav">
-      <a href="/home" class="nav-link active">Home</a>
-      <a href="/library" class="nav-link">My Library</a>
-      <a href="#" class="nav-link">Shelves</a>
-      <a href="#" class="nav-link">Wishlist</a>
-      <a href="#" class="nav-link">Discover</a>
-      <a href="#" class="nav-link">Tracker</a>
+    <!-- Navigation -->
+    <nav class="header-nav" aria-label="Primary navigation">
+      <a href="/home"    class="nav-link active" id="nav-home">Home</a>
+      <a href="/library" class="nav-link"         id="nav-library">My Library</a>
+      <a href="#"        class="nav-link"         id="nav-shelves">Shelves</a>
+      <a href="#"        class="nav-link"         id="nav-wishlist">Wishlist</a>
+      <a href="#"        class="nav-link"         id="nav-discover">Discover</a>
+      <a href="#"        class="nav-link"         id="nav-tracker">Tracker</a>
     </nav>
 
-    <div class="header-search">
-      <span class="search-icon"></span>
+    <!-- Search -->
+    <div class="header-search" role="search">
+      <span class="search-icon" aria-hidden="true">
+        <!-- SVG magnifier — no emoji -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </span>
       <input
-        type="text"
+        type="search"
         id="search-input"
         class="search-input"
-        placeholder="Search books, authors, genres..."
+        placeholder="Search your library..."
+        aria-label="Search your library"
+        autocomplete="off"
       >
     </div>
 
-    <div class="header-user">
-      <div class="user-avatar" id="user-avatar">?</div>
-      <span style="font-size: 14px; font-weight: 500;" id="user-name-display">Guest</span>
+    <!-- User info -->
+    <div class="header-user" id="header-user-pill" aria-label="User profile">
+      <div class="user-avatar" id="user-avatar" aria-hidden="true">R</div>
+      <span class="user-name" id="user-name-display">Reader</span>
+      <a href="/logout" class="logout-link" aria-label="Sign out">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </a>
     </div>
 
   </div>
@@ -59,190 +78,266 @@
      MAIN DASHBOARD CONTENT
      ============================================================ -->
 
-<main class="dashboard-main">
+<main class="dashboard-main" role="main">
 
-  <!-- Immersive Library Hero Entrance -->
-  <section class="enchanted-library-hero">
-    
-    <!-- Atmospheric library background scene -->
-    <div class="library-backdrop">
+  <!-- ── Enchanted Library Hero ── -->
+  <section class="enchanted-library-hero" aria-labelledby="user-greeting">
+
+    <!-- Layered atmospheric background -->
+    <div class="library-backdrop" aria-hidden="true">
       <div class="library-shelves-layer"></div>
       <div class="botanical-vines-layer"></div>
       <div class="ambient-light-layer"></div>
     </div>
-    
-    <!-- Floating magical particles -->
+
+    <!-- Floating dust motes -->
     <div class="magic-particles" aria-hidden="true"></div>
-    
+
     <!-- Hero content -->
     <div class="hero-content">
-      <div class="hero-icon">📚</div>
+
+      <!-- SVG candle icon (no emoji) -->
+      <div class="hero-icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 80" fill="none">
+          <!-- candle body -->
+          <rect x="22" y="32" width="20" height="36" rx="3" fill="rgba(240,220,170,0.9)"/>
+          <!-- candle drip -->
+          <path d="M22 44 Q18 50 20 56" stroke="rgba(240,220,170,0.6)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <path d="M42 38 Q46 44 44 50" stroke="rgba(240,220,170,0.6)" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <!-- wick -->
+          <line x1="32" y1="32" x2="32" y2="26" stroke="#8c6b4f" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- flame inner -->
+          <ellipse cx="32" cy="20" rx="5" ry="7" fill="rgba(255,220,80,0.95)"/>
+          <!-- flame outer glow -->
+          <ellipse cx="32" cy="20" rx="8" ry="11" fill="rgba(255,160,30,0.35)"/>
+          <!-- flame tip -->
+          <ellipse cx="32" cy="16" rx="3" ry="5" fill="rgba(255,245,200,0.9)"/>
+          <!-- glow halo -->
+          <ellipse cx="32" cy="20" rx="14" ry="16" fill="rgba(255,200,50,0.07)"/>
+          <!-- base plate -->
+          <rect x="16" y="68" width="32" height="6" rx="2" fill="rgba(107,78,61,0.7)"/>
+        </svg>
+      </div>
+
       <h1 class="hero-title" id="user-greeting">Welcome to BookVerse</h1>
       <p class="hero-subtitle">Your enchanted library awaits</p>
       <p class="hero-message">
         Step into a world where every book opens new realms,<br>
         and every page turns with the whisper of adventure.
       </p>
+
       <button
         class="continue-reading-btn"
-        onclick="document.querySelector('.reading-card')?.scrollIntoView({behavior: 'smooth'})"
+        id="scroll-to-reading-btn"
+        onclick="document.getElementById('currently-reading-section')?.scrollIntoView({behavior:'smooth'})"
+        aria-label="Scroll to currently reading"
       >
-        <span class="btn-icon">📖</span>
+        <!-- SVG open book icon -->
+        <span class="btn-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          </svg>
+        </span>
         <span>Continue Your Journey</span>
+      </button>
+
+    </div>
+  </section>
+
+
+  <!-- ── Currently Reading ── -->
+  <section class="mb-2xl" id="currently-reading-section" aria-labelledby="currently-reading-heading">
+
+    <div class="section-header">
+      <h2 class="section-title" id="currently-reading-heading">Currently Reading</h2>
+      <a href="/library?filter=reading" class="section-link" id="view-all-reading-link">View all</a>
+    </div>
+
+    <div class="currently-reading-grid" id="currently-reading-container" role="list">
+      <!-- Populated by dashboard.js -->
+      <div class="loading-state" aria-live="polite">
+        <p>Loading your reading progress&hellip;</p>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ── Reading Universe Statistics ── -->
+  <section class="mb-2xl" id="reading-universe-section" aria-labelledby="reading-universe-heading">
+
+    <div class="section-header">
+      <h2 class="section-title" id="reading-universe-heading">Your Reading Universe</h2>
+    </div>
+
+    <div class="enchanted-stats-wrapper" role="region" aria-label="Reading statistics">
+      <div class="stats-botanical-border" aria-hidden="true"></div>
+      <div class="stats-grid">
+
+        <!-- Books Read -->
+        <div class="stat-plaque" id="plaque-books-read">
+          <div class="stat-plaque-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+          </div>
+          <div class="stat-value" id="stat-books-read">0</div>
+          <div class="stat-label">Books Read</div>
+        </div>
+
+        <!-- Currently Reading -->
+        <div class="stat-plaque" id="plaque-currently-reading">
+          <div class="stat-plaque-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+            </svg>
+          </div>
+          <div class="stat-value" id="stat-currently-reading">0</div>
+          <div class="stat-label">Currently Reading</div>
+        </div>
+
+        <!-- Want to Read -->
+        <div class="stat-plaque" id="plaque-want-to-read">
+          <div class="stat-plaque-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <div class="stat-value" id="stat-want-to-read">0</div>
+          <div class="stat-label">Want to Read</div>
+        </div>
+
+        <!-- Reading Streak -->
+        <div class="stat-plaque" id="plaque-day-streak">
+          <div class="stat-plaque-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+            </svg>
+          </div>
+          <div class="stat-value" id="stat-day-streak">0</div>
+          <div class="stat-label">Day Streak</div>
+        </div>
+
+        <!-- Pages Read -->
+        <div class="stat-plaque" id="plaque-pages-read">
+          <div class="stat-plaque-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+            </svg>
+          </div>
+          <div class="stat-value" id="stat-pages-read">0</div>
+          <div class="stat-label">Pages Read</div>
+        </div>
+
+        <!-- Saved Quotes -->
+        <div class="stat-plaque" id="plaque-saved-quotes">
+          <div class="stat-plaque-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <div class="stat-value" id="stat-saved-quotes">0</div>
+          <div class="stat-label">Saved Quotes</div>
+        </div>
+
+      </div><!-- /.stats-grid -->
+    </div><!-- /.enchanted-stats-wrapper -->
+
+  </section>
+
+
+  <!-- ── This Week's Reading Plan ── -->
+  <section class="mb-2xl" id="reading-schedule-section" aria-labelledby="schedule-heading">
+
+    <div class="section-header">
+      <h2 class="section-title" id="schedule-heading">This Week's Reading Plan</h2>
+    </div>
+
+    <div class="schedule-container" role="region" aria-label="Weekly reading schedule">
+      <div class="schedule-days" id="schedule-days" role="list">
+        <!-- Populated by dashboard.js -->
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ── Discover Books (Open Library API) ── -->
+  <section class="mb-2xl discover-section" id="discover-section" aria-labelledby="discover-heading">
+
+    <div class="section-header">
+      <h2 class="section-title" id="discover-heading">Discover Books</h2>
+      <span class="section-badge">Powered by Open Library</span>
+    </div>
+
+    <!-- Search bar -->
+    <div class="discover-search-wrapper" role="search" aria-label="Discover books search">
+      <span class="discover-search-icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </span>
+      <input
+        type="search"
+        id="discover-search-input"
+        class="discover-search-input"
+        placeholder="Search any book, author, or subject&hellip;"
+        aria-label="Search Open Library catalogue"
+        autocomplete="off"
+      >
+      <button class="discover-search-btn" id="discover-search-btn" aria-label="Search">
+        Search
       </button>
     </div>
 
+    <!-- Genre quick-filters -->
+    <div class="genre-filters" role="group" aria-label="Quick genre filters">
+      <button class="genre-chip active" data-query="fiction classics" id="chip-fiction">Fiction</button>
+      <button class="genre-chip" data-query="fantasy epic" id="chip-fantasy">Fantasy</button>
+      <button class="genre-chip" data-query="historical fiction" id="chip-history">Historical</button>
+      <button class="genre-chip" data-query="science fiction" id="chip-scifi">Sci-Fi</button>
+      <button class="genre-chip" data-query="mystery thriller" id="chip-mystery">Mystery</button>
+      <button class="genre-chip" data-query="biography memoir" id="chip-memoir">Biography</button>
+    </div>
+
+    <!-- Results grid -->
+    <div class="api-books-grid" id="discover-results-container" aria-live="polite" role="list">
+      <!-- Populated by dashboard.js via Open Library API -->
+      <div class="loading-state">
+        <div class="loading-ornament" aria-hidden="true"></div>
+        <p>Searching the archives&hellip;</p>
+      </div>
+    </div>
+
   </section>
 
 
-  <!-- Currently Reading Section -->
-  <section class="mb-2xl">
+  <!-- ── Recently From Your Library ── -->
+  <section class="mb-2xl" id="recently-added-section" aria-labelledby="recently-added-heading">
 
     <div class="section-header">
-      <h2 class="section-title">Currently Reading</h2>
-      <a href="/library?filter=reading" class="section-link">
-        View all →
-      </a>
+      <h2 class="section-title" id="recently-added-heading">Recently in Your Library</h2>
+      <a href="/library" class="section-link" id="view-library-link">View library</a>
     </div>
 
-    <div
-      class="currently-reading-grid"
-      id="currently-reading-container"
-    >
-      <!-- Populated by JavaScript -->
-
-      <div style="text-align: center; padding: 48px; color: #999;">
-        <p>Loading your reading progress...</p>
+    <div class="books-grid" id="recently-added-container" role="list">
+      <!-- Populated by dashboard.js -->
+      <div class="loading-state" aria-live="polite">
+        <p>Loading your recent books&hellip;</p>
       </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- Reading Stats Section -->
-  <section class="mb-2xl">
-
-    <div class="section-header enchanted-header">
-      <h2 class="section-title">
-        <span class="title-icon">✨</span>
-        Your Reading Universe
-      </h2>
-    </div>
-
-    <!-- Illustrated stats container -->
-    <div class="enchanted-stats-wrapper">
-      <div class="stats-botanical-border"></div>
-      <div class="stats-grid">
-
-      <div class="stat-card">
-        <div class="stat-icon">📚</div>
-        <div class="stat-value" id="stat-books-read">0</div>
-        <div class="stat-label">Books Read</div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-icon">📖</div>
-        <div class="stat-value" id="stat-currently-reading">0</div>
-        <div class="stat-label">Currently Reading</div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-icon">🔖</div>
-        <div class="stat-value" id="stat-want-to-read">0</div>
-        <div class="stat-label">Want to Read</div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-icon">🔥</div>
-        <div class="stat-value" id="stat-day-streak">0</div>
-        <div class="stat-label">Day Streak</div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-icon">📄</div>
-        <div class="stat-value" id="stat-pages-read">0</div>
-        <div class="stat-label">Pages Read</div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-icon">💬</div>
-        <div class="stat-value" id="stat-saved-quotes">0</div>
-        <div class="stat-label">Saved Quotes</div>
-      </div>
-
-      </div>
-    </div>
-
-  </section>
-
-  <!-- Reading Schedule Section -->
-  <section class="mb-2xl">
-
-    <div class="section-header">
-      <h2 class="section-title">This Week's Reading Plan</h2>
-    </div>
-
-    <div class="schedule-container">
-      <div class="schedule-days" id="schedule-days">
-        <!-- Populated by JavaScript -->
-      </div>
-    </div>
-
-  </section>
-
-
-  <!-- Popular & Recommended Section -->
-  <section class="mb-2xl">
-
-    <div class="section-header">
-      <h2 class="section-title">Popular & Recommended</h2>
-
-      <a href="#" class="section-link">
-        Explore more →
-      </a>
-    </div>
-
-    <div
-      class="books-grid"
-      id="popular-books-container"
-    >
-      <!-- Populated by JavaScript -->
-
-      <div
-        style="text-align: center; padding: 48px; color: #999; grid-column: 1 / -1;"
-      >
-        <p>Loading recommendations...</p>
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- Recently Added Section -->
-  <section class="mb-2xl">
-
-    <div class="section-header">
-      <h2 class="section-title">Recently Added</h2>
-
-      <a href="/library" class="section-link">
-        View library →
-      </a>
-    </div>
-
-    <div
-      class="books-grid"
-      id="recently-added-container"
-    >
-      <!-- Populated by JavaScript -->
-
-      <div
-        style="text-align: center; padding: 48px; color: #999; grid-column: 1 / -1;"
-      >
-        <p>Loading recent books...</p>
-      </div>
-
     </div>
 
   </section>
