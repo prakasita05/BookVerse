@@ -134,7 +134,7 @@
       updateProgressDisplay(userCurrentPage, userProgress);
     } else if (userStatus === 'completed') {
       if (progressSection) progressSection.style.display = 'block';
-      if (readingText) readingText.textContent = 'Completed ✓';
+      if (readingText) readingText.textContent = 'Completed';
       updateProgressDisplay(currentBook.pages || userCurrentPage, 100);
     } else {
       if (progressSection) progressSection.style.display = 'none';
@@ -152,7 +152,7 @@
 
     // Wishlist Button State
     if (userStatus === 'want-to-read') {
-      if (wishlistText) wishlistText.textContent = 'In Wishlist ✓';
+      if (wishlistText) wishlistText.textContent = 'In Wishlist';
       if (wishlistBtn) wishlistBtn.classList.add('in-wishlist');
     } else {
       if (wishlistText) wishlistText.textContent = 'Wishlist';
@@ -295,24 +295,32 @@
 
         <div class="review-actions">
           <button class="review-action-btn ${review.liked ? 'liked' : ''}" onclick="toggleLike(${review.id})">
-            <span class="icon">${review.liked ? '♥' : '♡'}</span>
+            <span class="icon" style="display:inline-flex; align-items:center;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="${review.liked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            </span>
             <span>${review.likes} ${review.likes === 1 ? 'like' : 'likes'}</span>
           </button>
           
           <button class="review-action-btn" onclick="toggleComments(${review.id})">
-            <span class="icon">💬</span>
+            <span class="icon" style="display:inline-flex; align-items:center;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            </span>
             <span>${reviewComments.length} ${reviewComments.length === 1 ? 'reply' : 'replies'}</span>
           </button>
 
           ${isOwnReview ? `
             <div class="review-edit-menu">
               <button class="review-action-btn" onclick="editReview(${review.id})">
-                <span class="icon">✏️</span>
+                <span class="icon" style="display:inline-flex; align-items:center;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                </span>
                 <span>Edit</span>
               </button>
             </div>
             <button class="review-action-btn" onclick="deleteReview(${review.id})">
-              <span class="icon">🗑️</span>
+              <span class="icon" style="display:inline-flex; align-items:center;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+              </span>
               <span>Delete</span>
             </button>
           ` : ''}
@@ -632,7 +640,7 @@ async function savePageProgress() {
       updateProgressDisplay(clampedPage, pct);
       const readingText = document.getElementById('btn-reading-text');
       if (readingText) {
-        readingText.textContent = newStatus === 'completed' ? 'Completed ✓' : 'Currently Reading';
+        readingText.textContent = newStatus === 'completed' ? 'Completed' : 'Currently Reading';
       }
     } else {
       showToast(data.error || 'Failed to update progress');
@@ -664,7 +672,7 @@ async function toggleWishlist() {
     if (data.success) {
       showToast(`"${currentBook.title}" saved to your Wishlist`);
       const wishlistText = document.getElementById('btn-wishlist-text');
-      if (wishlistText) wishlistText.textContent = 'In Wishlist ✓';
+      if (wishlistText) wishlistText.textContent = 'In Wishlist';
       if (wishlistBtn) wishlistBtn.classList.add('in-wishlist');
     } else {
       showToast(data.error || 'Failed to update wishlist');

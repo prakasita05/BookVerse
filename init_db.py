@@ -20,10 +20,10 @@ from models import db, Book
 def init_database():
     """Create all database tables"""
     with app.app_context():
-        print("🔨 Creating database tables...")
+        print("[INIT] Creating database tables...")
         db.create_all()
-        print("✅ Database tables created successfully!")
-        print(f"📁 Database location: {app.config['SQLALCHEMY_DATABASE_URI']}")
+        print("[OK] Database tables created successfully!")
+        print(f"[INFO] Database location: {app.config['SQLALCHEMY_DATABASE_URI']}")
 
 def populate_books():
     """Populate global book catalog from books.json"""
@@ -31,7 +31,7 @@ def populate_books():
         # Check if books already exist
         existing_count = Book.query.count()
         if existing_count > 0:
-            print(f"📚 Book catalog already contains {existing_count} books.")
+            print(f"[CATALOG] Book catalog already contains {existing_count} books.")
             response = input("Do you want to re-populate? This will skip existing books. (y/n): ")
             if response.lower() != 'y':
                 print("Skipping book population.")
@@ -41,7 +41,7 @@ def populate_books():
         books_file = os.path.join(os.path.dirname(__file__), 'data', 'books.json')
         
         if not os.path.exists(books_file):
-            print(f"❌ Error: {books_file} not found!")
+            print(f"[ERROR] {books_file} not found!")
             return
         
         with open(books_file, 'r', encoding='utf-8') as f:
@@ -51,7 +51,7 @@ def populate_books():
         added_count = 0
         skipped_count = 0
         
-        print(f"📖 Loading {len(books_data)} books from catalog...")
+        print(f"[LOAD] Loading {len(books_data)} books from catalog...")
         
         for book_data in books_data:
             # Check if book already exists (by ISBN or title+author)
@@ -87,7 +87,7 @@ def populate_books():
         
         db.session.commit()
         
-        print(f"✅ Book catalog populated!")
+        print(f"[OK] Book catalog populated!")
         print(f"   Added: {added_count} books")
         print(f"   Skipped: {skipped_count} books (already exist)")
         print(f"   Total: {Book.query.count()} books in catalog")
@@ -97,14 +97,14 @@ def show_stats():
     with app.app_context():
         from models import User, UserBook, Review, Shelf, Quote
         
-        print("\n📊 BookVerse Database Statistics")
+        print("\n--- BookVerse Database Statistics ---")
         print("=" * 50)
-        print(f"📚 Books in Catalog: {Book.query.count()}")
-        print(f"👥 Registered Users: {User.query.count()}")
-        print(f"📖 User Books: {UserBook.query.count()}")
-        print(f"⭐ Reviews: {Review.query.count()}")
-        print(f"🗂️  Shelves: {Shelf.query.count()}")
-        print(f"💬 Quotes: {Quote.query.count()}")
+        print(f"  Books in Catalog: {Book.query.count()}")
+        print(f"  Registered Users: {User.query.count()}")
+        print(f"  User Books: {UserBook.query.count()}")
+        print(f"  Reviews: {Review.query.count()}")
+        print(f"  Shelves: {Shelf.query.count()}")
+        print(f"  Quotes: {Quote.query.count()}")
         print("=" * 50)
 
 def main():
@@ -112,7 +112,7 @@ def main():
     args = sys.argv[1:]
     
     print("\n" + "=" * 50)
-    print("📚 BookVerse Database Initialization")
+    print("BookVerse Database Initialization")
     print("=" * 50 + "\n")
     
     # Always initialize database
@@ -123,14 +123,14 @@ def main():
         print()
         populate_books()
     else:
-        print("\n💡 Tip: Run with --populate-books to load book catalog")
+        print("\n[TIP] Run with --populate-books to load book catalog")
     
     # Show statistics
     print()
     show_stats()
     
-    print("\n✨ Initialization complete!")
-    print("🚀 You can now run: python app.py")
+    print("\n[SUCCESS] Initialization complete!")
+    print("You can now run: python app.py")
     print()
 
 if __name__ == '__main__':

@@ -964,7 +964,7 @@
       const data = await res.json();
       if (data.success) {
         if (btn) {
-          btn.innerHTML = `<span>✓ In Your Library</span>`;
+          btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:4px;" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg><span>In Your Library</span>`;
           btn.classList.add('added');
           btn.disabled = true;
         }

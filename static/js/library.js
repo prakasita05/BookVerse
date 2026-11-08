@@ -92,7 +92,14 @@
             border: 1px solid rgba(182, 154, 99, 0.25);
             box-shadow: 0 8px 24px rgba(13, 24, 16, 0.06);
           ">
-            <div style="font-size: 54px; margin-bottom: 16px; opacity: 0.85;">📚</div>
+            <div style="display: flex; justify-content: center; margin-bottom: 20px; color: #B69A63;">
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                <line x1="8" y1="6" x2="16" y2="6"></line>
+                <line x1="8" y1="10" x2="14" y2="10"></line>
+              </svg>
+            </div>
             <h3 style="
               font-family: var(--font-serif);
               font-size: 28px;
@@ -104,7 +111,7 @@
               Your personal library starts empty. Search the archives or add a book to curate your private collection.
             </p>
             <a href="/add-book" class="continue-reading-btn" style="display: inline-flex; align-items: center; gap: 8px;">
-              <span>➕</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
               <span>Add Your First Book</span>
             </a>
           </div>
@@ -159,7 +166,8 @@
     } else if (book.status === 'completed') {
       progressBarHtml = `
         <div style="margin-top: 8px; font-size: 11px; color: #3d5a40; font-weight: 600; display: flex; align-items: center; gap: 4px;">
-          <span>✓ Finished</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>Finished</span>
         </div>
       `;
     }
