@@ -714,6 +714,19 @@
               <span>+ Add to Library</span>
             </button>
 
+            <button
+              class="parchment-wishlist-btn"
+              id="wishlist-btn-${escapeAttr(workKey)}"
+              onclick="event.stopPropagation(); toggleWishlistFromDoc('${escapeAttr(doc.key || '')}')"
+              aria-label="Save ${title} to your wishlist"
+              style="padding: 7px 11px; background: rgba(182, 154, 99, 0.16); border: 1px solid rgba(182, 154, 99, 0.4); border-radius: 6px; color: #F7F2E7; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s ease;"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+              </svg>
+              <span>Wishlist</span>
+            </button>
+
             <a
               href="${archiveHref}"
               target="_blank"
@@ -992,6 +1005,58 @@
   }
   window.addToLibraryFromDoc = addToLibraryFromDoc;
   window.addToLibraryFromAPI = addToLibraryFromDoc;
+
+  /* ── Toggle Wishlist from Discover Doc ── */
+  async function toggleWishlistFromDoc(docKey) {
+    const doc = discoverResultsMap[docKey];
+    if (!doc) return;
+    const workKey = (docKey || '').replace('/works/', '').replace(/[^a-zA-Z0-9_-]/g, '_');
+    const btn = document.getElementById('wishlist-btn-' + workKey);
+
+    const coverUrl = (doc.cover && typeof doc.cover === 'string') 
+      ? doc.cover 
+      : (doc.cover_i ? `${OL_COVERS}${doc.cover_i}${OL_COVER_L}` : '');
+    const author = doc.author || (doc.author_name && doc.author_name.length ? doc.author_name[0] : 'Unknown Author');
+    const genre = doc.genre || (doc.subjects && doc.subjects.length ? doc.subjects[0] : (doc.subject && doc.subject.length ? doc.subject[0] : 'Fiction'));
+    const pages = doc.pages || doc.number_of_pages_median || null;
+    const year = doc.year || doc.first_publish_year || null;
+    const publisher = typeof doc.publisher === 'string' ? doc.publisher : (doc.publisher && doc.publisher.length ? doc.publisher[0] : null);
+    const isbn = typeof doc.isbn === 'string' ? doc.isbn : (doc.isbn && doc.isbn.length ? doc.isbn[0] : null);
+
+    try {
+      const res = await fetch('/api/wishlist/toggle', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: doc.title,
+          author: author,
+          cover: coverUrl,
+          genre: genre,
+          pages: pages,
+          publication_year: year,
+          publisher: publisher,
+          isbn: isbn
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        if (btn) {
+          if (data.in_wishlist) {
+            btn.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" width="13" height="13" style="display:inline-block; vertical-align:middle; margin-right:3px;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg><span>In Wishlist</span>`;
+            btn.style.background = '#8C6F3E';
+          } else {
+            btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="display:inline-block; vertical-align:middle; margin-right:3px;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg><span>Wishlist</span>`;
+            btn.style.background = 'rgba(182, 154, 99, 0.16)';
+          }
+        }
+        showDashboardToast(data.message || (data.in_wishlist ? `Saved "${doc.title}" to Wishlist!` : `Removed "${doc.title}" from Wishlist`));
+      }
+    } catch (e) {
+      console.error('Error toggling wishlist from doc:', e);
+      showDashboardToast('Network error saving to wishlist');
+    }
+  }
+  window.toggleWishlistFromDoc = toggleWishlistFromDoc;
 
   function showDashboardToast(msg) {
     let toast = document.getElementById('dashboard-toast');

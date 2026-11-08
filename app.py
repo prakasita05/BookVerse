@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
-from models import db, User, Book, UserBook, Review, ReviewComment, ReviewLike, Shelf, ShelfBook, Quote
+from models import db, User, Book, UserBook, Review, ReviewComment, ReviewLike, Shelf, ShelfBook, Quote, WishlistItem
 import os
+import json
 from datetime import datetime
 
 app = Flask(__name__)
@@ -13,6 +14,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize database
 db.init_app(app)
+with app.app_context():
+    db.create_all()
 
 # ============================================================
 # HELPER: CURRENT USER RESOLUTION
@@ -117,6 +120,21 @@ def add_book():
 def book_detail():
     return render_template("book_detail.html")
 
+@app.route("/wishlist")
+def wishlist():
+    return render_template("wishlist.html")
+
+@app.route("/reading-music")
+def reading_music():
+    return render_template("reading_music.html")
+
+@app.route("/shelf")
+@app.route("/shelves")
+@app.route("/my-shelf")
+def my_shelf_view():
+    """Direct route for user's completed books / shelf"""
+    return redirect("/library?filter=completed")
+
 # ============================================================
 # REST API: USER PERSONAL LIBRARY
 # ============================================================
@@ -190,13 +208,55 @@ def update_user_book():
         db.session.add(user_book)
         
     if "status" in data:
-        user_book.status = data["status"]
-        if user_book.status == "reading" and not user_book.date_started:
-            user_book.date_started = datetime.utcnow()
-        elif user_book.status == "completed":
+        new_status = data["status"]
+        user_book.status = new_status
+        if new_status == "reading":
+            if not user_book.date_started:
+                user_book.date_started = datetime.utcnow()
+            user_book.date_finished = None
+            # If moving to reading, remove from Completed shelf
+            completed_shelf = Shelf.query.filter(
+                Shelf.user_id == user.id,
+                db.func.lower(Shelf.name).in_(["completed", "my shelf", "my completed shelf"])
+            ).first()
+            if completed_shelf:
+                ShelfBook.query.filter_by(shelf_id=completed_shelf.id, book_id=user_book.book_id).delete()
+        elif new_status == "completed":
             user_book.progress = 100
+            if user_book.book and user_book.book.pages:
+                user_book.current_page = user_book.book.pages
             if not user_book.date_finished:
                 user_book.date_finished = datetime.utcnow()
+            
+            # Assign to user's Completed shelf (represents completed books on My Shelf)
+            completed_shelf = Shelf.query.filter(
+                Shelf.user_id == user.id,
+                db.func.lower(Shelf.name).in_(["completed", "my shelf", "my completed shelf"])
+            ).first()
+            if not completed_shelf:
+                completed_shelf = Shelf(user_id=user.id, name="Completed", description="Journeys brought to their close")
+                db.session.add(completed_shelf)
+                db.session.commit()
+
+            # Prevent duplicate shelf entry
+            existing_sb = ShelfBook.query.filter_by(shelf_id=completed_shelf.id, book_id=user_book.book_id).first()
+            if not existing_sb:
+                sb = ShelfBook(shelf_id=completed_shelf.id, book_id=user_book.book_id)
+                db.session.add(sb)
+
+            # Remove from 'Currently Reading' and 'To Read' shelves
+            for s in Shelf.query.filter(
+                Shelf.user_id == user.id,
+                db.func.lower(Shelf.name).in_(["currently reading", "to read"])
+            ).all():
+                ShelfBook.query.filter_by(shelf_id=s.id, book_id=user_book.book_id).delete()
+        elif new_status in ("want-to-read", "paused", "dropped"):
+            completed_shelf = Shelf.query.filter(
+                Shelf.user_id == user.id,
+                db.func.lower(Shelf.name).in_(["completed", "my shelf", "my completed shelf"])
+            ).first()
+            if completed_shelf:
+                ShelfBook.query.filter_by(shelf_id=completed_shelf.id, book_id=user_book.book_id).delete()
                 
     if "progress" in data:
         try:
@@ -243,6 +303,10 @@ def get_book_details(book_id):
     user = get_current_user()
     
     user_book = UserBook.query.filter_by(user_id=user.id, book_id=book.id).first()
+    is_in_wishlist = (
+        WishlistItem.query.filter_by(user_id=user.id, book_id=book.id).first() is not None or
+        (user_book is not None and user_book.status == "want-to-read")
+    )
     
     shelves = (
         db.session.query(Shelf.name, Shelf.id)
@@ -281,6 +345,7 @@ def get_book_details(book_id):
         **book_dict,
         "book": book_dict,
         "in_library": user_book is not None,
+        "in_wishlist": is_in_wishlist,
         "user_status": user_book.status if user_book else None,
         "user_progress": user_book.progress if user_book else 0,
         "user_current_page": user_book.current_page if user_book else 0,
@@ -501,6 +566,316 @@ def add_book_to_shelf():
         "message": f"'{book.title}' added to shelf '{shelf.name}'.",
         "shelf_name": shelf.name,
         "shelf_id": shelf.id
+    })
+
+# ============================================================
+# REST API: WISHLIST (PERSONAL USER WISHLIST)
+# ============================================================
+@app.route("/api/wishlist", methods=["GET"])
+def api_get_wishlist():
+    """Retrieve the authenticated user's wishlist books only"""
+    user = get_current_user()
+    
+    items = WishlistItem.query.filter_by(user_id=user.id).order_by(WishlistItem.added_at.desc()).all()
+    
+    # Sync any existing want-to-read UserBook records for this user
+    existing_bids = set(item.book_id for item in items)
+    ub_want = UserBook.query.filter_by(user_id=user.id, status='want-to-read').all()
+    synced = False
+    for ub in ub_want:
+        if ub.book_id not in existing_bids:
+            wi = WishlistItem(user_id=user.id, book_id=ub.book_id, added_at=ub.date_added or datetime.utcnow())
+            db.session.add(wi)
+            items.append(wi)
+            existing_bids.add(ub.book_id)
+            synced = True
+    if synced:
+        db.session.commit()
+        
+    books_data = []
+    for item in items:
+        b = item.book
+        if not b:
+            continue
+        books_data.append({
+            "id": b.id,
+            "wishlist_id": item.id,
+            "title": b.title,
+            "author": b.author,
+            "cover": b.cover or "",
+            "genre": b.genre or "Fiction",
+            "pages": b.pages or 0,
+            "description": b.description or "A treasured work awaiting your personal discovery.",
+            "publication_year": b.publication_year,
+            "publisher": getattr(b, "publisher", "") or "",
+            "isbn": b.isbn or "",
+            "rating_avg": round(b.get_average_rating(), 1) if b.get_average_rating() else 4.5,
+            "review_count": b.get_review_count(),
+            "added_at": item.added_at.strftime("%b %d, %Y") if item.added_at else ""
+        })
+        
+    return jsonify({
+        "success": True,
+        "books": books_data,
+        "count": len(books_data)
+    })
+
+@app.route("/api/wishlist/toggle", methods=["POST"])
+def api_toggle_wishlist():
+    """Toggle a book in/out of the user's personal wishlist with duplicate prevention"""
+    user = get_current_user()
+    data = request.get_json() or request.form.to_dict()
+    book_id = data.get("book_id")
+    
+    # If book_id not provided but book metadata is provided (e.g. from Discover Books)
+    if not book_id and (data.get("title") and data.get("author")):
+        title = data.get("title").strip()
+        author = data.get("author").strip()
+        book = Book.query.filter(
+            db.func.lower(Book.title) == title.lower(),
+            db.func.lower(Book.author) == author.lower()
+        ).first()
+        if not book:
+            book = Book(
+                title=title,
+                author=author,
+                cover=data.get("cover") or None,
+                genre=data.get("genre") or "Fiction",
+                pages=int(data.get("pages")) if data.get("pages") else None,
+                publication_year=int(data.get("publication_year")) if data.get("publication_year") else None,
+                description=data.get("description") or "",
+                publisher=data.get("publisher") or None,
+                isbn=data.get("isbn") or None
+            )
+            db.session.add(book)
+            db.session.commit()
+        book_id = book.id
+
+    if not book_id:
+        return jsonify({"success": False, "error": "Book ID or metadata is required"}), 400
+
+    book = Book.query.get_or_404(book_id)
+    existing = WishlistItem.query.filter_by(user_id=user.id, book_id=book.id).first()
+    
+    if existing:
+        db.session.delete(existing)
+        # Also sync UserBook: if status is 'want-to-read', remove or reset
+        user_book = UserBook.query.filter_by(user_id=user.id, book_id=book.id, status='want-to-read').first()
+        if user_book:
+            db.session.delete(user_book)
+        db.session.commit()
+        return jsonify({
+            "success": True,
+            "in_wishlist": False,
+            "book_id": book.id,
+            "title": book.title,
+            "message": f"'{book.title}' has been removed from your wishlist."
+        })
+    else:
+        item = WishlistItem(user_id=user.id, book_id=book.id)
+        db.session.add(item)
+        user_book = UserBook.query.filter_by(user_id=user.id, book_id=book.id).first()
+        if not user_book:
+            user_book = UserBook(user_id=user.id, book_id=book.id, status='want-to-read')
+            db.session.add(user_book)
+        elif user_book.status not in ('reading', 'completed'):
+            user_book.status = 'want-to-read'
+        db.session.commit()
+        return jsonify({
+            "success": True,
+            "in_wishlist": True,
+            "book_id": book.id,
+            "title": book.title,
+            "message": f"'{book.title}' has been saved to your wishlist."
+        })
+
+@app.route("/api/wishlist/remove", methods=["POST"])
+def api_remove_wishlist():
+    """Remove a book from the user's wishlist"""
+    user = get_current_user()
+    data = request.get_json() or request.form.to_dict()
+    book_id = data.get("book_id")
+    if not book_id:
+        return jsonify({"success": False, "error": "Book ID required"}), 400
+        
+    item = WishlistItem.query.filter_by(user_id=user.id, book_id=book_id).first()
+    if item:
+        db.session.delete(item)
+    user_book = UserBook.query.filter_by(user_id=user.id, book_id=book_id, status='want-to-read').first()
+    if user_book:
+        db.session.delete(user_book)
+    db.session.commit()
+    return jsonify({"success": True, "in_wishlist": False, "book_id": book_id})
+
+@app.route("/api/wishlist/add", methods=["POST"])
+def api_add_wishlist():
+    """Add a book to the user's wishlist (idempotent, prevents duplicates)"""
+    user = get_current_user()
+    data = request.get_json() or request.form.to_dict()
+    book_id = data.get("book_id")
+    if not book_id:
+        return jsonify({"success": False, "error": "Book ID required"}), 400
+    book = Book.query.get_or_404(book_id)
+    
+    item = WishlistItem.query.filter_by(user_id=user.id, book_id=book.id).first()
+    if not item:
+        item = WishlistItem(user_id=user.id, book_id=book.id)
+        db.session.add(item)
+    user_book = UserBook.query.filter_by(user_id=user.id, book_id=book.id).first()
+    if not user_book:
+        user_book = UserBook(user_id=user.id, book_id=book.id, status='want-to-read')
+        db.session.add(user_book)
+    db.session.commit()
+    return jsonify({"success": True, "in_wishlist": True, "book_id": book.id, "title": book.title})
+
+@app.route("/api/wishlist/check", methods=["GET"])
+def api_check_wishlist():
+    user = get_current_user()
+    book_id = request.args.get("book_id")
+    if not book_id:
+        return jsonify({"in_wishlist": False})
+    exists = WishlistItem.query.filter_by(user_id=user.id, book_id=book_id).first() is not None
+    return jsonify({"in_wishlist": exists})
+
+# ============================================================
+# REST API: READING MUSIC (SPOTIFY SOUNDSCAPES)
+# ============================================================
+SPOTIFY_READING_MOODS = [
+    {
+        "id": "enchanted-fantasy",
+        "title": "Enchanted Fantasy",
+        "genres": ["fantasy", "magic", "myth", "folklore", "fairy tale", "epic fantasy"],
+        "description": "Ethereal Celtic harps, tavern lutes, and mystical orchestral melodies inspired by ancient realms and mythical lore.",
+        "spotify_url": "https://open.spotify.com/search/enchanted%20fantasy%20reading",
+        "embed_url": "https://open.spotify.com/embed/playlist/37i9dQZF1DWZwtERXCS82H",
+        "icon": "sparkles"
+    },
+    {
+        "id": "dark-academia",
+        "title": "Dark Academia",
+        "genres": ["classics", "historical fiction", "historical", "philosophy", "drama", "gothic", "literature"],
+        "description": "Brooding baroque strings, melancholic cello solos, and vintage classical nocturnes for dusty library corners.",
+        "spotify_url": "https://open.spotify.com/search/dark%20academia%20classical",
+        "embed_url": "https://open.spotify.com/embed/playlist/37i9dQZF1DX1BzILQoxw08",
+        "icon": "scroll"
+    },
+    {
+        "id": "deep-focus",
+        "title": "Deep Focus",
+        "genres": ["non-fiction", "self-help", "psychology", "business", "science", "biography", "memoir", "education"],
+        "description": "Minimalist ambient soundscapes, gentle piano pulses, and binaural textures designed for sustained reading flow.",
+        "spotify_url": "https://open.spotify.com/playlist/37i9dQZF1DWZeKCadgRdKQ",
+        "embed_url": "https://open.spotify.com/embed/playlist/37i9dQZF1DWZeKCadgRdKQ",
+        "icon": "brain"
+    },
+    {
+        "id": "romantic-reading",
+        "title": "Romantic Reading",
+        "genres": ["romance", "love", "passion", "contemporary romance"],
+        "description": "Tender acoustic guitar, romantic piano sonatas, and soft orchestral warmth for stories of the heart.",
+        "spotify_url": "https://open.spotify.com/search/romantic%20reading%20piano",
+        "embed_url": "https://open.spotify.com/embed/playlist/37i9dQZF1DX504r987GzEv",
+        "icon": "heart"
+    },
+    {
+        "id": "mystery-suspense",
+        "title": "Mystery & Suspense",
+        "genres": ["mystery", "thriller", "crime", "suspense", "detective", "noir", "psychological thriller"],
+        "description": "Tense cinematic strings, dark ambient drones, and suspenseful motifs for detective investigations and thrillers.",
+        "spotify_url": "https://open.spotify.com/search/mystery%20suspense%20soundtrack",
+        "embed_url": "https://open.spotify.com/embed/playlist/37i9dQZF1DX8Uebhn9wzrS",
+        "icon": "compass"
+    },
+    {
+        "id": "sci-fi-reading",
+        "title": "Sci-Fi Reading",
+        "genres": ["science fiction", "sci-fi", "dystopian", "space", "cyberpunk", "time travel"],
+        "description": "Cosmic synthesizer drones, futuristic ambient pads, and otherworldly frequencies for voyages across galaxies.",
+        "spotify_url": "https://open.spotify.com/playlist/37i9dQZF1DX8Uebhn9wzrS",
+        "embed_url": "https://open.spotify.com/embed/playlist/37i9dQZF1DX8Uebhn9wzrS",
+        "icon": "orbit"
+    },
+    {
+        "id": "cozy-reading",
+        "title": "Cozy Reading",
+        "genres": ["cozy", "fiction", "poetry", "humor", "general", "short stories"],
+        "description": "Warm lo-fi beats, gentle fireplace crackle, and acoustic coffeehouse instrumentals for quiet rainy afternoons.",
+        "spotify_url": "https://open.spotify.com/search/cozy%20reading%20instrumental",
+        "embed_url": "https://open.spotify.com/embed/playlist/37i9dQZF1DWZwtERXCS82H",
+        "icon": "coffee"
+    },
+    {
+        "id": "nature-rain",
+        "title": "Nature & Rain",
+        "genres": ["nature", "environment", "travel", "adventure", "rain", "wilderness"],
+        "description": "Gentle rain falling on leaded glass windows, distant thunder, and woodland breezes intertwined with ambient pads.",
+        "spotify_url": "https://open.spotify.com/playlist/37i9dQZF1DX8ymr6UES72F",
+        "embed_url": "https://open.spotify.com/embed/playlist/37i9dQZF1DX8ymr6UES72F",
+        "icon": "cloud-rain"
+    }
+]
+
+def resolve_reading_mood(genre_string):
+    """Map any genuine book genre to one of the 8 canonical reading moods"""
+    if not genre_string:
+        return SPOTIFY_READING_MOODS[2]  # Deep Focus default
+    g = genre_string.lower().strip()
+    
+    # 1. Fantasy
+    if any(k in g for k in ["fantasy", "magic", "myth", "folklore", "fairy"]):
+        return SPOTIFY_READING_MOODS[0]
+    # 2. Romance
+    if any(k in g for k in ["romance", "love", "passion"]):
+        return SPOTIFY_READING_MOODS[3]
+    # 3. Mystery & Suspense
+    if any(k in g for k in ["mystery", "thriller", "crime", "suspense", "detective", "noir"]):
+        return SPOTIFY_READING_MOODS[4]
+    # 4. Sci-Fi
+    if any(k in g for k in ["science fiction", "sci-fi", "dystopian", "space", "cyberpunk"]):
+        return SPOTIFY_READING_MOODS[5]
+    # 5. Dark Academia
+    if any(k in g for k in ["classics", "historical", "history", "philosophy", "drama", "gothic", "literature"]):
+        return SPOTIFY_READING_MOODS[1]
+    # 6. Deep Focus
+    if any(k in g for k in ["non-fiction", "self-help", "psychology", "business", "science", "biography", "memoir", "education"]):
+        return SPOTIFY_READING_MOODS[2]
+    # 7. Nature & Rain
+    if any(k in g for k in ["nature", "environment", "travel", "adventure", "rain", "wilderness"]):
+        return SPOTIFY_READING_MOODS[7]
+    # 8. Cozy Reading (fallback for general fiction/poetry)
+    return SPOTIFY_READING_MOODS[6]
+
+@app.route("/api/reading-music/recommend", methods=["GET"])
+def api_reading_music_recommend():
+    """Recommend reading mood based on actual book genre or book ID"""
+    book_id = request.args.get("book_id")
+    genre = request.args.get("genre")
+    
+    book_info = None
+    if book_id:
+        try:
+            b = Book.query.get(int(book_id))
+            if b:
+                book_info = {
+                    "id": b.id,
+                    "title": b.title,
+                    "author": b.author,
+                    "genre": b.genre or "Fiction",
+                    "cover": b.cover or ""
+                }
+                if not genre:
+                    genre = b.genre
+        except (ValueError, TypeError):
+            pass
+            
+    recommended = resolve_reading_mood(genre)
+    
+    return jsonify({
+        "success": True,
+        "query_genre": genre or "",
+        "book": book_info,
+        "recommended_mood": recommended,
+        "all_moods": SPOTIFY_READING_MOODS
     })
 
 # ============================================================

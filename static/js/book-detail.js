@@ -151,12 +151,26 @@
     }
 
     // Wishlist Button State
-    if (userStatus === 'want-to-read') {
+    const isInWishlist = currentBook && (currentBook.in_wishlist || userStatus === 'want-to-read');
+    if (isInWishlist) {
       if (wishlistText) wishlistText.textContent = 'In Wishlist';
       if (wishlistBtn) wishlistBtn.classList.add('in-wishlist');
     } else {
       if (wishlistText) wishlistText.textContent = 'Wishlist';
       if (wishlistBtn) wishlistBtn.classList.remove('in-wishlist');
+    }
+
+    // Mark as Completed Button State
+    const completedBtn = document.getElementById('btn-mark-completed');
+    const completedText = document.getElementById('btn-completed-text');
+    if (completedBtn && completedText) {
+      if (userStatus === 'completed') {
+        completedText.textContent = 'Completed (Undo)';
+        completedBtn.classList.add('completed-active');
+      } else {
+        completedText.textContent = 'Mark as Completed';
+        completedBtn.classList.remove('completed-active');
+      }
     }
   }
 
@@ -655,25 +669,29 @@ async function savePageProgress() {
 async function toggleWishlist() {
   if (!currentBook) return;
   const wishlistBtn = document.getElementById('btn-wishlist');
-  const isCurrentlyInWishlist = wishlistBtn && wishlistBtn.classList.contains('in-wishlist');
-  const targetStatus = isCurrentlyInWishlist ? 'want-to-read' : 'want-to-read';
+  const wishlistText = document.getElementById('btn-wishlist-text');
 
   try {
-    const res = await fetch('/api/user/books/update', {
+    const res = await fetch('/api/wishlist/toggle', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        book_id: currentBook.id,
-        status: targetStatus
+        book_id: currentBook.id
       })
     });
 
     const data = await res.json();
     if (data.success) {
-      showToast(`"${currentBook.title}" saved to your Wishlist`);
-      const wishlistText = document.getElementById('btn-wishlist-text');
-      if (wishlistText) wishlistText.textContent = 'In Wishlist';
-      if (wishlistBtn) wishlistBtn.classList.add('in-wishlist');
+      currentBook.in_wishlist = data.in_wishlist;
+      if (data.in_wishlist) {
+        showToast(`"${currentBook.title}" saved to your Wishlist`);
+        if (wishlistText) wishlistText.textContent = 'In Wishlist';
+        if (wishlistBtn) wishlistBtn.classList.add('in-wishlist');
+      } else {
+        showToast(`"${currentBook.title}" removed from your Wishlist`);
+        if (wishlistText) wishlistText.textContent = 'Wishlist';
+        if (wishlistBtn) wishlistBtn.classList.remove('in-wishlist');
+      }
     } else {
       showToast(data.error || 'Failed to update wishlist');
     }
@@ -682,6 +700,58 @@ async function toggleWishlist() {
     showToast('Network error updating wishlist');
   }
 }
+
+// 4. Find Music for This Book
+function findMusicForBook() {
+  if (!currentBook) return;
+  const genre = currentBook.genre || 'Fiction';
+  const title = currentBook.title || '';
+  const bookId = currentBook.id || '';
+  window.location.href = `/reading-music?book_id=${encodeURIComponent(bookId)}&genre=${encodeURIComponent(genre)}&title=${encodeURIComponent(title)}`;
+}
+
+// 5. Mark as Completed / Toggle Completion
+async function toggleBookCompleted() {
+  if (!currentBook) return;
+  const isCompleted = userStatus === 'completed';
+  const targetStatus = isCompleted ? 'reading' : 'completed';
+  const targetPage = targetStatus === 'completed' ? (currentBook.pages || userCurrentPage) : Math.min(userCurrentPage, (currentBook.pages || 1) - 1);
+  const targetProgress = targetStatus === 'completed' ? 100 : Math.round((targetPage / (currentBook.pages || 1)) * 100);
+
+  try {
+    const res = await fetch('/api/user/books/update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        book_id: currentBook.id,
+        status: targetStatus,
+        progress: targetProgress,
+        current_page: targetPage
+      })
+    });
+    const data = await res.json();
+    if (data.success) {
+      userStatus = data.status;
+      userProgress = data.progress;
+      userCurrentPage = data.current_page;
+      
+      updateButtonStates();
+      updateProgressDisplay(userCurrentPage, userProgress);
+      
+      if (userStatus === 'completed') {
+        showToast(`Congratulations! You completed "${currentBook.title}"! Saved to Completed shelf.`);
+      } else {
+        showToast(`"${currentBook.title}" reading status changed to Currently Reading.`);
+      }
+    } else {
+      showToast(data.error || 'Failed to update completion status');
+    }
+  } catch (err) {
+    console.error('Error updating completion:', err);
+    showToast('Network error updating completion status');
+  }
+}
+window.toggleBookCompleted = toggleBookCompleted;
 
 // ====================================================
 // SHELF MODAL INTERACTION
@@ -833,6 +903,8 @@ window.handleReadingAction = handleReadingAction;
 window.startReading = handleReadingAction;
 window.savePageProgress = savePageProgress;
 window.toggleWishlist = toggleWishlist;
+window.toggleBookCompleted = toggleBookCompleted;
+window.findMusicForBook = findMusicForBook;
 window.openShelfModal = openShelfModal;
 window.addToShelf = openShelfModal;
 window.closeShelfModal = closeShelfModal;

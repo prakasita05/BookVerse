@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reading Music & Soundscapes — BookVerse</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="/static/css/dashboard.css">
+  <link rel="stylesheet" href="/static/css/reading-music.css">
+</head>
+<body class="dashboard-body">
+
+  <!-- Dashboard Header -->
+  <header class="dashboard-header">
+    <div class="header-container">
+      <a href="/home" class="header-logo">bookverse</a>
+      
+      <nav class="header-nav">
+        <a href="/home" class="nav-link">Home</a>
+        <a href="/library" class="nav-link">My Library</a>
+        <a href="/wishlist" class="nav-link">Wishlist</a>
+        <a href="/reading-music" class="nav-link active">Reading Music</a>
+        <a href="/home#discover-shelf-section" class="nav-link">Discover</a>
+        <a href="/library" class="nav-link">Tracker</a>
+      </nav>
+
+      <div class="header-search">
+        <span class="search-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </span>
+        <input type="text" class="search-input" placeholder="Search archive...">
+      </div>
+
+      <div class="header-user">
+        <div class="user-avatar" id="user-avatar">?</div>
+        <span style="font-size: 14px; font-weight: 500;" id="user-name-display">Reader</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="dashboard-main">
+    <div class="content-container">
+
+      <!-- Breadcrumbs -->
+      <div style="margin-bottom: 20px;">
+        <a href="/home" class="back-link" style="display: inline-flex; align-items: center; gap: 6px; color: #6B4B35; text-decoration: none; font-size: 14px;">
+          ← Return to Dashboard
+        </a>
+      </div>
+
+      <!-- Hero Header Section -->
+      <section class="music-hero-section">
+        <div class="music-hero-badge">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 18V5l12-2v13"></path>
+            <circle cx="6" cy="18" r="3"></circle>
+            <circle cx="18" cy="16" r="3"></circle>
+          </svg>
+          <span>Acoustic Library Sanctuary</span>
+        </div>
+        <h1 class="music-hero-title">Reading Music & Atmospheric Soundscapes</h1>
+        <p class="music-hero-subtitle">
+          Immersive auditory companions tailored to your literary journeys. From classical baroque nocturnes to gentle rain on leaded glass, select a mood to accompany your reading.
+        </p>
+      </section>
+
+      <!-- Recommendation Banner (populated dynamically when visiting from a book) -->
+      <div class="music-rec-banner" id="music-rec-banner" style="display: none;">
+        <!-- Filled dynamically -->
+      </div>
+
+      <!-- Embedded Spotify Player Dock -->
+      <section class="music-player-dock" id="music-player-dock">
+        <div class="player-dock-header">
+          <div class="player-dock-title" id="player-dock-current-title">
+            <span style="display:inline-flex; align-items:center; margin-right:8px; color:#8C6F3E;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </span>
+            <span>Deep Focus Atmosphere</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span class="player-dock-status">Live Spotify Sanctuary</span>
+            <a id="player-spotify-link" href="https://open.spotify.com/playlist/37i9dQZF1DWZeKCadgRdKQ" target="_blank" rel="noopener noreferrer" class="btn-secondary" style="padding: 6px 14px; font-size: 12.5px; text-decoration: none;">
+              Open in Spotify
+            </a>
+          </div>
+        </div>
+
+        <div class="spotify-embed-container">
+          <iframe 
+            id="spotify-embed-iframe"
+            src="https://open.spotify.com/embed/playlist/37i9dQZF1DWZeKCadgRdKQ" 
+            width="100%" 
+            height="152" 
+            frameborder="0" 
+            allowtransparency="true" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy"
+            title="Spotify Reading Player"
+          ></iframe>
+        </div>
+      </section>
+
+      <!-- Mood Selection Header -->
+      <div class="mood-grid-header">
+        <div>
+          <h2 class="mood-section-title">Select Reading Mood</h2>
+          <p class="mood-section-desc">Choose an atmosphere handcrafted for your genre or reading state of mind.</p>
+        </div>
+
+        <!-- Quick Genre Matcher -->
+        <div class="genre-quick-picker">
+          <label for="genre-filter-select" style="font-size: 13.5px; color: #4A3728; font-weight: 500;">Match Genre:</label>
+          <select id="genre-filter-select" class="genre-select" onchange="handleGenrePickerChange(this.value)">
+            <option value="">All Reading Moods</option>
+            <option value="Fantasy">Fantasy & Epic Tales</option>
+            <option value="Classics">Classics & Philosophy</option>
+            <option value="Non-Fiction">Non-Fiction & Science</option>
+            <option value="Romance">Romance & Poetry</option>
+            <option value="Mystery">Mystery & Thriller</option>
+            <option value="Science Fiction">Science Fiction & Space</option>
+            <option value="Fiction">Cozy Fiction & Tales</option>
+            <option value="Nature">Nature & Outdoors</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Moods Grid -->
+      <div class="reading-moods-grid" id="reading-moods-grid">
+        <!-- Rendered dynamically via JavaScript -->
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="/static/js/reading-music.js"></script>
+</body>
+</html>
+

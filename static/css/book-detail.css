@@ -192,7 +192,8 @@
 }
 
 .btn-secondary.active-shelf,
-.btn-secondary.in-wishlist {
+.btn-secondary.in-wishlist,
+.btn-secondary.completed-active {
   background: #243B2E;
   color: #f4ebd8 !important;
   border-color: #c9a96e !important;

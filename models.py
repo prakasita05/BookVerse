@@ -27,6 +27,7 @@ class User(db.Model):
     reviews = db.relationship('Review', backref='user', lazy='dynamic', cascade='all, delete-orphan')
     shelves = db.relationship('Shelf', backref='user', lazy='dynamic', cascade='all, delete-orphan')
     quotes = db.relationship('Quote', backref='user', lazy='dynamic', cascade='all, delete-orphan')
+    wishlist_items = db.relationship('WishlistItem', backref='user', lazy='dynamic', cascade='all, delete-orphan')
     
     def set_password(self, password):
         """Hash and set user password"""
@@ -63,6 +64,7 @@ class Book(db.Model):
     user_books = db.relationship('UserBook', backref='book', lazy='dynamic', cascade='all, delete-orphan')
     reviews = db.relationship('Review', backref='book', lazy='dynamic', cascade='all, delete-orphan')
     quotes = db.relationship('Quote', backref='book', lazy='dynamic', cascade='all, delete-orphan')
+    wishlist_items = db.relationship('WishlistItem', backref='book', lazy='dynamic', cascade='all, delete-orphan')
     
     def __repr__(self):
         return f'<Book {self.title} by {self.author}>'
@@ -277,3 +279,25 @@ class Quote(db.Model):
     
     def __repr__(self):
         return f'<Quote user_id={self.user_id} book_id={self.book_id}>'
+
+
+# ============================================================
+# WISHLIST ITEM MODEL (Saved Wishlist Books)
+# ============================================================
+class WishlistItem(db.Model):
+    """User's saved wishlist books"""
+    __tablename__ = 'wishlist_items'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, index=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('books.id'), nullable=False, index=True)
+    added_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    notes = db.Column(db.Text)
+    
+    # Composite unique constraint: user can only have one wishlist entry per book
+    __table_args__ = (
+        db.UniqueConstraint('user_id', 'book_id', name='unique_user_wishlist_book'),
+    )
+    
+    def __repr__(self):
+        return f'<WishlistItem user_id={self.user_id} book_id={self.book_id}>'
