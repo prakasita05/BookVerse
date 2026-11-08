@@ -4,96 +4,386 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Add Book — BookVerse</title>
+  <title>Add a Book — BookVerse</title>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
 
   <!-- Dashboard Stylesheet -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/book-detail.css') }}">
+
   <style>
-    .form-container {
-      max-width: 700px;
+    .add-book-wrapper {
+      max-width: 900px;
       margin: 0 auto;
-      background: white;
-      padding: 48px;
-      border-radius: 16px;
-      box-shadow: var(--shadow-card);
     }
-    
-    .form-group {
+
+    .mode-tabs {
+      display: flex;
+      gap: 12px;
       margin-bottom: 24px;
+      border-bottom: 1px solid rgba(182, 154, 99, 0.25);
+      padding-bottom: 16px;
     }
-    
-    .form-label {
-      display: block;
-      font-family: var(--font-sans);
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--forest-deep);
-      margin-bottom: 8px;
-    }
-    
-    .form-input,
-    .form-textarea,
-    .form-select {
-      width: 100%;
-      padding: 12px 16px;
+
+    .mode-tab-btn {
+      padding: 12px 24px;
+      background: transparent;
       border: 1px solid rgba(61, 90, 64, 0.2);
       border-radius: 8px;
       font-family: var(--font-sans);
       font-size: 14px;
-      transition: all 0.3s ease;
+      font-weight: 600;
+      color: var(--forest-deep);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
-    
+
+    .mode-tab-btn:hover {
+      background: #f7f3ec;
+      border-color: #B69A63;
+    }
+
+    .mode-tab-btn.active {
+      background: var(--forest-deep);
+      color: #F4EBD8;
+      border-color: #B69A63;
+      box-shadow: 0 4px 14px rgba(13, 24, 16, 0.2);
+    }
+
+    /* Search Section */
+    .search-panel {
+      background: #ffffff;
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(182, 154, 99, 0.2);
+      margin-bottom: 32px;
+    }
+
+    .search-bar-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .search-big-input {
+      flex: 1;
+      padding: 14px 18px;
+      border: 1.5px solid rgba(61, 90, 64, 0.25);
+      border-radius: 8px;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      outline: none;
+      transition: all 0.25s ease;
+      background: #faf8f5;
+    }
+
+    .search-big-input:focus {
+      border-color: var(--forest-rich);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(36, 59, 46, 0.12);
+    }
+
+    .search-action-btn {
+      padding: 14px 28px;
+      background: linear-gradient(135deg, #1a2e20 0%, #243B2E 100%);
+      color: #F4EBD8;
+      border: 1px solid #B69A63;
+      border-radius: 8px;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .search-action-btn:hover {
+      background: linear-gradient(135deg, #243B2E 0%, #3d5a40 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(13, 24, 16, 0.3);
+    }
+
+    /* Results Grid */
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 24px;
+    }
+
+    .result-card {
+      background: #fdfbf7;
+      border: 1px solid rgba(61, 90, 64, 0.15);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      gap: 16px;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .result-card:hover {
+      border-color: #B69A63;
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(13, 24, 16, 0.12);
+    }
+
+    .result-cover {
+      width: 70px;
+      height: 105px;
+      object-fit: cover;
+      border-radius: 4px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      background: #e8dfc8;
+      flex-shrink: 0;
+    }
+
+    .result-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .result-title {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--forest-deep);
+      line-height: 1.3;
+      margin-bottom: 4px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .result-author {
+      font-size: 12px;
+      color: #6B4B35;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .result-meta {
+      font-size: 11px;
+      color: #87927B;
+      margin-bottom: 8px;
+    }
+
+    .select-book-btn {
+      padding: 7px 12px;
+      background: #f4ebd8;
+      border: 1px solid #B69A63;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #1a2e20;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      width: 100%;
+    }
+
+    .select-book-btn:hover {
+      background: #243B2E;
+      color: #ffffff;
+      border-color: #243B2E;
+    }
+
+    /* Details Form Section */
+    .details-panel {
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(182, 154, 99, 0.25);
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 36px;
+    }
+
+    .cover-preview-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cover-preview-img {
+      width: 100%;
+      max-width: 200px;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(13, 24, 16, 0.25);
+      border: 1px solid rgba(182, 154, 99, 0.3);
+      background: linear-gradient(135deg, #e8dfc8, #d4c4a8);
+      margin-bottom: 12px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--forest-deep);
+      margin-bottom: 6px;
+      letter-spacing: 0.01em;
+    }
+
+    .form-input,
+    .form-textarea,
+    .form-select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid rgba(61, 90, 64, 0.2);
+      border-radius: 8px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      background: #faf8f5;
+      transition: all 0.25s ease;
+      box-sizing: border-box;
+    }
+
     .form-input:focus,
     .form-textarea:focus,
     .form-select:focus {
       outline: none;
-      border-color: var(--forest-muted);
-      box-shadow: 0 0 0 3px rgba(61, 90, 64, 0.1);
+      background: #ffffff;
+      border-color: #243B2E;
+      box-shadow: 0 0 0 3px rgba(36, 59, 46, 0.1);
     }
-    
-    .form-textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
-    
+
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 24px;
+      gap: 16px;
     }
-    
-    .submit-btn {
+
+    .shelf-create-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .submit-btn-large {
       width: 100%;
       padding: 16px;
-      background: var(--forest-muted);
-      color: white;
-      border: none;
+      background: linear-gradient(135deg, #1a2e20 0%, #243B2E 100%);
+      color: #F4EBD8;
+      border: 1px solid #B69A63;
       border-radius: 8px;
+      font-family: var(--font-sans);
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s ease;
-      margin-top: 16px;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 24px;
+      box-shadow: 0 4px 16px rgba(13, 24, 16, 0.25);
     }
-    
-    .submit-btn:hover {
-      background: var(--forest-deep);
+
+    .submit-btn-large:hover {
+      background: linear-gradient(135deg, #243B2E 0%, #3d5a40 100%);
       transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
+      box-shadow: 0 8px 24px rgba(13, 24, 16, 0.35);
     }
-    
+
+    /* Success Overlay Modal */
+    .success-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(13, 24, 16, 0.7);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 16px;
+    }
+
+    .success-modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .success-modal {
+      width: 100%;
+      max-width: 480px;
+      background: #fbf9f4;
+      border-radius: 16px;
+      border: 1px solid #B69A63;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      padding: 36px 32px;
+      text-align: center;
+    }
+
+    .success-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .success-title {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      color: var(--forest-deep);
+      margin-bottom: 8px;
+    }
+
+    .success-message {
+      color: #6B4B35;
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 28px;
+    }
+
+    .success-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
     @media (max-width: 768px) {
-      .form-container {
-        padding: 32px 24px;
+      .details-grid {
+        grid-template-columns: 1fr;
       }
-      
+
       .form-row {
         grid-template-columns: 1fr;
+      }
+
+      .details-panel,
+      .search-panel {
+        padding: 24px 18px;
       }
     }
   </style>
@@ -101,157 +391,557 @@
 
 <body>
 
-<!-- Dashboard Header -->
-<header class="dashboard-header">
-  <div class="header-container">
-    <a href="/home" class="header-logo">bookverse</a>
-    
-    <nav class="header-nav">
-      <a href="/home" class="nav-link">Home</a>
-      <a href="/library" class="nav-link">My Library</a>
-      <a href="#" class="nav-link">Shelves</a>
-      <a href="#" class="nav-link">Wishlist</a>
-      <a href="#" class="nav-link">Discover</a>
-      <a href="#" class="nav-link">Tracker</a>
-    </nav>
+  <!-- Dashboard Header -->
+  <header class="dashboard-header">
+    <div class="header-container">
+      <a href="/home" class="header-logo">bookverse</a>
 
-    <div class="header-search">
-      <span class="search-icon">🔍</span>
-      <input type="text" class="search-input" placeholder="Search books...">
+      <nav class="header-nav">
+        <a href="/home" class="nav-link">Home</a>
+        <a href="/library" class="nav-link">My Library</a>
+        <a href="#" class="nav-link">Shelves</a>
+        <a href="#" class="nav-link">Wishlist</a>
+        <a href="#" class="nav-link">Discover</a>
+        <a href="#" class="nav-link">Tracker</a>
+      </nav>
+
+      <div class="header-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" class="search-input" placeholder="Search archive...">
+      </div>
+
+      <div class="header-user">
+        <div class="user-avatar" id="user-avatar">?</div>
+        <span style="font-size: 14px; font-weight: 500;" id="user-name-display">Reader</span>
+      </div>
     </div>
+  </header>
 
-    <div class="header-user">
-      <div class="user-avatar">R</div>
-      <span style="font-size: 14px; font-weight: 500;">Reader</span>
+  <!-- Main Content -->
+  <main class="dashboard-main">
+    <div class="add-book-wrapper">
+
+      <!-- Back Navigation -->
+      <div class="mb-lg">
+        <a href="/library" class="back-link">
+          ← Back to Library
+        </a>
+      </div>
+
+      <!-- Page Title -->
+      <section class="mb-lg">
+        <h1 style="font-family: var(--font-serif); font-size: 38px; color: var(--forest-deep); margin-bottom: 6px;">
+          Add a Volume to Your Library
+        </h1>
+        <p style="color: #6B4B35; font-size: 15px; margin-bottom: 24px;">
+          Curate your personal collection. Search the archives to fetch authentic metadata or enter the details by hand.
+        </p>
+
+        <!-- Mode Tabs -->
+        <div class="mode-tabs">
+          <button type="button" class="mode-tab-btn active" id="tab-search" onclick="switchMode('search')">
+            <span>🔍</span>
+            <span>Search Archives (Online)</span>
+          </button>
+          <button type="button" class="mode-tab-btn" id="tab-manual" onclick="switchMode('manual')">
+            <span>✍️</span>
+            <span>Enter Details Manually</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- STEP 1: Search Panel -->
+      <div id="search-section" class="search-panel">
+        <h2 style="font-family: var(--font-serif); font-size: 22px; color: var(--forest-deep); margin-bottom: 4px;">
+          Search by Title, Author, or ISBN
+        </h2>
+        <p style="color: #87927B; font-size: 13px;">
+          Retrieves authentic cover art, publication year, page count, and synopsis from Open Library and Google Books.
+        </p>
+
+        <form class="search-bar-row" onsubmit="handleArchiveSearch(event)">
+          <input type="text" id="archive-search-input" class="search-big-input"
+            placeholder="e.g. Dune, Jane Austen, 9780141439587..." autocomplete="off" required>
+          <button type="submit" class="search-action-btn" id="search-submit-btn">
+            <span>Search</span>
+          </button>
+        </form>
+
+        <!-- Live Search Results Container -->
+        <div id="search-results-box" style="display: none; margin-top: 24px;">
+          <h3 id="results-heading"
+            style="font-family: var(--font-serif); font-size: 18px; color: var(--forest-deep); margin-bottom: 12px;">
+            Matching Volumes Found
+          </h3>
+          <div class="results-grid" id="results-grid">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: Inspect Metadata & Choose Shelf Form -->
+      <div id="details-section" class="details-panel">
+        <div style="margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid rgba(182, 154, 99, 0.2);">
+          <h2 style="font-family: var(--font-serif); font-size: 26px; color: var(--forest-deep); margin-bottom: 4px;">
+            Inspect Details & Assign Shelf
+          </h2>
+          <p style="color: #6B4B35; font-size: 14px;">
+            Review the metadata, choose which shelf to place this book upon, and confirm saving to your private library.
+          </p>
+        </div>
+
+        <form id="add-book-form" onsubmit="handleSaveBook(event)">
+          <div class="details-grid">
+
+            <!-- Left Column: Cover Preview -->
+            <div class="cover-preview-box">
+              <img id="preview-cover-img" src="https://via.placeholder.com/200x300?text=No+Cover" alt="Cover Preview"
+                class="cover-preview-img" onerror="this.src='https://via.placeholder.com/200x300?text=Cover+Not+Found'">
+              <p style="font-size: 12px; color: #87927B; text-align: center;">Cover Artwork</p>
+            </div>
+
+            <!-- Right Column: Form Inputs -->
+            <div class="form-fields">
+
+              <!-- Title -->
+              <div class="form-group">
+                <label class="form-label" for="book-title">Book Title *</label>
+                <input type="text" id="book-title" name="title" class="form-input" placeholder="Title of the volume"
+                  required>
+              </div>
+
+              <!-- Author -->
+              <div class="form-group">
+                <label class="form-label" for="book-author">Author *</label>
+                <input type="text" id="book-author" name="author" class="form-input" placeholder="Author's full name"
+                  required>
+              </div>
+
+              <!-- Genre & Page Count -->
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="book-genre">Genre / Category</label>
+                  <input type="text" id="book-genre" name="genre" class="form-input"
+                    placeholder="e.g. Fiction, Fantasy, History">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="book-pages">Page Count</label>
+                  <input type="number" id="book-pages" name="pages" class="form-input" placeholder="e.g. 384" min="1">
+                </div>
+              </div>
+
+              <!-- Publication Year & Publisher -->
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="book-year">Publication Year</label>
+                  <input type="number" id="book-year" name="publication_year" class="form-input"
+                    placeholder="e.g. 1965">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="book-publisher">Publisher</label>
+                  <input type="text" id="book-publisher" name="publisher" class="form-input"
+                    placeholder="e.g. Chilton Books">
+                </div>
+              </div>
+
+              <!-- ISBN & Cover URL -->
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="book-isbn">ISBN</label>
+                  <input type="text" id="book-isbn" name="isbn" class="form-input" placeholder="ISBN-10 or ISBN-13">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="book-cover-url">Cover Image URL</label>
+                  <input type="url" id="book-cover-url" name="cover" class="form-input" placeholder="https://..."
+                    oninput="updateCoverPreview(this.value)">
+                </div>
+              </div>
+
+              <!-- Shelf Assignment -->
+              <div class="form-group"
+                style="background: #f7f3ec; padding: 18px; border-radius: 10px; border: 1px solid rgba(182, 154, 99, 0.35);">
+                <label class="form-label" for="book-shelf" style="color: var(--forest-deep); font-size: 14px;">
+                  🔖 Choose Bookshelf *
+                </label>
+                <select id="book-shelf" name="shelf_id" class="form-select" onchange="handleShelfSelection(this.value)">
+                  <!-- Loaded dynamically -->
+                </select>
+
+                <!-- Inline Create New Shelf Field -->
+                <div class="shelf-create-row" id="inline-create-shelf-box">
+                  <input type="text" id="inline-shelf-name" class="form-input"
+                    placeholder="Create a new shelf (e.g. Favorites, Philosophy)..." style="font-size: 13px;">
+                  <button type="button" class="btn-secondary" onclick="createInlineShelf()"
+                    style="padding: 8px 16px; font-size: 13px; white-space: nowrap;">+ Add Shelf</button>
+                </div>
+              </div>
+
+              <!-- Reading Status -->
+              <div class="form-group">
+                <label class="form-label" for="book-status">Reading Status</label>
+                <select id="book-status" name="status" class="form-select">
+                  <option value="want-to-read" selected>Want to Read</option>
+                  <option value="reading">Currently Reading</option>
+                  <option value="completed">Completed</option>
+                </select>
+              </div>
+
+              <!-- Description -->
+              <div class="form-group">
+                <label class="form-label" for="book-description">Description / Synopsis</label>
+                <textarea id="book-description" name="description" class="form-textarea"
+                  placeholder="A brief synopsis of the volume..." rows="4"></textarea>
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" class="submit-btn-large" id="btn-save-book">
+                <span>📚</span>
+                <span>Confirm & Save to My Library</span>
+              </button>
+
+            </div><!-- /.form-fields -->
+          </div><!-- /.details-grid -->
+        </form>
+      </div>
+
     </div>
-  </div>
-</header>
+  </main>
 
-<!-- Main Content -->
-<main class="dashboard-main">
-  <section class="mb-lg">
-    <div style="max-width: 700px; margin: 0 auto;">
-      <h1 style="font-family: var(--font-serif); font-size: 36px; color: var(--forest-deep); margin-bottom: 8px;">
-        Add a New Book
-      </h1>
-      <p style="color: #666; margin-bottom: 32px;">
-        Add a book to your personal library. You can search for it online or enter details manually.
+  <!-- Success Confirmation Modal -->
+  <div id="success-modal" class="success-modal-backdrop">
+    <div class="success-modal">
+      <div class="success-icon">✨</div>
+      <h3 class="success-title">Volume Added</h3>
+      <p class="success-message" id="success-modal-message">
+        The book has been inscribed into your personal library archive.
       </p>
+      <div class="success-actions">
+        <a href="/library" class="btn-primary" style="text-align: center; justify-content: center;">
+          Go to My Library
+        </a>
+        <a id="success-view-book-btn" href="#" class="btn-secondary"
+          style="text-align: center; justify-content: center;">
+          View Book Details
+        </a>
+        <button type="button" class="shelf-cancel-btn" onclick="resetFormForAnother()"
+          style="padding: 12px; margin-top: 4px;">
+          + Add Another Book
+        </button>
+      </div>
     </div>
-  </section>
-
-  <div class="form-container">
-    <form id="add-book-form" onsubmit="handleSubmit(event)">
-      <!-- Book Title -->
-      <div class="form-group">
-        <label class="form-label" for="title">Book Title *</label>
-        <input type="text" 
-               id="title" 
-               name="title" 
-               class="form-input" 
-               placeholder="Enter the book title"
-               required>
-      </div>
-
-      <!-- Author -->
-      <div class="form-group">
-        <label class="form-label" for="author">Author *</label>
-        <input type="text" 
-               id="author" 
-               name="author" 
-               class="form-input" 
-               placeholder="Enter the author's name"
-               required>
-      </div>
-
-      <!-- Genre and Pages -->
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label" for="genre">Genre</label>
-          <select id="genre" name="genre" class="form-select">
-            <option value="">Select a genre</option>
-            <option value="Fiction">Fiction</option>
-            <option value="Non-Fiction">Non-Fiction</option>
-            <option value="Fantasy">Fantasy</option>
-            <option value="Science Fiction">Science Fiction</option>
-            <option value="Mystery">Mystery</option>
-            <option value="Thriller">Thriller</option>
-            <option value="Romance">Romance</option>
-            <option value="Historical Fiction">Historical Fiction</option>
-            <option value="Biography">Biography</option>
-            <option value="Memoir">Memoir</option>
-            <option value="Self-Help">Self-Help</option>
-            <option value="Poetry">Poetry</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="pages">Pages</label>
-          <input type="number" 
-                 id="pages" 
-                 name="pages" 
-                 class="form-input" 
-                 placeholder="Number of pages"
-                 min="1">
-        </div>
-      </div>
-
-      <!-- Cover URL -->
-      <div class="form-group">
-        <label class="form-label" for="cover">Cover Image URL</label>
-        <input type="url" 
-               id="cover" 
-               name="cover" 
-               class="form-input" 
-               placeholder="https://example.com/book-cover.jpg">
-      </div>
-
-      <!-- Status -->
-      <div class="form-group">
-        <label class="form-label" for="status">Reading Status *</label>
-        <select id="status" name="status" class="form-select" required>
-          <option value="want-to-read">Want to Read</option>
-          <option value="reading">Currently Reading</option>
-          <option value="completed">Completed</option>
-        </select>
-      </div>
-
-      <!-- Description -->
-      <div class="form-group">
-        <label class="form-label" for="description">Description</label>
-        <textarea id="description" 
-                  name="description" 
-                  class="form-textarea" 
-                  placeholder="Write a brief description or synopsis..."></textarea>
-      </div>
-
-      <!-- Submit Button -->
-      <button type="submit" class="submit-btn">
-        📚 Add to My Library
-      </button>
-    </form>
   </div>
-</main>
 
-<script>
-  function handleSubmit(event) {
-    event.preventDefault();
-    
-    const formData = new FormData(event.target);
-    const bookData = Object.fromEntries(formData.entries());
-    
-    console.log('Book added:', bookData);
-    
-    // TODO: Send to backend
-    alert('Book added successfully! (Backend integration coming soon)');
-    
-    // Redirect to library
-    setTimeout(() => {
-      window.location.href = '/library';
-    }, 1000);
-  }
-</script>
+  <!-- Add Book Logic Script -->
+  <script>
+    let userShelves = [];
+    let currentSearchResults = [];
+
+    // Switch between Search & Manual mode
+    function switchMode(mode) {
+      const searchSection = document.getElementById('search-section');
+      const tabSearch = document.getElementById('tab-search');
+      const tabManual = document.getElementById('tab-manual');
+
+      if (mode === 'search') {
+        searchSection.style.display = 'block';
+        tabSearch.classList.add('active');
+        tabManual.classList.remove('active');
+      } else {
+        searchSection.style.display = 'none';
+        tabSearch.classList.remove('active');
+        tabManual.classList.add('active');
+        // Clear form for manual entry
+        document.getElementById('add-book-form').reset();
+        updateCoverPreview('');
+      }
+    }
+
+    // Update image preview
+    function updateCoverPreview(url) {
+      const img = document.getElementById('preview-cover-img');
+      if (img) {
+        img.src = url && url.trim() ? url : 'https://via.placeholder.com/200x300?text=No+Cover';
+      }
+    }
+
+    // Fetch shelves from API
+    async function loadShelves() {
+      try {
+        const res = await fetch('/api/user/shelves');
+        const data = await res.json();
+        userShelves = data.shelves || [];
+
+        const select = document.getElementById('book-shelf');
+        if (!select) return;
+
+        select.innerHTML = userShelves.map(s => `
+        <option value="${s.id}">${escapeHtml(s.name)} (${s.book_count} books)</option>
+      `).join('');
+
+        // Auto-sync status with initial shelf
+        if (userShelves.length > 0) {
+          syncStatusWithShelf(userShelves[0].name);
+        }
+      } catch (e) {
+        console.error('Failed to load shelves:', e);
+      }
+    }
+
+    function handleShelfSelection(shelfId) {
+      const s = userShelves.find(x => String(x.id) === String(shelfId));
+      if (s) {
+        syncStatusWithShelf(s.name);
+      }
+    }
+
+    function syncStatusWithShelf(shelfName) {
+      const statusSelect = document.getElementById('book-status');
+      if (!statusSelect) return;
+      const lower = shelfName.toLowerCase();
+      if (lower === 'currently reading') {
+        statusSelect.value = 'reading';
+      } else if (lower === 'completed') {
+        statusSelect.value = 'completed';
+      } else if (lower === 'want to read') {
+        statusSelect.value = 'want-to-read';
+      }
+    }
+
+    async function createInlineShelf() {
+      const input = document.getElementById('inline-shelf-name');
+      const name = input ? input.value.trim() : '';
+      if (!name) return;
+
+      try {
+        const res = await fetch('/api/user/shelves', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: name })
+        });
+        const data = await res.json();
+        if (data.success) {
+          input.value = '';
+          await loadShelves();
+          const select = document.getElementById('book-shelf');
+          if (select) select.value = data.id;
+          handleShelfSelection(data.id);
+        } else {
+          alert(data.error || 'Failed to create shelf');
+        }
+      } catch (e) {
+        console.error(e);
+        alert('Error creating shelf');
+      }
+    }
+
+    // Open Library & Google Books search
+    async function handleArchiveSearch(event) {
+      event.preventDefault();
+      const query = document.getElementById('archive-search-input').value.trim();
+      if (!query) return;
+
+      const btn = document.getElementById('search-submit-btn');
+      btn.innerHTML = '<span>Searching...</span>';
+      btn.disabled = true;
+
+      const resultsBox = document.getElementById('search-results-box');
+      const grid = document.getElementById('results-grid');
+      resultsBox.style.display = 'block';
+      grid.innerHTML = '<p style="color:#87927B; grid-column:1/-1; text-align:center;">Consulting the Great Archives&hellip;</p>';
+
+      try {
+        const params = new URLSearchParams({
+          q: query,
+          limit: 12,
+          fields: 'key,title,author_name,cover_i,subject,first_publish_year,number_of_pages_median,isbn,publisher'
+        });
+
+        const response = await fetch(`https://openlibrary.org/search.json?${params}`);
+        const data = await response.json();
+        const docs = (data.docs || []).filter(d => d.title);
+
+        currentSearchResults = docs;
+
+        if (docs.length === 0) {
+          grid.innerHTML = `
+          <div style="grid-column:1/-1; text-align:center; padding: 24px; color: #87927B;">
+            <p>No matching volumes found in the archive for "${escapeHtml(query)}".</p>
+            <p style="font-size:13px; margin-top:8px;">You can enter the book's details manually using the tab above.</p>
+          </div>
+        `;
+          return;
+        }
+
+        grid.innerHTML = docs.map((doc, idx) => {
+          const cover = doc.cover_i ? `https://covers.openlibrary.org/b/id/${doc.cover_i}-M.jpg` : 'https://via.placeholder.com/70x105?text=No+Cover';
+          const title = escapeHtml(doc.title || 'Untitled');
+          const author = doc.author_name ? escapeHtml(doc.author_name[0]) : 'Unknown Author';
+          const year = doc.first_publish_year ? `${doc.first_publish_year}` : '';
+          const pages = doc.number_of_pages_median ? `${doc.number_of_pages_median} pp.` : '';
+
+          return `
+          <div class="result-card">
+            <img src="${cover}" alt="Cover" class="result-cover" onerror="this.src='https://via.placeholder.com/70x105?text=No+Cover'">
+            <div class="result-info">
+              <div>
+                <h4 class="result-title">${title}</h4>
+                <p class="result-author">by ${author}</p>
+                <p class="result-meta">${[year, pages].filter(Boolean).join(' · ')}</p>
+              </div>
+              <button type="button" class="select-book-btn" onclick="selectSearchResult(${idx})">
+                ✓ Select Book
+              </button>
+            </div>
+          </div>
+        `;
+        }).join('');
+
+      } catch (err) {
+        console.error(err);
+        grid.innerHTML = `<p style="color:#c94a4a; grid-column:1/-1; text-align:center;">Unable to search the archive. Please check your connection or enter manually.</p>`;
+      } finally {
+        btn.innerHTML = '<span>Search</span>';
+        btn.disabled = false;
+      }
+    }
+
+    // Populate metadata from selected search candidate
+    async function selectSearchResult(index) {
+      const doc = currentSearchResults[index];
+      if (!doc) return;
+
+      const titleInput = document.getElementById('book-title');
+      const authorInput = document.getElementById('book-author');
+      const genreInput = document.getElementById('book-genre');
+      const pagesInput = document.getElementById('book-pages');
+      const yearInput = document.getElementById('book-year');
+      const publisherInput = document.getElementById('book-publisher');
+      const isbnInput = document.getElementById('book-isbn');
+      const coverInput = document.getElementById('book-cover-url');
+      const descInput = document.getElementById('book-description');
+
+      const coverUrl = doc.cover_i ? `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg` : '';
+
+      titleInput.value = doc.title || '';
+      authorInput.value = doc.author_name ? doc.author_name[0] : '';
+      genreInput.value = doc.subject ? doc.subject[0] : '';
+      pagesInput.value = doc.number_of_pages_median || '';
+      yearInput.value = doc.first_publish_year || '';
+      publisherInput.value = doc.publisher ? doc.publisher[0] : '';
+      isbnInput.value = doc.isbn ? doc.isbn[0] : '';
+      coverInput.value = coverUrl;
+      updateCoverPreview(coverUrl);
+
+      descInput.value = 'Fetching synopsis from archives...';
+
+      // Fetch work description if key is available
+      if (doc.key) {
+        try {
+          const workRes = await fetch(`https://openlibrary.org${doc.key}.json`);
+          if (workRes.ok) {
+            const workData = await workRes.json();
+            let description = '';
+            if (typeof workData.description === 'string') {
+              description = workData.description;
+            } else if (workData.description && workData.description.value) {
+              description = workData.description.value;
+            }
+            descInput.value = description || 'A work from the archives.';
+          } else {
+            descInput.value = '';
+          }
+        } catch (e) {
+          descInput.value = '';
+        }
+      } else {
+        descInput.value = '';
+      }
+
+      // Scroll smoothly to details panel
+      document.getElementById('details-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Save book via POST /api/books/add
+    async function handleSaveBook(event) {
+      event.preventDefault();
+
+      const btn = document.getElementById('btn-save-book');
+      btn.innerHTML = '<span>Inscribing into Library...</span>';
+      btn.disabled = true;
+
+      const payload = {
+        title: document.getElementById('book-title').value.trim(),
+        author: document.getElementById('book-author').value.trim(),
+        genre: document.getElementById('book-genre').value.trim(),
+        pages: parseInt(document.getElementById('book-pages').value) || null,
+        publication_year: parseInt(document.getElementById('book-year').value) || null,
+        publisher: document.getElementById('book-publisher').value.trim(),
+        isbn: document.getElementById('book-isbn').value.trim(),
+        cover: document.getElementById('book-cover-url').value.trim(),
+        shelf_id: document.getElementById('book-shelf').value,
+        status: document.getElementById('book-status').value,
+        description: document.getElementById('book-description').value.trim()
+      };
+
+      try {
+        const res = await fetch('/api/books/add', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          // Show success modal
+          const modal = document.getElementById('success-modal');
+          const msg = document.getElementById('success-modal-message');
+          const viewBtn = document.getElementById('success-view-book-btn');
+
+          msg.textContent = `"${data.title}" has been successfully added to your personal library.`;
+          viewBtn.href = `/book?id=${data.book_id}`;
+
+          modal.classList.add('active');
+        } else {
+          alert(data.error || 'Failed to add book');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Network error while saving book.');
+      } finally {
+        btn.innerHTML = '<span>📚</span><span>Confirm & Save to My Library</span>';
+        btn.disabled = false;
+      }
+    }
+
+    function resetFormForAnother() {
+      const modal = document.getElementById('success-modal');
+      modal.classList.remove('active');
+      document.getElementById('add-book-form').reset();
+      updateCoverPreview('');
+      document.getElementById('archive-search-input').value = '';
+      document.getElementById('search-results-box').style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      loadShelves();
+    });
+  </script>
 
 </body>
+
 </html>

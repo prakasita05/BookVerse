@@ -3,6 +3,10 @@
    book-detail.css
    ==================================================== */
 
+:root {
+  --forest-muted: #2d4434;
+}
+
 /* ====================================================
    BACK LINK
    ==================================================== */
@@ -125,46 +129,326 @@
 
 .book-actions {
   display: flex;
-  gap: var(--space-md);
+  gap: 12px;
   margin-bottom: var(--space-xl);
   flex-wrap: wrap;
+  align-items: center;
+}
+
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 24px;
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.015em;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+  box-sizing: border-box;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .btn-primary {
-  padding: 14px 28px;
-  background: var(--forest-muted);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-family: var(--font-sans);
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #1a2e20 0%, #243B2E 100%);
+  color: #F4EBD8 !important;
+  border: 1px solid rgba(182, 154, 99, 0.4);
+  box-shadow: 0 4px 14px rgba(13, 24, 16, 0.25);
 }
 
 .btn-primary:hover {
-  background: var(--forest-deep);
+  background: linear-gradient(135deg, #243B2E 0%, #3d5a40 100%);
+  color: #ffffff !important;
+  border-color: rgba(201, 169, 110, 0.75);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 6px 20px rgba(13, 24, 16, 0.32), 0 0 16px rgba(182, 154, 99, 0.25);
 }
 
+/* Add to Shelf & Secondary actions — clearly visible by default with dark botanical border & parchment background */
 .btn-secondary {
-  padding: 14px 28px;
-  background: white;
-  color: var(--forest-muted);
-  border: 1px solid var(--forest-muted);
-  border-radius: 8px;
-  font-family: var(--font-sans);
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  background: #fdfbf7;
+  color: #1a2e20 !important;
+  border: 1.5px solid #2d4434 !important;
+  box-shadow: 0 2px 8px rgba(13, 24, 16, 0.08);
 }
 
 .btn-secondary:hover {
-  background: rgba(61, 90, 64, 0.05);
+  background: #1a2e20;
+  color: #F4EBD8 !important;
+  border-color: #B69A63 !important;
   transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(13, 24, 16, 0.22);
+}
+
+.btn-secondary:active,
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary.active-shelf,
+.btn-secondary.in-wishlist {
+  background: #243B2E;
+  color: #f4ebd8 !important;
+  border-color: #c9a96e !important;
+}
+
+.btn-primary svg,
+.btn-secondary svg {
+  width: 17px;
+  height: 17px;
+  stroke: currentColor;
+  flex-shrink: 0;
+}
+
+/* ====================================================
+   SHELF SELECTION MODAL
+   ==================================================== */
+.shelf-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(13, 24, 16, 0.68);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  padding: 16px;
+}
+
+.shelf-modal-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.shelf-modal {
+  width: 100%;
+  max-width: 440px;
+  background: #fbf9f4;
+  border-radius: 14px;
+  border: 1px solid rgba(182, 154, 99, 0.35);
+  box-shadow: 0 20px 50px rgba(13, 24, 16, 0.5), 0 0 20px rgba(182, 154, 99, 0.15);
+  overflow: hidden;
+  transform: scale(0.95) translateY(10px);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.shelf-modal-backdrop.active .shelf-modal {
+  transform: scale(1) translateY(0);
+}
+
+.shelf-modal-header {
+  padding: 20px 24px;
+  background: linear-gradient(135deg, #1a2e20 0%, #243B2E 100%);
+  color: #F4EBD8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(182, 154, 99, 0.3);
+}
+
+.shelf-modal-title {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 500;
+  color: #F4EBD8;
+  margin: 0;
+}
+
+.shelf-modal-close {
+  background: transparent;
+  border: none;
+  color: #d4c4a8;
+  font-size: 22px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+  transition: color 0.2s ease;
+}
+
+.shelf-modal-close:hover {
+  color: #ffffff;
+}
+
+.shelf-modal-body {
+  padding: 24px;
+}
+
+.shelf-book-target {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  color: #6B4B35;
+  font-style: italic;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(182, 154, 99, 0.18);
+}
+
+.shelves-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 240px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  padding-right: 4px;
+}
+
+.shelf-option-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: #ffffff;
+  border: 1px solid rgba(61, 90, 64, 0.15);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.shelf-option-item:hover {
+  border-color: #B69A63;
+  background: #f7f3ec;
+}
+
+.shelf-option-item.selected {
+  border-color: #243B2E;
+  background: rgba(36, 59, 46, 0.08);
+  box-shadow: inset 0 0 0 1px #243B2E;
+}
+
+.shelf-option-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.shelf-option-name {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a2e20;
+}
+
+.shelf-option-count {
+  font-size: 12px;
+  color: #87927B;
+}
+
+.create-shelf-inline {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.create-shelf-input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid rgba(61, 90, 64, 0.2);
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  background: #ffffff;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.create-shelf-input:focus {
+  border-color: #243B2E;
+  box-shadow: 0 0 0 2px rgba(36, 59, 46, 0.12);
+}
+
+.create-shelf-btn {
+  padding: 10px 16px;
+  background: #f7f3ec;
+  border: 1px solid #2d4434;
+  color: #1a2e20;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.create-shelf-btn:hover {
+  background: #2d4434;
+  color: #ffffff;
+}
+
+.shelf-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.shelf-cancel-btn {
+  padding: 11px 20px;
+  background: transparent;
+  border: 1px solid rgba(61, 90, 64, 0.25);
+  border-radius: 6px;
+  color: #4a3728;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.shelf-save-btn {
+  padding: 11px 24px;
+  background: #243B2E;
+  border: 1px solid #B69A63;
+  border-radius: 6px;
+  color: #F4EBD8;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.shelf-save-btn:hover {
+  background: #1a2e20;
+  border-color: #c9a96e;
+}
+
+/* ====================================================
+   TOAST NOTIFICATION
+   ==================================================== */
+.bookverse-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #1a2e20;
+  color: #F4EBD8;
+  border: 1px solid #B69A63;
+  padding: 14px 22px;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 2000;
+  transform: translateY(20px);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bookverse-toast.show {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .reading-progress-section {

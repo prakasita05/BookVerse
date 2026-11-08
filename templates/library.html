@@ -61,16 +61,16 @@
   <!-- Filter Options -->
   <section class="mb-lg">
     <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-      <button class="book-genre" style="padding: 10px 20px; cursor: pointer; border: none; font-size: 14px;" onclick="filterLibrary('all')">
+      <button class="filter-tab-btn genre-chip active" data-filter="all" style="padding: 10px 20px; cursor: pointer; font-size: 14px;" onclick="filterLibrary('all')">
         All Books <span id="filter-count-all">(0)</span>
       </button>
-      <button class="book-genre" style="padding: 10px 20px; cursor: pointer; border: none; font-size: 14px;" onclick="filterLibrary('reading')">
+      <button class="filter-tab-btn genre-chip" data-filter="reading" style="padding: 10px 20px; cursor: pointer; font-size: 14px;" onclick="filterLibrary('reading')">
         Currently Reading <span id="filter-count-reading">(0)</span>
       </button>
-      <button class="book-genre" style="padding: 10px 20px; cursor: pointer; border: none; font-size: 14px;" onclick="filterLibrary('completed')">
+      <button class="filter-tab-btn genre-chip" data-filter="completed" style="padding: 10px 20px; cursor: pointer; font-size: 14px;" onclick="filterLibrary('completed')">
         Completed <span id="filter-count-completed">(0)</span>
       </button>
-      <button class="book-genre" style="padding: 10px 20px; cursor: pointer; border: none; font-size: 14px;" onclick="filterLibrary('want-to-read')">
+      <button class="filter-tab-btn genre-chip" data-filter="want-to-read" style="padding: 10px 20px; cursor: pointer; font-size: 14px;" onclick="filterLibrary('want-to-read')">
         Want to Read <span id="filter-count-wishlist">(0)</span>
       </button>
     </div>

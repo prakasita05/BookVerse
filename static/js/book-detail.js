@@ -10,66 +10,166 @@
   let allReviews = [];
   let allComments = [];
   let currentSort = 'newest';
-  let currentUserId = null; // Will be set from authenticated session
+  let currentUserId = null;
   let selectedRating = 0;
+  let selectedShelfId = null;
 
   /* ====================================================
-     1. LOAD BOOK DETAILS
+     1. LOAD BOOK DETAILS (FROM BACKEND DB API)
      ==================================================== */
   async function loadBookDetails() {
     try {
-      // Get book ID from URL query parameter
       const urlParams = new URLSearchParams(window.location.search);
       const bookId = parseInt(urlParams.get('id'));
 
       if (!bookId) {
         console.error('No book ID provided');
+        showBookNotFound('No book selected. Please return to the library.');
         return;
       }
 
-      // Load books data
-      const booksResponse = await fetch('/static/data/books.json');
-      const booksData = await booksResponse.json();
-      currentBook = booksData.books.find(book => book.id === bookId);
+      // Fetch from Flask REST API
+      const response = await fetch(`/api/books/${bookId}`);
+      if (!response.ok) {
+        throw new Error(`API error ${response.status}`);
+      }
+
+      const data = await response.json();
+      currentBook = data.book;
 
       if (!currentBook) {
-        console.error('Book not found');
+        showBookNotFound('Book not found in archive.');
         return;
       }
 
-      // Render book details
-      renderBookDetails();
+      // Render book details and user personal state
+      renderBookDetails(data);
 
-      // Load reviews
-      await loadReviews(bookId);
+      // Render reviews
+      allReviews = data.reviews || [];
+      updateRatingDisplay(data.rating_avg || 0, data.rating_count || 0);
+      renderReviews();
 
     } catch (error) {
-      console.error('Error loading book details:', error);
+      console.warn('API fetch failed, trying local fallback:', error);
+      // Fallback for static assets
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const bookId = parseInt(urlParams.get('id'));
+        const booksResponse = await fetch('/static/data/books.json');
+        const booksData = await booksResponse.json();
+        currentBook = booksData.books.find(book => book.id === bookId);
+        if (currentBook) {
+          renderBookDetails({ book: currentBook });
+          updateRatingDisplay(0, 0);
+          renderReviews();
+          return;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+      showBookNotFound('Unable to load book details.');
+    }
+  }
+
+  function showBookNotFound(msg) {
+    const main = document.querySelector('.dashboard-main');
+    if (main) {
+      main.innerHTML = `
+        <div style="text-align: center; padding: 80px 20px; max-width: 600px; margin: 0 auto;">
+          <h2 style="font-family: var(--font-serif); font-size: 32px; color: var(--forest-deep); margin-bottom: 12px;">Book Not Found</h2>
+          <p style="color: #666; margin-bottom: 24px;">${msg}</p>
+          <a href="/library" class="btn-primary" style="display: inline-block;">Return to My Library</a>
+        </div>
+      `;
     }
   }
 
   /* ====================================================
-     2. RENDER BOOK DETAILS
+     2. RENDER BOOK DETAILS & PERSONAL STATE
      ==================================================== */
-  function renderBookDetails() {
+  function renderBookDetails(data) {
     if (!currentBook) return;
 
-    document.getElementById('book-cover').src = currentBook.cover;
-    document.getElementById('book-title').textContent = currentBook.title;
-    document.getElementById('book-author').textContent = `by ${currentBook.author}`;
-    document.getElementById('book-genre').textContent = currentBook.genre;
-    document.getElementById('book-pages').textContent = `${currentBook.pages} pages`;
-    document.getElementById('book-description').textContent = currentBook.description;
-
-    // Update page title
-    document.title = `${currentBook.title} — BookVerse`;
-
-    // Note: Reading progress will be shown once UserBook database is integrated
-    // For now, hide the progress section
-    const progressSection = document.getElementById('reading-progress-section');
-    if (progressSection) {
-      progressSection.style.display = 'none';
+    const coverEl = document.getElementById('book-cover');
+    if (coverEl) {
+      coverEl.src = currentBook.cover || '';
+      coverEl.alt = `Cover of ${currentBook.title || 'Book'}`;
     }
+
+    const titleEl = document.getElementById('book-title');
+    if (titleEl) titleEl.textContent = currentBook.title || 'Untitled';
+
+    const authorEl = document.getElementById('book-author');
+    if (authorEl) authorEl.textContent = `by ${currentBook.author || 'Unknown Author'}`;
+
+    const genreEl = document.getElementById('book-genre');
+    if (genreEl) genreEl.textContent = currentBook.genre || 'General';
+
+    const pagesEl = document.getElementById('book-pages');
+    if (pagesEl) pagesEl.textContent = currentBook.pages ? `${currentBook.pages} pages` : '— pages';
+
+    const descEl = document.getElementById('book-description');
+    if (descEl) descEl.textContent = currentBook.description || 'No description available for this edition.';
+
+    document.title = `${currentBook.title || 'Book Details'} — BookVerse`;
+
+    // Personal user reading state
+    const userStatus = data ? data.user_status : null;
+    const userProgress = data ? (data.user_progress || 0) : 0;
+    const userCurrentPage = data ? (data.user_current_page || 0) : 0;
+    const userShelves = data && data.user_shelves ? data.user_shelves : [];
+
+    const progressSection = document.getElementById('reading-progress-section');
+    const readingText = document.getElementById('btn-reading-text');
+    const shelfText = document.getElementById('btn-shelf-text');
+    const shelfBtn = document.getElementById('btn-add-to-shelf');
+    const wishlistText = document.getElementById('btn-wishlist-text');
+    const wishlistBtn = document.getElementById('btn-wishlist');
+
+    // Currently Reading
+    if (userStatus === 'reading') {
+      if (progressSection) progressSection.style.display = 'block';
+      if (readingText) readingText.textContent = 'Currently Reading';
+      updateProgressDisplay(userCurrentPage, userProgress);
+    } else if (userStatus === 'completed') {
+      if (progressSection) progressSection.style.display = 'block';
+      if (readingText) readingText.textContent = 'Completed ✓';
+      updateProgressDisplay(currentBook.pages || userCurrentPage, 100);
+    } else {
+      if (progressSection) progressSection.style.display = 'none';
+      if (readingText) readingText.textContent = 'Start Reading';
+    }
+
+    // Shelf Button State
+    if (userShelves.length > 0) {
+      if (shelfText) shelfText.textContent = `On Shelf: ${userShelves[0]}`;
+      if (shelfBtn) shelfBtn.classList.add('active-shelf');
+    } else {
+      if (shelfText) shelfText.textContent = 'Add to Shelf';
+      if (shelfBtn) shelfBtn.classList.remove('active-shelf');
+    }
+
+    // Wishlist Button State
+    if (userStatus === 'want-to-read') {
+      if (wishlistText) wishlistText.textContent = 'In Wishlist ✓';
+      if (wishlistBtn) wishlistBtn.classList.add('in-wishlist');
+    } else {
+      if (wishlistText) wishlistText.textContent = 'Wishlist';
+      if (wishlistBtn) wishlistBtn.classList.remove('in-wishlist');
+    }
+  }
+
+  function updateProgressDisplay(currentPage, percentage) {
+    const fill = document.getElementById('progress-fill');
+    const pct = document.getElementById('progress-percentage');
+    const pages = document.getElementById('progress-pages');
+    const input = document.getElementById('input-current-page');
+
+    if (fill) fill.style.width = `${percentage}%`;
+    if (pct) pct.textContent = `${percentage}%`;
+    if (pages) pages.textContent = `${currentPage} / ${currentBook.pages || '—'} pages`;
+    if (input) input.value = currentPage;
   }
 
   /* ====================================================
@@ -450,18 +550,285 @@ function deleteReview(reviewId) {
   }
 }
 
-// Book actions
-function startReading() {
-  console.log('Start reading');
-  alert('Reading interface coming soon!');
+// ====================================================
+// TOAST NOTIFICATION UTILITY
+// ====================================================
+function showToast(message, duration = 3200) {
+  let toast = document.getElementById('bookverse-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'bookverse-toast';
+    toast.className = 'bookverse-toast';
+    document.body.appendChild(toast);
+  }
+  toast.innerHTML = `<span>❧</span> <span>${message}</span>`;
+  toast.classList.add('show');
+  clearTimeout(window._toastTimeout);
+  window._toastTimeout = setTimeout(() => {
+    toast.classList.remove('show');
+  }, duration);
 }
 
-function addToShelf() {
-  console.log('Add to shelf');
-  alert('Shelf management coming soon!');
+// ====================================================
+// BOOK ACTIONS & BACKEND PERSISTENCE
+// ====================================================
+
+// 1. Reading Action (Start Reading / Toggle Status)
+async function handleReadingAction() {
+  if (!currentBook) return;
+
+  try {
+    const res = await fetch('/api/user/books/update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        book_id: currentBook.id,
+        status: 'reading'
+      })
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      showToast(`Added "${currentBook.title}" to Currently Reading`);
+      const progressSection = document.getElementById('reading-progress-section');
+      if (progressSection) progressSection.style.display = 'block';
+      const readingText = document.getElementById('btn-reading-text');
+      if (readingText) readingText.textContent = 'Currently Reading';
+      updateProgressDisplay(data.current_page || 0, data.progress || 0);
+    } else {
+      showToast(data.error || 'Failed to update reading status');
+    }
+  } catch (err) {
+    console.error('Error starting reading:', err);
+    showToast('Network error while updating reading status');
+  }
 }
 
-function toggleWishlist() {
-  console.log('Toggle wishlist');
-  alert('Wishlist functionality coming soon!');
+// 2. Save Current Page Progress
+async function savePageProgress() {
+  if (!currentBook) return;
+  const input = document.getElementById('input-current-page');
+  const pageVal = parseInt(input ? input.value : 0) || 0;
+  const totalPages = currentBook.pages || 1;
+  const clampedPage = Math.min(pageVal, totalPages);
+  const pct = Math.min(100, Math.round((clampedPage / totalPages) * 100));
+  const newStatus = pct >= 100 ? 'completed' : 'reading';
+
+  try {
+    const res = await fetch('/api/user/books/update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        book_id: currentBook.id,
+        current_page: clampedPage,
+        progress: pct,
+        status: newStatus
+      })
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      showToast(newStatus === 'completed' ? `Congratulations! You finished "${currentBook.title}"!` : `Progress updated to page ${clampedPage} (${pct}%)`);
+      updateProgressDisplay(clampedPage, pct);
+      const readingText = document.getElementById('btn-reading-text');
+      if (readingText) {
+        readingText.textContent = newStatus === 'completed' ? 'Completed ✓' : 'Currently Reading';
+      }
+    } else {
+      showToast(data.error || 'Failed to update progress');
+    }
+  } catch (err) {
+    console.error('Error saving progress:', err);
+    showToast('Network error updating progress');
+  }
 }
+
+// 3. Wishlist Action
+async function toggleWishlist() {
+  if (!currentBook) return;
+  const wishlistBtn = document.getElementById('btn-wishlist');
+  const isCurrentlyInWishlist = wishlistBtn && wishlistBtn.classList.contains('in-wishlist');
+  const targetStatus = isCurrentlyInWishlist ? 'want-to-read' : 'want-to-read';
+
+  try {
+    const res = await fetch('/api/user/books/update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        book_id: currentBook.id,
+        status: targetStatus
+      })
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      showToast(`"${currentBook.title}" saved to your Wishlist`);
+      const wishlistText = document.getElementById('btn-wishlist-text');
+      if (wishlistText) wishlistText.textContent = 'In Wishlist ✓';
+      if (wishlistBtn) wishlistBtn.classList.add('in-wishlist');
+    } else {
+      showToast(data.error || 'Failed to update wishlist');
+    }
+  } catch (err) {
+    console.error('Error toggling wishlist:', err);
+    showToast('Network error updating wishlist');
+  }
+}
+
+// ====================================================
+// SHELF MODAL INTERACTION
+// ====================================================
+async function openShelfModal() {
+  if (!currentBook) return;
+  const backdrop = document.getElementById('shelf-modal-backdrop');
+  const bookTarget = document.getElementById('modal-book-title');
+  if (bookTarget) {
+    bookTarget.textContent = `Adding "${currentBook.title}" by ${currentBook.author}`;
+  }
+
+  if (backdrop) backdrop.classList.add('active');
+  await loadUserShelvesForModal();
+}
+
+function closeShelfModal(e) {
+  if (e && e.target && e.target.id !== 'shelf-modal-backdrop' && !e.target.classList.contains('shelf-modal-close') && !e.target.classList.contains('shelf-cancel-btn')) {
+    return;
+  }
+  const backdrop = document.getElementById('shelf-modal-backdrop');
+  if (backdrop) backdrop.classList.remove('active');
+}
+
+async function loadUserShelvesForModal() {
+  const container = document.getElementById('modal-shelves-list');
+  if (!container) return;
+
+  container.innerHTML = '<p style="color:#87927B; font-size:13px; text-align:center;">Loading shelves...</p>';
+
+  try {
+    const res = await fetch('/api/user/shelves');
+    const data = await res.json();
+    const shelves = data.shelves || [];
+
+    if (shelves.length === 0) {
+      container.innerHTML = '<p style="color:#87927B; font-size:13px; text-align:center;">No custom shelves yet. Create one below!</p>';
+      return;
+    }
+
+    container.innerHTML = shelves.map((shelf, idx) => `
+      <div class="shelf-option-item ${idx === 0 ? 'selected' : ''}" 
+           data-shelf-id="${shelf.id}" 
+           data-shelf-name="${escapeHtml(shelf.name)}"
+           onclick="selectShelfItem(this, ${shelf.id})">
+        <div class="shelf-option-left">
+          <input type="radio" name="shelf-radio" value="${shelf.id}" ${idx === 0 ? 'checked' : ''}>
+          <span class="shelf-option-name">${escapeHtml(shelf.name)}</span>
+        </div>
+        <span class="shelf-option-count">${shelf.book_count} books</span>
+      </div>
+    `).join('');
+
+    if (shelves.length > 0) {
+      selectedShelfId = shelves[0].id;
+    }
+  } catch (err) {
+    console.error('Failed to load shelves:', err);
+    container.innerHTML = '<p style="color:#c94a4a; font-size:13px; text-align:center;">Failed to load shelves.</p>';
+  }
+}
+
+function selectShelfItem(element, shelfId) {
+  document.querySelectorAll('.shelf-option-item').forEach(el => el.classList.remove('selected'));
+  element.classList.add('selected');
+  const radio = element.querySelector('input[type="radio"]');
+  if (radio) radio.checked = true;
+  selectedShelfId = shelfId;
+}
+
+async function createNewShelfInline() {
+  const input = document.getElementById('new-shelf-input');
+  const name = input ? input.value.trim() : '';
+  if (!name) return;
+
+  try {
+    const res = await fetch('/api/user/shelves', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: name })
+    });
+    const data = await res.json();
+    if (data.success) {
+      input.value = '';
+      await loadUserShelvesForModal();
+      selectedShelfId = data.id;
+      showToast(`Created shelf "${name}"`);
+    } else {
+      showToast(data.error || 'Failed to create shelf');
+    }
+  } catch (err) {
+    console.error('Error creating shelf:', err);
+    showToast('Network error creating shelf');
+  }
+}
+
+async function confirmAddToShelf() {
+  if (!currentBook) return;
+  if (!selectedShelfId) {
+    showToast('Please select a shelf first');
+    return;
+  }
+
+  const selectedEl = document.querySelector(`.shelf-option-item[data-shelf-id="${selectedShelfId}"]`);
+  const shelfName = selectedEl ? selectedEl.getAttribute('data-shelf-name') : 'Shelf';
+
+  try {
+    const res = await fetch('/api/user/shelves/add-book', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        book_id: currentBook.id,
+        shelf_id: selectedShelfId
+      })
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      const backdrop = document.getElementById('shelf-modal-backdrop');
+      if (backdrop) backdrop.classList.remove('active');
+
+      const shelfText = document.getElementById('btn-shelf-text');
+      const shelfBtn = document.getElementById('btn-add-to-shelf');
+      if (shelfText) shelfText.textContent = `On Shelf: ${shelfName}`;
+      if (shelfBtn) shelfBtn.classList.add('active-shelf');
+
+      showToast(`Added "${currentBook.title}" to "${shelfName}"`);
+    } else {
+      showToast(data.error || 'Failed to add to shelf');
+    }
+  } catch (err) {
+    console.error('Error adding book to shelf:', err);
+    showToast('Network error adding to shelf');
+  }
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+// Expose functions globally for onclick handlers
+window.handleReadingAction = handleReadingAction;
+window.startReading = handleReadingAction;
+window.savePageProgress = savePageProgress;
+window.toggleWishlist = toggleWishlist;
+window.openShelfModal = openShelfModal;
+window.addToShelf = openShelfModal;
+window.closeShelfModal = closeShelfModal;
+window.selectShelfItem = selectShelfItem;
+window.createNewShelfInline = createNewShelfInline;
+window.confirmAddToShelf = confirmAddToShelf;
+window.showToast = showToast;

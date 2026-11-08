@@ -1,6 +1,9 @@
 /**
  * BookVerse — Library Page JavaScript
  * library.js
+ *
+ * User-controlled library connected to SQLite database via /api/user/books.
+ * Renders enchanted 3D physical book chassis with hover opening effect.
  */
 
 (function () {
@@ -10,67 +13,118 @@
   let currentFilter = 'all';
 
   /* ====================================================
-     LOAD BOOKS DATA
+     1. LOAD USER'S BOOKS DATA FROM API
+     New users start with an EMPTY library (0 books).
      ==================================================== */
   async function loadBooks() {
+    const container = document.getElementById('library-books-container');
+    if (container) {
+      container.innerHTML = `
+        <div style="text-align: center; padding: 48px; color: #87927B; grid-column: 1 / -1;">
+          <div class="loading-ornament" style="margin: 0 auto 12px auto;"></div>
+          <p style="font-family: var(--font-serif); font-size: 18px;">Consulting your personal archives&hellip;</p>
+        </div>
+      `;
+    }
+
     try {
-      const response = await fetch('/static/data/books.json');
+      const response = await fetch('/api/user/books');
       if (!response.ok) {
-        throw new Error('Failed to load books data');
+        throw new Error('Failed to load user books: ' + response.status);
       }
       const data = await response.json();
       booksData = data.books || [];
-      console.log('Books loaded:', booksData.length);
+      console.log('User books loaded:', booksData.length);
+      updateFilterCounts();
       renderLibrary();
     } catch (error) {
-      console.error('Error loading books:', error);
+      console.error('Error loading user books:', error);
       booksData = [];
+      updateFilterCounts();
       renderLibrary();
     }
   }
 
   /* ====================================================
-     RENDER LIBRARY
+     2. UPDATE FILTER COUNTS
+     ==================================================== */
+  function updateFilterCounts() {
+    const allCount = booksData.length;
+    const readingCount = booksData.filter(b => b.status === 'reading').length;
+    const completedCount = booksData.filter(b => b.status === 'completed').length;
+    const wishlistCount = booksData.filter(b => b.status === 'want-to-read').length;
+
+    const elAll = document.getElementById('filter-count-all');
+    const elReading = document.getElementById('filter-count-reading');
+    const elCompleted = document.getElementById('filter-count-completed');
+    const elWishlist = document.getElementById('filter-count-wishlist');
+
+    if (elAll) elAll.textContent = `(${allCount})`;
+    if (elReading) elReading.textContent = `(${readingCount})`;
+    if (elCompleted) elCompleted.textContent = `(${completedCount})`;
+    if (elWishlist) elWishlist.textContent = `(${wishlistCount})`;
+  }
+
+  /* ====================================================
+     3. RENDER LIBRARY WITH ENCHANTED 3D BOOK CHASSIS
      ==================================================== */
   function renderLibrary() {
     const container = document.getElementById('library-books-container');
     if (!container) return;
 
+    // Filter books based on selected tab
     let filteredBooks = booksData;
-    
-    // Note: Filtering by status will be implemented once
-    // we integrate with UserBook database table
-    // For now, show all books from global catalog
+    if (currentFilter !== 'all') {
+      filteredBooks = booksData.filter(b => b.status === currentFilter);
+    }
 
     if (filteredBooks.length === 0) {
-      container.innerHTML = `
-        <div style="
-          text-align: center;
-          padding: 80px;
-          color: #999;
-          grid-column: 1 / -1;
-        ">
-          <div style="font-size: 64px; margin-bottom: 16px;">📚</div>
-          <h3 style="
-            font-family: var(--font-serif);
-            font-size: 24px;
-            margin-bottom: 8px;
-            color: #555;
-          ">Your library is waiting</h3>
-          <p style="margin-bottom: 24px;">
-            Discover books from the catalog and start building your personal collection.
-          </p>
-          <a href="/add-book" style="
-            display: inline-block;
-            padding: 12px 24px;
-            background: var(--forest-muted);
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 500;
-          ">Explore Book Catalog</a>
-        </div>
-      `;
+      if (booksData.length === 0) {
+        // Complete empty state for brand new user
+        container.innerHTML = `
+          <div style="
+            text-align: center;
+            padding: 72px 24px;
+            color: #4a3728;
+            grid-column: 1 / -1;
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid rgba(182, 154, 99, 0.25);
+            box-shadow: 0 8px 24px rgba(13, 24, 16, 0.06);
+          ">
+            <div style="font-size: 54px; margin-bottom: 16px; opacity: 0.85;">📚</div>
+            <h3 style="
+              font-family: var(--font-serif);
+              font-size: 28px;
+              font-weight: 500;
+              margin-bottom: 8px;
+              color: var(--forest-deep);
+            ">Your library is waiting for its first volume</h3>
+            <p style="color: #6B4B35; max-width: 500px; margin: 0 auto 28px auto; font-size: 15px; line-height: 1.6;">
+              Your personal library starts empty. Search the archives or add a book to curate your private collection.
+            </p>
+            <a href="/add-book" class="continue-reading-btn" style="display: inline-flex; align-items: center; gap: 8px;">
+              <span>➕</span>
+              <span>Add Your First Book</span>
+            </a>
+          </div>
+        `;
+      } else {
+        // Filter returned no results
+        const filterNames = {
+          'reading': 'Currently Reading',
+          'completed': 'Completed',
+          'want-to-read': 'Want to Read'
+        };
+        const name = filterNames[currentFilter] || currentFilter;
+        container.innerHTML = `
+          <div style="text-align: center; padding: 64px 20px; color: #87927B; grid-column: 1 / -1;">
+            <p style="font-family: var(--font-serif); font-size: 20px; color: var(--forest-deep); margin-bottom: 8px;">No books in ${name}</p>
+            <p style="font-size: 14px; margin-bottom: 20px;">You do not have any books currently marked with this status.</p>
+            <button onclick="filterLibrary('all')" class="genre-chip active" style="cursor: pointer;">View All Books</button>
+          </div>
+        `;
+      }
       return;
     }
 
@@ -78,34 +132,145 @@
   }
 
   /* ====================================================
-     CREATE BOOK CARD
+     4. CREATE ENCHANTED 3D BOOK CARD
+     Smooth floating lift, 3D hardcover spine rotation,
+     marbled endpapers, parchment pages, and golden sparks.
      ==================================================== */
   function createBookCard(book) {
-    // Note: progress and status removed from global catalog
-    // Will be added back once UserBook database integration is complete
-    
-    return `
-      <div class="book-card" data-book-id="${book.id}" onclick="viewBook(${book.id})">
-        <div class="book-cover-wrapper">
-          <img src="${book.cover}" 
-               alt="${book.title}" 
-               class="book-cover"
-               onerror="this.src='https://via.placeholder.com/180x270?text=No+Cover'">
-        </div>
-        <div class="book-info">
-          <h4 class="book-title">${book.title}</h4>
-          <p class="book-author">${book.author}</p>
-          <div class="book-meta">
-            <span class="book-genre">${book.genre}</span>
-            <span>${book.pages} pages</span>
+    const coverSrc = book.cover || '';
+    const genre = book.genre ? `<span class="book-genre">${escapeHtml(book.genre)}</span>` : '';
+    const pages = book.pages ? `<span>${book.pages} pp.</span>` : '';
+    const progress = book.progress || 0;
+    const pagesRead = book.current_page || Math.round((progress / 100) * (book.pages || 0));
+
+    let progressBarHtml = '';
+    if (book.status === 'reading') {
+      progressBarHtml = `
+        <div class="reading-progress" style="margin-top: 8px;">
+          <div class="progress-label" style="font-size: 11px;">
+            <span>Progress</span>
+            <span>${progress}%</span>
           </div>
+          <div class="reading-progress-bar" style="height: 4px;">
+            <div class="reading-progress-fill" style="width: ${progress}%;"></div>
+          </div>
+        </div>
+      `;
+    } else if (book.status === 'completed') {
+      progressBarHtml = `
+        <div style="margin-top: 8px; font-size: 11px; color: #3d5a40; font-weight: 600; display: flex; align-items: center; gap: 4px;">
+          <span>✓ Finished</span>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="book-card" data-book-id="${book.id}" onclick="viewBook(${book.id})" role="listitem">
+        <div class="book-cover-wrapper">
+          <div class="reading-book-stage">
+            <div class="book-3d-chassis">
+              <!-- Ground Shadow -->
+              <div class="book-ground-shadow" aria-hidden="true"></div>
+
+              <!-- Back Hardcover -->
+              <div class="book-back-cover" aria-hidden="true">
+                <div class="book-back-lining"></div>
+              </div>
+
+              <!-- Spine with Gold Ribs -->
+              <div class="book-spine" aria-hidden="true">
+                <div class="spine-ribs"></div>
+              </div>
+
+              <!-- Page Block Thickness -->
+              <div class="book-page-block" aria-hidden="true">
+                <div class="page-edge-top"></div>
+                <div class="page-edge-right"></div>
+                <div class="page-edge-bottom"></div>
+              </div>
+
+              <!-- Interior Parchment & Reading Leaf -->
+              <div class="book-interior" aria-hidden="true">
+                <div class="page-leaf page-leaf-under"></div>
+                <div class="page-leaf page-leaf-main">
+                  <div class="page-magic-glow"></div>
+                  <div class="page-content-wrapper">
+                    <div class="page-header-ornament">✦ ❦ ✦</div>
+                    <div class="page-book-title">${escapeHtml(book.title || 'Untitled')}</div>
+                    <div class="page-book-author">by ${escapeHtml(book.author || 'Unknown')}</div>
+                    <div class="page-lines">
+                      <span></span><span></span><span></span>
+                    </div>
+                    <div class="page-footer-mark">${book.pages ? book.pages + ' pp.' : 'BookVerse'}</div>
+                  </div>
+
+                  <!-- Silk Ribbon Bookmark -->
+                  <div class="book-ribbon"></div>
+
+                  <!-- Golden Magical Sparks -->
+                  <div class="book-sparks-container">
+                    <span class="book-spark bs1"></span>
+                    <span class="book-spark bs2"></span>
+                    <span class="book-spark bs3"></span>
+                    <span class="book-spark bs4"></span>
+                    <span class="book-spark bs5"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 3D Front Hardcover -->
+              <div class="book-front-cover" aria-hidden="true">
+                <div class="cover-exterior">
+                  <img
+                    src="${coverSrc}"
+                    alt="${escapeHtml(book.title || 'Book cover')}"
+                    class="reading-cover-img"
+                    loading="lazy"
+                    onerror="this.style.opacity='0.3'"
+                  >
+                  <div class="cover-crease-shadow"></div>
+                  <div class="cover-leather-sheen"></div>
+                </div>
+                <div class="cover-interior">
+                  <div class="endpaper-marbled">
+                    <div class="ex-libris-frame">
+                      <span class="ex-libris-title">EX LIBRIS</span>
+                      <span class="ex-libris-seal">❧</span>
+                      <span class="ex-libris-sub">BOOKVERSE</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div><!-- /.book-3d-chassis -->
+          </div><!-- /.reading-book-stage -->
+        </div><!-- /.book-cover-wrapper -->
+
+        <div class="book-info">
+          <h4 class="book-title">${escapeHtml(book.title || 'Untitled')}</h4>
+          <p class="book-author">${escapeHtml(book.author || 'Unknown Author')}</p>
+          <div class="book-meta">
+            ${genre}
+            ${pages}
+          </div>
+          ${progressBarHtml}
         </div>
       </div>
     `;
   }
 
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
   /* ====================================================
-     SEARCH FUNCTIONALITY
+     5. SEARCH FUNCTIONALITY (Real-time Filter)
      ==================================================== */
   const searchInput = document.getElementById('search-input');
   if (searchInput) {
@@ -118,48 +283,58 @@
         return;
       }
 
-      const filteredBooks = booksData.filter(book => {
-        return book.title.toLowerCase().includes(query) ||
-               book.author.toLowerCase().includes(query) ||
-               book.genre.toLowerCase().includes(query);
+      const pool = currentFilter === 'all' 
+        ? booksData 
+        : booksData.filter(b => b.status === currentFilter);
+
+      const filtered = pool.filter(book => {
+        return (book.title && book.title.toLowerCase().includes(query)) ||
+               (book.author && book.author.toLowerCase().includes(query)) ||
+               (book.genre && book.genre.toLowerCase().includes(query));
       });
 
-      if (filteredBooks.length === 0) {
+      if (filtered.length === 0) {
         container.innerHTML = `
-          <div style="text-align: center; padding: 80px; color: #999; grid-column: 1 / -1;">
-            <p>No books found matching "${query}"</p>
+          <div style="text-align: center; padding: 64px; color: #87927B; grid-column: 1 / -1;">
+            <p style="font-family: var(--font-serif); font-size: 20px; color: var(--forest-deep); margin-bottom: 8px;">No matching books found</p>
+            <p style="font-size: 14px;">No volumes matching "${escapeHtml(query)}" found in your personal library.</p>
           </div>
         `;
       } else {
-        container.innerHTML = filteredBooks.map(book => createBookCard(book)).join('');
+        container.innerHTML = filtered.map(book => createBookCard(book)).join('');
       }
     });
   }
 
   /* ====================================================
-     INITIALIZE
+     6. FILTER HANDLER & TAB STATE
+     ==================================================== */
+  window.filterLibrary = function(filter) {
+    currentFilter = filter;
+
+    // Update active button state
+    document.querySelectorAll('.filter-tab-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-filter') === filter);
+    });
+
+    renderLibrary();
+  };
+
+  /* ====================================================
+     7. INITIALIZE
      ==================================================== */
   function init() {
     console.log('BookVerse Library Initializing...');
     loadBooks();
   }
 
-  // Run on DOM ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
     init();
   }
 
-  // Expose filter function globally
-  window.filterLibrary = function(filter) {
-    currentFilter = filter;
-    renderLibrary();
-  };
-
-  // Expose viewBook function globally
   window.viewBook = function(bookId) {
-    console.log('Viewing book:', bookId);
     window.location.href = `/book?id=${bookId}`;
   };
 

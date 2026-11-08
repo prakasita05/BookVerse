@@ -87,27 +87,46 @@
 
         <!-- Action Buttons -->
         <div class="book-actions">
-          <button class="btn-primary" onclick="startReading()">
-            📖 Start Reading
+          <button class="btn-primary" id="btn-start-reading" onclick="handleReadingAction()">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+            </svg>
+            <span id="btn-reading-text">Start Reading</span>
           </button>
-          <button class="btn-secondary" onclick="addToShelf()">
-            🔖 Add to Shelf
+          
+          <button class="btn-secondary" id="btn-add-to-shelf" onclick="openShelfModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span id="btn-shelf-text">Add to Shelf</span>
           </button>
-          <button class="btn-secondary" onclick="toggleWishlist()">
-            ♥ Wishlist
+          
+          <button class="btn-secondary" id="btn-wishlist" onclick="toggleWishlist()">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+            <span id="btn-wishlist-text">Wishlist</span>
           </button>
         </div>
 
         <!-- Reading Progress (if reading) -->
         <div id="reading-progress-section" class="reading-progress-section" style="display: none;">
           <div class="progress-header">
-            <span class="progress-label">Your Progress</span>
+            <span class="progress-label">Your Reading Progress</span>
             <span id="progress-percentage" class="progress-percentage">0%</span>
           </div>
           <div class="reading-progress-bar">
             <div id="progress-fill" class="reading-progress-fill" style="width: 0%"></div>
           </div>
-          <p id="progress-pages" class="progress-pages">0 / 0 pages</p>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; flex-wrap: wrap; gap: 8px;">
+            <p id="progress-pages" class="progress-pages" style="margin: 0;">0 / 0 pages</p>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <label for="input-current-page" style="font-size: 13px; color: #4a3728;">Update Page:</label>
+              <input type="number" id="input-current-page" min="0" style="width: 70px; padding: 4px 8px; border: 1px solid rgba(61,90,64,0.3); border-radius: 4px; font-size: 13px;">
+              <button type="button" class="create-shelf-btn" onclick="savePageProgress()" style="padding: 4px 10px; font-size: 12px;">Save</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -191,6 +210,33 @@
 
     </div>
   </section>
+
+  <!-- Shelf Selection Modal -->
+  <div id="shelf-modal-backdrop" class="shelf-modal-backdrop" onclick="closeShelfModal(event)">
+    <div class="shelf-modal" onclick="event.stopPropagation()">
+      <div class="shelf-modal-header">
+        <h3 class="shelf-modal-title">Add to Bookshelf</h3>
+        <button class="shelf-modal-close" onclick="closeShelfModal()" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="shelf-modal-body">
+        <p class="shelf-book-target" id="modal-book-title">Choose a shelf for this book:</p>
+        <div class="shelves-list" id="modal-shelves-list">
+          <!-- Shelves loaded dynamically from /api/user/shelves -->
+        </div>
+        <div class="create-shelf-inline">
+          <input type="text" id="new-shelf-input" class="create-shelf-input" placeholder="Create new shelf name...">
+          <button type="button" class="create-shelf-btn" onclick="createNewShelfInline()">+ Create</button>
+        </div>
+        <div class="shelf-modal-footer">
+          <button type="button" class="shelf-cancel-btn" onclick="closeShelfModal()">Cancel</button>
+          <button type="button" class="shelf-save-btn" id="modal-save-shelf-btn" onclick="confirmAddToShelf()">Add to Shelf</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="bookverse-toast" class="bookverse-toast" role="status" aria-live="polite"></div>
 
 </main>
 

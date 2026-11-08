@@ -83,20 +83,34 @@
   <!-- ── Enchanted Library Hero ── -->
   <section class="enchanted-library-hero" aria-labelledby="user-greeting">
 
-    <!-- Layered atmospheric background -->
+    <!-- Layered atmospheric background using cozy1.jpg reference -->
     <div class="library-backdrop" aria-hidden="true">
-      <div class="library-shelves-layer"></div>
-      <div class="botanical-vines-layer"></div>
-      <div class="ambient-light-layer"></div>
+      <div class="library-photo-layer"></div>
+      <div class="library-shadow-overlay"></div>
+      <div class="library-candle-glow"></div>
+      <div class="library-golden-highlights"></div>
     </div>
 
-    <!-- Floating dust motes -->
-    <div class="magic-particles" aria-hidden="true"></div>
+    <!-- Floating golden stardust & magic particles -->
+    <div class="magic-particles" aria-hidden="true">
+      <span class="stardust-mote s1"></span>
+      <span class="stardust-mote s2"></span>
+      <span class="stardust-mote s3"></span>
+      <span class="stardust-mote s4"></span>
+      <span class="stardust-mote s5"></span>
+      <span class="stardust-mote s6"></span>
+      <span class="stardust-mote s7"></span>
+      <span class="stardust-mote s8"></span>
+      <span class="stardust-mote s9"></span>
+      <span class="stardust-mote s10"></span>
+      <span class="stardust-mote s11"></span>
+      <span class="stardust-mote s12"></span>
+    </div>
 
     <!-- Hero content -->
     <div class="hero-content">
 
-      <!-- SVG candle icon (no emoji) -->
+      <!-- SVG candle icon with warm aura (no emoji) -->
       <div class="hero-icon" aria-hidden="true">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 80" fill="none">
           <!-- candle body -->
@@ -113,13 +127,437 @@
           <!-- flame tip -->
           <ellipse cx="32" cy="16" rx="3" ry="5" fill="rgba(255,245,200,0.9)"/>
           <!-- glow halo -->
-          <ellipse cx="32" cy="20" rx="14" ry="16" fill="rgba(255,200,50,0.07)"/>
+          <ellipse cx="32" cy="20" rx="14" ry="16" fill="rgba(255,200,50,0.12)"/>
           <!-- base plate -->
           <rect x="16" y="68" width="32" height="6" rx="2" fill="rgba(107,78,61,0.7)"/>
         </svg>
       </div>
 
-      <h1 class="hero-title" id="user-greeting">Welcome to BookVerse</h1>
+      <!-- Centered Welcome Heading surrounded by Magical Solar System -->
+      <div class="hero-heading-celestial-stage">
+        <!-- SVG Celestial Solar System: Orbiting Miniature Antique Books -->
+        <svg class="celestial-solar-system" viewBox="-650 -200 1300 400" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <defs>
+            <!-- Filters -->
+            <filter id="goldAura" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="3.5" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+
+            <filter id="starTwinkle" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="1.5" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+
+            <!-- Gradients for Orbital Tracks -->
+            <linearGradient id="trackGradInner" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#b69a63" stop-opacity="0.08"/>
+              <stop offset="30%" stop-color="#e6d4a8" stop-opacity="0.32"/>
+              <stop offset="50%" stop-color="#ffd57a" stop-opacity="0.45"/>
+              <stop offset="70%" stop-color="#e6d4a8" stop-opacity="0.32"/>
+              <stop offset="100%" stop-color="#b69a63" stop-opacity="0.08"/>
+            </linearGradient>
+
+            <linearGradient id="trackGradMiddle" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#c9a96e" stop-opacity="0.05"/>
+              <stop offset="35%" stop-color="#e6d4a8" stop-opacity="0.25"/>
+              <stop offset="50%" stop-color="#fff0c2" stop-opacity="0.4"/>
+              <stop offset="65%" stop-color="#e6d4a8" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#c9a96e" stop-opacity="0.05"/>
+            </linearGradient>
+
+            <linearGradient id="trackGradOuter" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#b69a63" stop-opacity="0.04"/>
+              <stop offset="40%" stop-color="#e6d4a8" stop-opacity="0.2"/>
+              <stop offset="50%" stop-color="#f5e1b5" stop-opacity="0.32"/>
+              <stop offset="60%" stop-color="#e6d4a8" stop-opacity="0.2"/>
+              <stop offset="100%" stop-color="#b69a63" stop-opacity="0.04"/>
+            </linearGradient>
+
+            <!-- Antique Tome 1: Ruby Morocco & Gold -->
+            <linearGradient id="rubyCover" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#5a1824"/>
+              <stop offset="60%" stop-color="#3b0f16"/>
+              <stop offset="100%" stop-color="#24070c"/>
+            </linearGradient>
+            <linearGradient id="rubySpine" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#220509"/>
+              <stop offset="50%" stop-color="#6e1f2d"/>
+              <stop offset="100%" stop-color="#300910"/>
+            </linearGradient>
+
+            <!-- Antique Tome 2: Malachite Emerald & Gold -->
+            <linearGradient id="emeraldCover" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#1b4d2e"/>
+              <stop offset="60%" stop-color="#11331e"/>
+              <stop offset="100%" stop-color="#081c10"/>
+            </linearGradient>
+            <linearGradient id="emeraldSpine" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#081c10"/>
+              <stop offset="50%" stop-color="#225e38"/>
+              <stop offset="100%" stop-color="#0c2616"/>
+            </linearGradient>
+
+            <!-- Antique Tome 3: Midnight Lapis & Gold -->
+            <linearGradient id="lapisCover" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#193352"/>
+              <stop offset="60%" stop-color="#0e1f33"/>
+              <stop offset="100%" stop-color="#060e17"/>
+            </linearGradient>
+            <linearGradient id="lapisSpine" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#050b12"/>
+              <stop offset="50%" stop-color="#224268"/>
+              <stop offset="100%" stop-color="#0a1726"/>
+            </linearGradient>
+
+            <!-- Antique Tome 4: Dark Walnut & Bronze-Gold -->
+            <linearGradient id="walnutCover" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#4a3424"/>
+              <stop offset="60%" stop-color="#322216"/>
+              <stop offset="100%" stop-color="#1c120b"/>
+            </linearGradient>
+            <linearGradient id="walnutSpine" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#191009"/>
+              <stop offset="50%" stop-color="#5a3f2c"/>
+              <stop offset="100%" stop-color="#24170e"/>
+            </linearGradient>
+
+            <!-- Antique Tome 5: Aged Vellum Amber & Gold -->
+            <linearGradient id="amberCover" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#5e411b"/>
+              <stop offset="60%" stop-color="#422d12"/>
+              <stop offset="100%" stop-color="#271909"/>
+            </linearGradient>
+            <linearGradient id="amberSpine" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#221506"/>
+              <stop offset="50%" stop-color="#734f20"/>
+              <stop offset="100%" stop-color="#32210c"/>
+            </linearGradient>
+
+            <!-- Common Gold Leaf & Parchment gradients -->
+            <linearGradient id="goldRibbon" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#ffd77a"/>
+              <stop offset="100%" stop-color="#b8860b"/>
+            </linearGradient>
+
+            <linearGradient id="crimsonRibbon" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#c92a3a"/>
+              <stop offset="100%" stop-color="#70121c"/>
+            </linearGradient>
+
+            <linearGradient id="pageEdges" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#ede3cc"/>
+              <stop offset="50%" stop-color="#d6c6a5"/>
+              <stop offset="100%" stop-color="#baa47f"/>
+            </linearGradient>
+
+            <radialGradient id="tomeAura">
+              <stop offset="0%" stop-color="#ffe699" stop-opacity="0.8"/>
+              <stop offset="40%" stop-color="#cfa754" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#8a6d2b" stop-opacity="0"/>
+            </radialGradient>
+
+            <!-- REUSABLE MINIATURE ANTIQUE BOOK 1: Ruby Morocco -->
+            <g id="mini-book-ruby">
+              <circle cx="15" cy="17" r="22" fill="url(#tomeAura)" opacity="0.75" filter="url(#goldAura)"/>
+              <ellipse cx="15" cy="35" rx="13" ry="2.5" fill="rgba(0,0,0,0.5)"/>
+              <path d="M 15,31 C 17,35 14,37 17,41" fill="none" stroke="url(#goldRibbon)" stroke-width="1.2" stroke-linecap="round"/>
+              <path d="M 4,4 C 2,4 1,5.5 1,8.5 L 1,29.5 C 1,32.5 2,34 4,34 L 7,34 L 7,4 Z" fill="url(#rubySpine)"/>
+              <line x1="1" y1="10" x2="7" y2="10" stroke="#f0d590" stroke-width="0.8"/>
+              <line x1="1" y1="16" x2="7" y2="16" stroke="#f0d590" stroke-width="0.8"/>
+              <line x1="1" y1="22" x2="7" y2="22" stroke="#f0d590" stroke-width="0.8"/>
+              <line x1="1" y1="28" x2="7" y2="28" stroke="#f0d590" stroke-width="0.8"/>
+              <rect x="6.5" y="4" width="20" height="30" rx="1.5" fill="url(#rubyCover)"/>
+              <rect x="8.5" y="6" width="16" height="26" rx="1" fill="none" stroke="#d4af5f" stroke-width="0.75" opacity="0.9"/>
+              <path d="M 9.5,9.5 L 9.5,7.5 L 11.5,7.5" fill="none" stroke="#f7e1a0" stroke-width="0.7"/>
+              <path d="M 21.5,7.5 L 23.5,7.5 L 23.5,9.5" fill="none" stroke="#f7e1a0" stroke-width="0.7"/>
+              <path d="M 9.5,28.5 L 9.5,30.5 L 11.5,30.5" fill="none" stroke="#f7e1a0" stroke-width="0.7"/>
+              <path d="M 21.5,30.5 L 23.5,30.5 L 23.5,28.5" fill="none" stroke="#f7e1a0" stroke-width="0.7"/>
+              <polygon points="16.5,15 17.7,17.5 20.3,18 18.2,19.7 19,22.2 16.5,21 14,22.2 14.8,19.7 12.7,18 15.3,17.5" fill="#fce49f"/>
+              <circle cx="16.5" cy="19" r="1.2" fill="#fffbe6"/>
+              <polygon points="6.5,4 26.5,4 28,5.5 8,5.5" fill="#ebd696" opacity="0.85"/>
+              <path d="M 26.5,5.5 L 28,6.8 L 28,32.2 L 26.5,33.5 Z" fill="url(#pageEdges)"/>
+              <line x1="27.3" y1="6.8" x2="27.3" y2="32.5" stroke="#dfd0b5" stroke-width="0.4"/>
+              <circle cx="0" cy="14" r="1.1" fill="#ffe082" opacity="0.85"/>
+              <circle cx="-5" cy="20" r="0.8" fill="#ffca28" opacity="0.65"/>
+              <circle cx="-9" cy="25" r="0.5" fill="#fff8e1" opacity="0.45"/>
+            </g>
+
+            <!-- REUSABLE MINIATURE ANTIQUE BOOK 2: Malachite Emerald -->
+            <g id="mini-book-emerald">
+              <circle cx="15" cy="17" r="22" fill="url(#tomeAura)" opacity="0.75" filter="url(#goldAura)"/>
+              <ellipse cx="15" cy="35" rx="13" ry="2.5" fill="rgba(0,0,0,0.5)"/>
+              <path d="M 15,31 C 13,35 16,37 14,41" fill="none" stroke="url(#crimsonRibbon)" stroke-width="1.2" stroke-linecap="round"/>
+              <path d="M 4,4 C 2,4 1,5.5 1,8.5 L 1,29.5 C 1,32.5 2,34 4,34 L 7,34 L 7,4 Z" fill="url(#emeraldSpine)"/>
+              <line x1="1" y1="10" x2="7" y2="10" stroke="#f0d590" stroke-width="0.8"/>
+              <line x1="1" y1="16" x2="7" y2="16" stroke="#f0d590" stroke-width="0.8"/>
+              <line x1="1" y1="22" x2="7" y2="22" stroke="#f0d590" stroke-width="0.8"/>
+              <line x1="1" y1="28" x2="7" y2="28" stroke="#f0d590" stroke-width="0.8"/>
+              <rect x="6.5" y="4" width="20" height="30" rx="1.5" fill="url(#emeraldCover)"/>
+              <rect x="8.5" y="6" width="16" height="26" rx="1" fill="none" stroke="#d4af5f" stroke-width="0.75" opacity="0.9"/>
+              <circle cx="9.5" cy="7.5" r="0.8" fill="#f7e1a0"/>
+              <circle cx="23.5" cy="7.5" r="0.8" fill="#f7e1a0"/>
+              <circle cx="9.5" cy="30.5" r="0.8" fill="#f7e1a0"/>
+              <circle cx="23.5" cy="30.5" r="0.8" fill="#f7e1a0"/>
+              <path d="M 16.5,14 Q 19,18 16.5,24 Q 14,18 16.5,14 Z" fill="#fce49f"/>
+              <line x1="16.5" y1="16" x2="16.5" y2="24" stroke="#225e38" stroke-width="0.5"/>
+              <circle cx="16.5" cy="13.5" r="0.9" fill="#fffbe6"/>
+              <polygon points="6.5,4 26.5,4 28,5.5 8,5.5" fill="#ebd696" opacity="0.85"/>
+              <path d="M 26.5,5.5 L 28,6.8 L 28,32.2 L 26.5,33.5 Z" fill="url(#pageEdges)"/>
+              <circle cx="1" cy="12" r="1.1" fill="#ffe082" opacity="0.85"/>
+              <circle cx="-4" cy="18" r="0.8" fill="#ffca28" opacity="0.65"/>
+            </g>
+
+            <!-- REUSABLE MINIATURE ANTIQUE BOOK 3: Midnight Lapis -->
+            <g id="mini-book-lapis">
+              <circle cx="15" cy="17" r="22" fill="url(#tomeAura)" opacity="0.75" filter="url(#goldAura)"/>
+              <ellipse cx="15" cy="35" rx="13" ry="2.5" fill="rgba(0,0,0,0.5)"/>
+              <path d="M 15,31 C 17,35 15,38 18,41" fill="none" stroke="url(#goldRibbon)" stroke-width="1.2" stroke-linecap="round"/>
+              <path d="M 4,4 C 2,4 1,5.5 1,8.5 L 1,29.5 C 1,32.5 2,34 4,34 L 7,34 L 7,4 Z" fill="url(#lapisSpine)"/>
+              <line x1="1" y1="10" x2="7" y2="10" stroke="#f0d590" stroke-width="0.8"/>
+              <line x1="1" y1="16" x2="7" y2="16" stroke="#f0d590" stroke-width="0.8"/>
+              <line x1="1" y1="22" x2="7" y2="22" stroke="#f0d590" stroke-width="0.8"/>
+              <line x1="1" y1="28" x2="7" y2="28" stroke="#f0d590" stroke-width="0.8"/>
+              <rect x="6.5" y="4" width="20" height="30" rx="1.5" fill="url(#lapisCover)"/>
+              <rect x="8.5" y="6" width="16" height="26" rx="1" fill="none" stroke="#d4af5f" stroke-width="0.75" opacity="0.9"/>
+              <path d="M 18,15 A 4.2,4.2 0 1,1 14.5,22.5 A 3.4,3.4 0 1,0 18,15 Z" fill="#fce49f"/>
+              <circle cx="19.2" cy="16.5" r="0.7" fill="#fffbe6"/>
+              <circle cx="14" cy="16" r="0.5" fill="#fffbe6"/>
+              <polygon points="6.5,4 26.5,4 28,5.5 8,5.5" fill="#ebd696" opacity="0.85"/>
+              <path d="M 26.5,5.5 L 28,6.8 L 28,32.2 L 26.5,33.5 Z" fill="url(#pageEdges)"/>
+              <circle cx="-1" cy="13" r="1.1" fill="#ffe082" opacity="0.85"/>
+              <circle cx="-5" cy="19" r="0.7" fill="#ffca28" opacity="0.6"/>
+            </g>
+
+            <!-- REUSABLE MINIATURE ANTIQUE BOOK 4: Dark Walnut -->
+            <g id="mini-book-walnut">
+              <circle cx="15" cy="17" r="22" fill="url(#tomeAura)" opacity="0.75" filter="url(#goldAura)"/>
+              <ellipse cx="15" cy="35" rx="13" ry="2.5" fill="rgba(0,0,0,0.5)"/>
+              <path d="M 15,31 C 13,35 15,38 13,41" fill="none" stroke="url(#goldRibbon)" stroke-width="1.2" stroke-linecap="round"/>
+              <path d="M 4,4 C 2,4 1,5.5 1,8.5 L 1,29.5 C 1,32.5 2,34 4,34 L 7,34 L 7,4 Z" fill="url(#walnutSpine)"/>
+              <line x1="1" y1="10" x2="7" y2="10" stroke="#f0d590" stroke-width="0.8"/>
+              <line x1="1" y1="16" x2="7" y2="16" stroke="#f0d590" stroke-width="0.8"/>
+              <line x1="1" y1="22" x2="7" y2="22" stroke="#f0d590" stroke-width="0.8"/>
+              <line x1="1" y1="28" x2="7" y2="28" stroke="#f0d590" stroke-width="0.8"/>
+              <rect x="6.5" y="4" width="20" height="30" rx="1.5" fill="url(#walnutCover)"/>
+              <rect x="8.5" y="6" width="16" height="26" rx="1" fill="none" stroke="#d4af5f" stroke-width="0.75" opacity="0.9"/>
+              <line x1="13.5" y1="23.5" x2="19.5" y2="15.5" stroke="#fce49f" stroke-width="1"/>
+              <circle cx="16.5" cy="19.5" r="2.2" fill="none" stroke="#fce49f" stroke-width="0.75"/>
+              <polygon points="6.5,4 26.5,4 28,5.5 8,5.5" fill="#ebd696" opacity="0.85"/>
+              <path d="M 26.5,5.5 L 28,6.8 L 28,32.2 L 26.5,33.5 Z" fill="url(#pageEdges)"/>
+              <circle cx="0" cy="14" r="1.1" fill="#ffe082" opacity="0.85"/>
+              <circle cx="-5" cy="20" r="0.7" fill="#ffca28" opacity="0.6"/>
+            </g>
+
+            <!-- REUSABLE MINIATURE ANTIQUE BOOK 5: Aged Vellum Amber -->
+            <g id="mini-book-amber">
+              <circle cx="15" cy="17" r="22" fill="url(#tomeAura)" opacity="0.75" filter="url(#goldAura)"/>
+              <ellipse cx="15" cy="35" rx="13" ry="2.5" fill="rgba(0,0,0,0.5)"/>
+              <path d="M 15,31 C 17,35 14,37 16,41" fill="none" stroke="url(#crimsonRibbon)" stroke-width="1.2" stroke-linecap="round"/>
+              <path d="M 4,4 C 2,4 1,5.5 1,8.5 L 1,29.5 C 1,32.5 2,34 4,34 L 7,34 L 7,4 Z" fill="url(#amberSpine)"/>
+              <line x1="1" y1="10" x2="7" y2="10" stroke="#f0d590" stroke-width="0.8"/>
+              <line x1="1" y1="16" x2="7" y2="16" stroke="#f0d590" stroke-width="0.8"/>
+              <line x1="1" y1="22" x2="7" y2="22" stroke="#f0d590" stroke-width="0.8"/>
+              <line x1="1" y1="28" x2="7" y2="28" stroke="#f0d590" stroke-width="0.8"/>
+              <rect x="6.5" y="4" width="20" height="30" rx="1.5" fill="url(#amberCover)"/>
+              <rect x="8.5" y="6" width="16" height="26" rx="1" fill="none" stroke="#d4af5f" stroke-width="0.75" opacity="0.9"/>
+              <circle cx="16.5" cy="19" r="3.2" fill="none" stroke="#fce49f" stroke-width="0.8"/>
+              <line x1="16.5" y1="14.5" x2="16.5" y2="23.5" stroke="#fce49f" stroke-width="0.6"/>
+              <line x1="12" y1="19" x2="21" y2="19" stroke="#fce49f" stroke-width="0.6"/>
+              <polygon points="6.5,4 26.5,4 28,5.5 8,5.5" fill="#ebd696" opacity="0.85"/>
+              <path d="M 26.5,5.5 L 28,6.8 L 28,32.2 L 26.5,33.5 Z" fill="url(#pageEdges)"/>
+              <circle cx="0" cy="15" r="1.1" fill="#ffe082" opacity="0.85"/>
+              <circle cx="-5" cy="21" r="0.7" fill="#ffca28" opacity="0.6"/>
+            </g>
+          </defs>
+
+          <!-- ==================== ORBITAL TRACKS & ASTROLABE SPARKLES ==================== -->
+          <!-- Outer Orbit Track (Tilt: -4deg) -->
+          <g transform="rotate(-4)">
+            <ellipse cx="0" cy="0" rx="550" ry="145" fill="none" stroke="url(#trackGradOuter)" stroke-width="1.2" stroke-dasharray="3 7"/>
+            <path d="M -550,0 l 1,-3 l 1,3 l 3,1 l -3,1 l -1,3 l -1,-3 l -3,-1 Z" fill="#ffd57a" opacity="0.65" filter="url(#starTwinkle)"/>
+            <path d="M 550,0 l 1,-3 l 1,3 l 3,1 l -3,1 l -1,3 l -1,-3 l -3,-1 Z" fill="#ffd57a" opacity="0.65" filter="url(#starTwinkle)"/>
+            <circle cx="0" cy="-145" r="1.5" fill="#ffd57a" opacity="0.5"/>
+            <circle cx="0" cy="145" r="1.5" fill="#ffd57a" opacity="0.5"/>
+          </g>
+
+          <!-- Middle Orbit Track (Tilt: +12deg) -->
+          <g transform="rotate(12)">
+            <ellipse cx="0" cy="0" rx="440" ry="105" fill="none" stroke="url(#trackGradMiddle)" stroke-width="1.3" stroke-dasharray="4 8"/>
+            <path d="M -440,0 l 1,-3.5 l 1,3.5 l 3.5,1 l -3.5,1 l -1,3.5 l -1,-3.5 l -3.5,-1 Z" fill="#fff0c2" opacity="0.75" filter="url(#starTwinkle)"/>
+            <path d="M 440,0 l 1,-3.5 l 1,3.5 l 3.5,1 l -3.5,1 l -1,3.5 l -1,-3.5 l -3.5,-1 Z" fill="#fff0c2" opacity="0.75" filter="url(#starTwinkle)"/>
+            <circle cx="0" cy="-105" r="1.8" fill="#ffd57a" opacity="0.6"/>
+            <circle cx="0" cy="105" r="1.8" fill="#ffd57a" opacity="0.6"/>
+          </g>
+
+          <!-- Inner Orbit Track (Tilt: -7deg) -->
+          <g transform="rotate(-7)">
+            <ellipse cx="0" cy="0" rx="330" ry="72" fill="none" stroke="url(#trackGradInner)" stroke-width="1.4" stroke-dasharray="5 7"/>
+            <path d="M -330,0 l 1.2,-4 l 1.2,4 l 4,1.2 l -4,1.2 l -1.2,4 l -1.2,-4 l -4,-1.2 Z" fill="#fff8e1" opacity="0.85" filter="url(#starTwinkle)"/>
+            <path d="M 330,0 l 1.2,-4 l 1.2,4 l 4,1.2 l -4,1.2 l -1.2,4 l -1.2,-4 l -4,-1.2 Z" fill="#fff8e1" opacity="0.85" filter="url(#starTwinkle)"/>
+            <circle cx="0" cy="-72" r="2" fill="#ffe082" opacity="0.7"/>
+            <circle cx="0" cy="72" r="2" fill="#ffe082" opacity="0.7"/>
+          </g>
+
+          <!-- Ambient Twinkling Astrolabe Sparkles -->
+          <g class="celestial-sparkles">
+            <path d="M -240,-90 l 1,-3.5 l 1,3.5 l 3.5,1 l -3.5,1 l -1,3.5 l -1,-3.5 l -3.5,-1 Z" fill="#ffe082" opacity="0.75" class="twinkle-sparkle s-fast"/>
+            <path d="M 280,-80 l 1,-3.5 l 1,3.5 l 3.5,1 l -3.5,1 l -1,3.5 l -1,-3.5 l -3.5,-1 Z" fill="#ffe082" opacity="0.75" class="twinkle-sparkle s-med"/>
+            <path d="M -180,95 l 1,-3.5 l 1,3.5 l 3.5,1 l -3.5,1 l -1,3.5 l -1,-3.5 l -3.5,-1 Z" fill="#ffe082" opacity="0.75" class="twinkle-sparkle s-slow"/>
+            <path d="M 220,105 l 1,-3.5 l 1,3.5 l 3.5,1 l -3.5,1 l -1,3.5 l -1,-3.5 l -3.5,-1 Z" fill="#ffe082" opacity="0.75" class="twinkle-sparkle s-med"/>
+          </g>
+
+          <!-- ==================== ORBITING MINIATURE BOOKS ==================== -->
+
+          <!-- INNER ORBIT: 1 Book (Ruby Morocco) - Tilt: -7deg, Dur: 28s, Clockwise -->
+          <g transform="rotate(-7)">
+            <g class="orbit-runner-ruby">
+              <animateMotion
+                path="M -330,0 a 330,72 0 1,1 660,0 a 330,72 0 1,1 -660,0"
+                dur="28s"
+                repeatCount="indefinite" />
+              <g transform="translate(-15, -17)">
+                <animateTransform
+                  attributeName="transform"
+                  type="scale"
+                  values="0.95; 1.1; 0.95; 0.8; 0.95"
+                  keyTimes="0; 0.25; 0.5; 0.75; 1"
+                  dur="28s"
+                  repeatCount="indefinite"
+                  additive="sum" />
+                <animate
+                  attributeName="opacity"
+                  values="0.9; 1; 0.9; 0.65; 0.9"
+                  keyTimes="0; 0.25; 0.5; 0.75; 1"
+                  dur="28s"
+                  repeatCount="indefinite" />
+                <use href="#mini-book-ruby"/>
+              </g>
+            </g>
+          </g>
+
+          <!-- MIDDLE ORBIT: 2 Books (Emerald & Lapis) - Tilt: +12deg, Dur: 38s, Counter-Clockwise (Retrograde) -->
+          <g transform="rotate(12)">
+            <!-- Book 2A: Emerald Botanical Codex -->
+            <g class="orbit-runner-emerald">
+              <animateMotion
+                path="M 440,0 a 440,105 0 1,0 -880,0 a 440,105 0 1,0 880,0"
+                dur="38s"
+                repeatCount="indefinite" />
+              <g transform="translate(-15, -17)">
+                <animateTransform
+                  attributeName="transform"
+                  type="scale"
+                  values="0.95; 0.8; 0.95; 1.1; 0.95"
+                  keyTimes="0; 0.25; 0.5; 0.75; 1"
+                  dur="38s"
+                  repeatCount="indefinite"
+                  additive="sum" />
+                <animate
+                  attributeName="opacity"
+                  values="0.9; 0.65; 0.9; 1; 0.9"
+                  keyTimes="0; 0.25; 0.5; 0.75; 1"
+                  dur="38s"
+                  repeatCount="indefinite" />
+                <use href="#mini-book-emerald"/>
+              </g>
+            </g>
+
+            <!-- Book 2B: Midnight Lapis Astral Folio (180 deg offset -> begin="-19s") -->
+            <g class="orbit-runner-lapis">
+              <animateMotion
+                path="M 440,0 a 440,105 0 1,0 -880,0 a 440,105 0 1,0 880,0"
+                dur="38s"
+                begin="-19s"
+                repeatCount="indefinite" />
+              <g transform="translate(-15, -17)">
+                <animateTransform
+                  attributeName="transform"
+                  type="scale"
+                  values="0.95; 0.8; 0.95; 1.1; 0.95"
+                  keyTimes="0; 0.25; 0.5; 0.75; 1"
+                  dur="38s"
+                  begin="-19s"
+                  repeatCount="indefinite"
+                  additive="sum" />
+                <animate
+                  attributeName="opacity"
+                  values="0.9; 0.65; 0.9; 1; 0.9"
+                  keyTimes="0; 0.25; 0.5; 0.75; 1"
+                  dur="38s"
+                  begin="-19s"
+                  repeatCount="indefinite" />
+                <use href="#mini-book-lapis"/>
+              </g>
+            </g>
+          </g>
+
+          <!-- OUTER ORBIT: 2 Books (Walnut & Amber) - Tilt: -4deg, Dur: 52s, Clockwise -->
+          <g transform="rotate(-4)">
+            <!-- Book 3A: Dark Walnut Grimoire -->
+            <g class="orbit-runner-walnut">
+              <animateMotion
+                path="M -550,0 a 550,145 0 1,1 1100,0 a 550,145 0 1,1 -1100,0"
+                dur="52s"
+                repeatCount="indefinite" />
+              <g transform="translate(-15, -17)">
+                <animateTransform
+                  attributeName="transform"
+                  type="scale"
+                  values="0.95; 1.08; 0.95; 0.82; 0.95"
+                  keyTimes="0; 0.25; 0.5; 0.75; 1"
+                  dur="52s"
+                  repeatCount="indefinite"
+                  additive="sum" />
+                <animate
+                  attributeName="opacity"
+                  values="0.9; 1; 0.9; 0.65; 0.9"
+                  keyTimes="0; 0.25; 0.5; 0.75; 1"
+                  dur="52s"
+                  repeatCount="indefinite" />
+                <use href="#mini-book-walnut"/>
+              </g>
+            </g>
+
+            <!-- Book 3B: Amber Vellum Tome (180 deg offset -> begin="-26s") -->
+            <g class="orbit-runner-amber">
+              <animateMotion
+                path="M -550,0 a 550,145 0 1,1 1100,0 a 550,145 0 1,1 -1100,0"
+                dur="52s"
+                begin="-26s"
+                repeatCount="indefinite" />
+              <g transform="translate(-15, -17)">
+                <animateTransform
+                  attributeName="transform"
+                  type="scale"
+                  values="0.95; 1.08; 0.95; 0.82; 0.95"
+                  keyTimes="0; 0.25; 0.5; 0.75; 1"
+                  dur="52s"
+                  begin="-26s"
+                  repeatCount="indefinite"
+                  additive="sum" />
+                <animate
+                  attributeName="opacity"
+                  values="0.9; 1; 0.9; 0.65; 0.9"
+                  keyTimes="0; 0.25; 0.5; 0.75; 1"
+                  dur="52s"
+                  begin="-26s"
+                  repeatCount="indefinite" />
+                <use href="#mini-book-amber"/>
+              </g>
+            </g>
+          </g>
+        </svg>
+
+        <h1 class="hero-title" id="user-greeting">Welcome Back, Reader</h1>
+      </div>
+
       <p class="hero-subtitle">Your enchanted library awaits</p>
       <p class="hero-message">
         Step into a world where every book opens new realms,<br>
@@ -313,14 +751,52 @@
       <button class="genre-chip" data-query="biography memoir" id="chip-memoir">Biography</button>
     </div>
 
-    <!-- Results grid -->
-    <div class="api-books-grid" id="discover-results-container" aria-live="polite" role="list">
-      <!-- Populated by dashboard.js via Open Library API -->
-      <div class="loading-state">
-        <div class="loading-ornament" aria-hidden="true"></div>
-        <p>Searching the archives&hellip;</p>
+    <!-- ── Enchanted Wooden Bookshelf Environment (Inspired by LIB1.jpg) ── -->
+    <div class="enchanted-bookshelf-wrapper" role="region" aria-label="Enchanted Wooden Bookshelf">
+      <div class="enchanted-bookshelf">
+
+        <!-- Top Walnut Cornice & Subtle Botanical Ivy -->
+        <div class="bookshelf-header-cornice" aria-hidden="true">
+          <!-- Subtle trailing ivy vine cascading softly on the left edge -->
+          <div class="bookshelf-ivy-plant" title="Library Ivy">
+            <svg class="ivy-svg" viewBox="0 0 130 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 0 C24 45, 12 100, 30 165 C33 180, 24 195, 26 200" stroke="#243818" stroke-width="3" stroke-linecap="round"/>
+              <!-- Multi-layered leaves with natural botanical tones -->
+              <path d="M26 24 C14 12, -4 18, 4 36 C12 44, 26 36, 26 24 Z" fill="#4d6b38" opacity="0.95"/>
+              <path d="M20 52 C6 46, -2 64, 9 74 C20 80, 28 64, 20 52 Z" fill="#385227" opacity="0.95"/>
+              <path d="M25 84 C38 78, 50 92, 42 106 C32 114, 20 100, 25 84 Z" fill="#587d40" opacity="0.95"/>
+              <path d="M18 116 C3 110, -2 132, 11 140 C22 146, 30 128, 18 116 Z" fill="#43602f" opacity="0.95"/>
+              <path d="M28 148 C40 146, 46 162, 36 174 C26 180, 20 162, 28 148 Z" fill="#53773b" opacity="0.95"/>
+              <path d="M22 178 C12 172, 8 188, 18 194 C26 198, 30 188, 22 178 Z" fill="#3b562a" opacity="0.9"/>
+            </svg>
+          </div>
+
+          <!-- Bookshelf architectural cornice beam -->
+          <div class="bookshelf-cornice-beam">
+            <div class="cornice-carving">THE ARCHIVES OF BOOKVERSE</div>
+          </div>
+        </div>
+
+        <!-- Shelves Interior: Wooden tiers populated with physical standing books -->
+        <div class="bookshelf-tiers-stage" id="discover-results-container" aria-live="polite" role="list">
+          <div class="bookshelf-loading-state">
+            <div class="loading-quill-ornament"></div>
+            <p>Gathering volumes from the Great Archives&hellip;</p>
+          </div>
+        </div>
+
+        <!-- Bottom Walnut Cabinet Base / Architecture Plinth -->
+        <div class="bookshelf-footer-base" aria-hidden="true">
+          <div class="base-plinth-trim"></div>
+        </div>
+
+      </div><!-- /.enchanted-bookshelf -->
+
+      <!-- Floating Book Information Card (Parchment Popover — Outside Shelf Stacking Context) -->
+      <div id="shelf-floating-panel" class="shelf-floating-panel" role="dialog" aria-label="Book Details" aria-hidden="true">
+        <!-- Injected and positioned dynamically by dashboard.js beside hovered/tapped book -->
       </div>
-    </div>
+    </div><!-- /.enchanted-bookshelf-wrapper -->
 
   </section>
 

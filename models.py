@@ -56,6 +56,7 @@ class Book(db.Model):
     description = db.Column(db.Text)
     isbn = db.Column(db.String(20), unique=True, index=True)
     publication_year = db.Column(db.Integer)
+    publisher = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     
     # Relationships
