@@ -151,7 +151,6 @@
     const pagesRead = book.current_page || Math.round((progress / 100) * (book.pages || 0));
 
     let progressBarHtml = '';
-    let completeBtnHtml = '';
     if (book.status === 'reading') {
       progressBarHtml = `
         <div class="reading-progress" style="margin-top: 8px;">
@@ -164,25 +163,12 @@
           </div>
         </div>
       `;
-      completeBtnHtml = `
-        <button type="button" class="btn-card-complete" onclick="event.stopPropagation(); quickCompleteBook(${book.id})" title="Mark this volume as completed">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          <span>Mark as Completed</span>
-        </button>
-      `;
     } else if (book.status === 'completed') {
       progressBarHtml = `
         <div style="margin-top: 8px; font-size: 11px; color: #63996E; font-weight: 600; display: flex; align-items: center; gap: 4px;">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
           <span>Finished</span>
         </div>
-      `;
-    } else if (book.status === 'want-to-read') {
-      completeBtnHtml = `
-        <button type="button" class="btn-card-complete" onclick="event.stopPropagation(); quickCompleteBook(${book.id})" title="Mark this volume as completed">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          <span>Mark as Completed</span>
-        </button>
       `;
     }
 
@@ -276,7 +262,6 @@
             ${pages}
           </div>
           ${progressBarHtml}
-          ${completeBtnHtml}
         </div>
       </div>
     `;

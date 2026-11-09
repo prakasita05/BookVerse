@@ -1,13 +1,14 @@
 /* ============================================================
    BOOKVERSE — MY LIBRARY SPECIFIC STYLESHEET
    Dark walnut wood background texture strictly scoped to .my-library-page
+   Uses BGWOOD.jpg exclusively on the My Library page
    ============================================================ */
 
 body.my-library-page {
   background-color: #120b06;
   background-image: 
     linear-gradient(180deg, rgba(14, 9, 5, 0.72) 0%, rgba(20, 13, 8, 0.62) 40%, rgba(14, 9, 5, 0.78) 100%),
-    url('/static/images/bookshelf_wood.jpg');
+    url('/static/images/BGWOOD.jpg');
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;

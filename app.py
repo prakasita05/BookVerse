@@ -636,13 +636,19 @@ def api_toggle_wishlist():
             db.func.lower(Book.author) == author.lower()
         ).first()
         if not book:
+            def _parse_safe_int(val):
+                try:
+                    return int(val) if val is not None else None
+                except (ValueError, TypeError):
+                    return None
+
             book = Book(
                 title=title,
                 author=author,
                 cover=data.get("cover") or None,
                 genre=data.get("genre") or "Fiction",
-                pages=int(data.get("pages")) if data.get("pages") else None,
-                publication_year=int(data.get("publication_year")) if data.get("publication_year") else None,
+                pages=_parse_safe_int(data.get("pages")),
+                publication_year=_parse_safe_int(data.get("publication_year")),
                 description=data.get("description") or "",
                 publisher=data.get("publisher") or None,
                 isbn=data.get("isbn") or None

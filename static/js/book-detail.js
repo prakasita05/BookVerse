@@ -159,19 +159,6 @@
       if (wishlistText) wishlistText.textContent = 'Wishlist';
       if (wishlistBtn) wishlistBtn.classList.remove('in-wishlist');
     }
-
-    // Mark as Completed Button State
-    const completedBtn = document.getElementById('btn-mark-completed');
-    const completedText = document.getElementById('btn-completed-text');
-    if (completedBtn && completedText) {
-      if (userStatus === 'completed') {
-        completedText.textContent = 'Completed (Undo)';
-        completedBtn.classList.add('completed-active');
-      } else {
-        completedText.textContent = 'Mark as Completed';
-        completedBtn.classList.remove('completed-active');
-      }
-    }
   }
 
   function updateProgressDisplay(currentPage, percentage) {
