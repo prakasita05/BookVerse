@@ -752,26 +752,20 @@
       <button class="genre-chip" data-query="biography memoir" id="chip-memoir">Biography</button>
     </div>
 
-    <!-- ── Enchanted Wooden Bookshelf Environment (Inspired by LIB1.jpg) ── -->
+    <!-- ── Enchanted Wooden Bookshelf Environment (Inspired by LIB1.jpg & LIBLEAF1.jpg) ── -->
     <div class="enchanted-bookshelf-wrapper" role="region" aria-label="Enchanted Wooden Bookshelf">
       <div class="enchanted-bookshelf">
 
-        <!-- Top Walnut Cornice & Subtle Botanical Ivy -->
-        <div class="bookshelf-header-cornice" aria-hidden="true">
-          <!-- Subtle trailing ivy vine cascading softly on the left edge -->
-          <div class="bookshelf-ivy-plant" title="Library Ivy">
-            <svg class="ivy-svg" viewBox="0 0 130 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 0 C24 45, 12 100, 30 165 C33 180, 24 195, 26 200" stroke="#243818" stroke-width="3" stroke-linecap="round"/>
-              <!-- Multi-layered leaves with natural botanical tones -->
-              <path d="M26 24 C14 12, -4 18, 4 36 C12 44, 26 36, 26 24 Z" fill="#4d6b38" opacity="0.95"/>
-              <path d="M20 52 C6 46, -2 64, 9 74 C20 80, 28 64, 20 52 Z" fill="#385227" opacity="0.95"/>
-              <path d="M25 84 C38 78, 50 92, 42 106 C32 114, 20 100, 25 84 Z" fill="#587d40" opacity="0.95"/>
-              <path d="M18 116 C3 110, -2 132, 11 140 C22 146, 30 128, 18 116 Z" fill="#43602f" opacity="0.95"/>
-              <path d="M28 148 C40 146, 46 162, 36 174 C26 180, 20 162, 28 148 Z" fill="#53773b" opacity="0.95"/>
-              <path d="M22 178 C12 172, 8 188, 18 194 C26 198, 30 188, 22 178 Z" fill="#3b562a" opacity="0.9"/>
-            </svg>
-          </div>
+        <!-- Natural Creeping Ivy Leaves along Left & Right Shelf Edges (inspired by LIBLEAF1.jpg) -->
+        <div class="bookshelf-creeper-vine creeper-left" aria-hidden="true">
+          <img src="{{ url_for('static', filename='images/creeper_leaves_left.png') }}" alt="" class="creeper-leaf-img" loading="lazy">
+        </div>
+        <div class="bookshelf-creeper-vine creeper-right" aria-hidden="true">
+          <img src="{{ url_for('static', filename='images/creeper_leaves_right.png') }}" alt="" class="creeper-leaf-img" loading="lazy">
+        </div>
 
+        <!-- Top Walnut Cornice -->
+        <div class="bookshelf-header-cornice" aria-hidden="true">
           <!-- Bookshelf architectural cornice beam -->
           <div class="bookshelf-cornice-beam">
             <div class="cornice-carving">THE ARCHIVES OF BOOKVERSE</div>

@@ -1,7 +1,177 @@
 /* ============================================================
    BOOKVERSE — READING MUSIC & SOUNDSCAPES STYLESHEET
    Cozy, vintage, enchanted library atmosphere
+   Uses BGWOOD2.jpg exclusively on the Reading Music page
    ============================================================ */
+
+body.reading-music-page {
+  background-color: #1a0e0b;
+  background-image: 
+    linear-gradient(180deg, rgba(18, 11, 8, 0.76) 0%, rgba(26, 15, 12, 0.68) 40%, rgba(18, 10, 8, 0.82) 100%),
+    url('/static/images/BGWOOD2.jpg');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #F7F2E7;
+  min-height: 100vh;
+}
+
+/* Header on Music Page */
+body.reading-music-page .dashboard-header {
+  background: rgba(18, 12, 7, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(182, 154, 99, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+body.reading-music-page .header-logo {
+  color: #F7F2E7;
+}
+
+body.reading-music-page .nav-link {
+  color: #D4C5B9;
+}
+
+body.reading-music-page .nav-link:hover,
+body.reading-music-page .nav-link.active {
+  color: #EBDCB9;
+  border-bottom-color: #B69A63;
+}
+
+body.reading-music-page .header-search {
+  background: rgba(28, 18, 12, 0.75);
+  border: 1px solid rgba(182, 154, 99, 0.35);
+}
+
+body.reading-music-page .search-input {
+  color: #F7F2E7;
+}
+
+body.reading-music-page .search-input::placeholder {
+  color: #A89582;
+}
+
+body.reading-music-page .header-user {
+  color: #F7F2E7;
+}
+
+/* Back Link */
+body.reading-music-page .back-link {
+  color: #D4C5B9 !important;
+  transition: color 0.2s ease;
+}
+
+body.reading-music-page .back-link:hover {
+  color: #EBDCB9 !important;
+}
+
+/* Hero Section on Wood */
+body.reading-music-page .music-hero-section {
+  background: linear-gradient(135deg, rgba(22, 36, 27, 0.92) 0%, rgba(36, 22, 12, 0.92) 60%, rgba(21, 30, 24, 0.92) 100%);
+  border: 1px solid rgba(182, 154, 99, 0.4);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Recommendation Banner */
+body.reading-music-page .music-rec-banner {
+  background: rgba(25, 17, 11, 0.88);
+  border: 1px solid rgba(182, 154, 99, 0.4);
+  color: #F7F2E7;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+body.reading-music-page .music-rec-text {
+  color: #D4C5B9;
+}
+
+body.reading-music-page .music-rec-title {
+  color: #EBDCB9;
+}
+
+/* Embedded Player Dock */
+body.reading-music-page .music-player-dock {
+  background: rgba(25, 17, 11, 0.88);
+  border: 1px solid rgba(182, 154, 99, 0.35);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(10px);
+}
+
+body.reading-music-page .player-dock-title {
+  color: #F7F2E7;
+}
+
+body.reading-music-page .player-dock-status {
+  background: rgba(182, 154, 99, 0.2);
+  color: #EBDCB9;
+  border: 1px solid rgba(182, 154, 99, 0.35);
+}
+
+/* Mood Grid Header */
+body.reading-music-page .mood-section-title {
+  color: #F7F2E7;
+}
+
+body.reading-music-page .mood-section-desc {
+  color: #D4C5B9;
+}
+
+body.reading-music-page .genre-select {
+  background: rgba(18, 12, 7, 0.85);
+  border: 1px solid rgba(182, 154, 99, 0.4);
+  color: #F7F2E7;
+}
+
+body.reading-music-page .genre-select option {
+  background: #180F0A;
+  color: #F7F2E7;
+}
+
+/* Mood Cards on Wood */
+body.reading-music-page .mood-card {
+  background: rgba(25, 17, 11, 0.88);
+  border: 1px solid rgba(182, 154, 99, 0.32);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(10px);
+  color: #F7F2E7;
+}
+
+body.reading-music-page .mood-card:hover {
+  border-color: #B69A63;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.6), 0 0 15px rgba(182, 154, 99, 0.2);
+}
+
+body.reading-music-page .mood-card.active-mood {
+  background: linear-gradient(180deg, rgba(32, 22, 14, 0.95) 0%, rgba(22, 15, 9, 0.95) 100%);
+  border-color: #B69A63;
+}
+
+body.reading-music-page .mood-card-title {
+  color: #F7F2E7;
+}
+
+body.reading-music-page .mood-card-desc {
+  color: #C5B6A8;
+}
+
+body.reading-music-page .mood-genre-pill {
+  background: rgba(182, 154, 99, 0.15);
+  border: 1px solid rgba(182, 154, 99, 0.3);
+  color: #EBDCB9;
+}
+
+body.reading-music-page .btn-mood-spotify {
+  background: rgba(18, 12, 7, 0.85);
+  border: 1px solid rgba(182, 154, 99, 0.35);
+  color: #EBDCB9;
+}
+
+body.reading-music-page .btn-mood-spotify:hover {
+  background: #1DB954;
+  border-color: #1DB954;
+  color: #FFFFFF;
+}
 
 .music-hero-section {
   background: linear-gradient(135deg, #16241b 0%, #24160c 60%, #151e18 100%);

@@ -1946,21 +1946,59 @@ body {
   z-index: 10;
 }
 
-/* Subtle trailing ivy vine cascading softly on the left edge */
-.bookshelf-ivy-plant {
+/* Natural creeping ivy leaves climbing along the side edges of the Discover Bookshelf (inspired by LIBLEAF1.jpg) */
+.bookshelf-creeper-vine {
   position: absolute;
   top: -8px;
-  left: -12px;
-  width: 80px;
-  height: 140px;
+  bottom: -8px;
+  width: 145px;
   pointer-events: none;
-  z-index: 25;
-  filter: drop-shadow(2px 6px 10px rgba(0, 0, 0, 0.65));
+  z-index: 18;
+  overflow: visible;
 }
 
-.ivy-svg {
+.bookshelf-creeper-vine.creeper-left {
+  left: -26px;
+  filter: drop-shadow(4px 10px 18px rgba(0, 0, 0, 0.72));
+}
+
+.bookshelf-creeper-vine.creeper-right {
+  right: -26px;
+  filter: drop-shadow(-4px 10px 18px rgba(0, 0, 0, 0.72));
+}
+
+.bookshelf-creeper-vine .creeper-leaf-img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  opacity: 0.95;
+  filter: contrast(1.04) saturate(1.08);
+}
+
+@media (max-width: 900px) {
+  .bookshelf-creeper-vine {
+    width: 95px;
+  }
+  .bookshelf-creeper-vine.creeper-left {
+    left: -14px;
+  }
+  .bookshelf-creeper-vine.creeper-right {
+    right: -14px;
+  }
+}
+
+@media (max-width: 600px) {
+  .bookshelf-creeper-vine {
+    width: 65px;
+    opacity: 0.85;
+  }
+  .bookshelf-creeper-vine.creeper-left {
+    left: -8px;
+  }
+  .bookshelf-creeper-vine.creeper-right {
+    right: -8px;
+  }
 }
 
 /* Header cornice title */
@@ -2650,8 +2688,9 @@ body {
     height: 44px;
     padding: 0 16px;
   }
-  .bookshelf-ivy-plant {
-    display: none;
+  .bookshelf-creeper-vine {
+    width: 70px;
+    opacity: 0.85;
   }
   .bookshelf-tier-books {
     flex-wrap: wrap;
