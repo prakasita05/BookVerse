@@ -1,7 +1,168 @@
 /* ============================================================
    BOOKVERSE — WISHLIST STYLESHEET
    Enchanted dark botanical, walnut wood, antique gold & parchment
+   Uses BGWOOD.jpg exclusively on the My Wishlist page
    ============================================================ */
+
+body.my-wishlist-page {
+  background-color: #120b06;
+  background-image: 
+    linear-gradient(180deg, rgba(14, 9, 5, 0.72) 0%, rgba(20, 13, 8, 0.62) 40%, rgba(14, 9, 5, 0.78) 100%),
+    url('/static/images/BGWOOD.jpg');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #F7F2E7;
+  min-height: 100vh;
+}
+
+/* Header on Wishlist page */
+body.my-wishlist-page .dashboard-header {
+  background: rgba(18, 12, 7, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(182, 154, 99, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+body.my-wishlist-page .header-logo {
+  color: #F7F2E7;
+}
+
+body.my-wishlist-page .nav-link {
+  color: #D4C5B9;
+}
+
+body.my-wishlist-page .nav-link:hover,
+body.my-wishlist-page .nav-link.active {
+  color: #EBDCB9;
+  border-bottom-color: #B69A63;
+}
+
+body.my-wishlist-page .header-search {
+  background: rgba(28, 18, 12, 0.75);
+  border: 1px solid rgba(182, 154, 99, 0.35);
+}
+
+body.my-wishlist-page .search-input {
+  color: #F7F2E7;
+}
+
+body.my-wishlist-page .search-input::placeholder {
+  color: #A89582;
+}
+
+body.my-wishlist-page .header-user {
+  color: #F7F2E7;
+}
+
+/* Back Link */
+body.my-wishlist-page .back-link {
+  color: #D4C5B9 !important;
+  transition: color 0.2s ease;
+}
+
+body.my-wishlist-page .back-link:hover {
+  color: #EBDCB9 !important;
+}
+
+/* Hero Section on Dark Wood */
+body.my-wishlist-page .wishlist-hero-section {
+  background: linear-gradient(135deg, rgba(26, 46, 34, 0.92) 0%, rgba(35, 22, 12, 0.92) 100%);
+  border: 1px solid rgba(182, 154, 99, 0.4);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Toolbar */
+body.my-wishlist-page .wishlist-toolbar {
+  background: rgba(25, 17, 11, 0.85);
+  border: 1px solid rgba(182, 154, 99, 0.3);
+  border-radius: 12px;
+  padding: 12px 20px;
+  backdrop-filter: blur(8px);
+}
+
+body.my-wishlist-page .wishlist-count-text {
+  color: #D4C5B9;
+}
+
+body.my-wishlist-page .wishlist-count-highlight {
+  color: #EBDCB9;
+}
+
+body.my-wishlist-page .wishlist-search-box {
+  background: rgba(18, 12, 7, 0.85);
+  border: 1px solid rgba(182, 154, 99, 0.35);
+}
+
+body.my-wishlist-page .wishlist-search-input {
+  color: #F7F2E7;
+}
+
+body.my-wishlist-page .wishlist-search-input::placeholder {
+  color: #A89582;
+}
+
+/* Wishlist Cards on Dark Wood */
+body.my-wishlist-page .wishlist-card {
+  background: rgba(25, 17, 11, 0.88);
+  border: 1px solid rgba(182, 154, 99, 0.32);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(10px);
+  color: #F7F2E7;
+}
+
+body.my-wishlist-page .wishlist-card:hover {
+  border-color: #B69A63;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.6), 0 0 15px rgba(182, 154, 99, 0.2);
+}
+
+body.my-wishlist-page .wishlist-card-title {
+  color: #F7F2E7;
+}
+
+body.my-wishlist-page .wishlist-card-author {
+  color: #D4C5B9;
+}
+
+body.my-wishlist-page .wishlist-card-genre {
+  color: #C9A96E;
+}
+
+body.my-wishlist-page .wishlist-card-meta {
+  color: #A89582;
+}
+
+body.my-wishlist-page .wishlist-card-desc {
+  color: #C5B6A8;
+}
+
+body.my-wishlist-page .btn-remove-wishlist {
+  background: rgba(60, 20, 20, 0.6);
+  border-color: rgba(194, 75, 75, 0.4);
+  color: #E8A8A8;
+}
+
+body.my-wishlist-page .btn-remove-wishlist:hover {
+  background: rgba(120, 30, 30, 0.85);
+  border-color: #C24B4B;
+  color: #FFFFFF;
+}
+
+body.my-wishlist-page .wishlist-empty-state {
+  background: rgba(25, 17, 11, 0.88);
+  border: 1px solid rgba(182, 154, 99, 0.32);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+body.my-wishlist-page .wishlist-empty-title {
+  color: #F7F2E7;
+}
+
+body.my-wishlist-page .wishlist-empty-desc {
+  color: #D4C5B9;
+}
 
 .wishlist-hero-section {
   background: linear-gradient(135deg, rgba(26, 46, 34, 0.96) 0%, rgba(43, 26, 14, 0.94) 100%);

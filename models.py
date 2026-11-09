@@ -28,6 +28,7 @@ class User(db.Model):
     shelves = db.relationship('Shelf', backref='user', lazy='dynamic', cascade='all, delete-orphan')
     quotes = db.relationship('Quote', backref='user', lazy='dynamic', cascade='all, delete-orphan')
     wishlist_items = db.relationship('WishlistItem', backref='user', lazy='dynamic', cascade='all, delete-orphan')
+    reading_goals = db.relationship('ReadingGoal', backref='user', lazy='dynamic', cascade='all, delete-orphan')
     
     def set_password(self, password):
         """Hash and set user password"""
@@ -301,3 +302,22 @@ class WishlistItem(db.Model):
     
     def __repr__(self):
         return f'<WishlistItem user_id={self.user_id} book_id={self.book_id}>'
+
+
+# ============================================================
+# READING GOAL MODEL (Personal User Reading Goals)
+# ============================================================
+class ReadingGoal(db.Model):
+    """User's personal reading goal (yearly or monthly)"""
+    __tablename__ = 'reading_goals'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, unique=True, index=True)
+    target_books = db.Column(db.Integer, nullable=False)
+    period = db.Column(db.String(20), default='yearly', nullable=False)  # 'yearly' or 'monthly'
+    year = db.Column(db.Integer, nullable=False, default=lambda: datetime.utcnow().year)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+    
+    def __repr__(self):
+        return f'<ReadingGoal user_id={self.user_id} target={self.target_books} period={self.period}>'

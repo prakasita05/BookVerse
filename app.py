@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
-from models import db, User, Book, UserBook, Review, ReviewComment, ReviewLike, Shelf, ShelfBook, Quote, WishlistItem
+from models import db, User, Book, UserBook, Review, ReviewComment, ReviewLike, Shelf, ShelfBook, Quote, WishlistItem, ReadingGoal
 import os
 import json
 from datetime import datetime
@@ -127,6 +127,10 @@ def wishlist():
 @app.route("/reading-music")
 def reading_music():
     return render_template("reading_music.html")
+
+@app.route("/tracker")
+def reading_tracker():
+    return render_template("tracker.html")
 
 @app.route("/shelf")
 @app.route("/shelves")
@@ -742,6 +746,178 @@ def api_check_wishlist():
         return jsonify({"in_wishlist": False})
     exists = WishlistItem.query.filter_by(user_id=user.id, book_id=book_id).first() is not None
     return jsonify({"in_wishlist": exists})
+
+# ============================================================
+# REST API: READING TRACKER & GOALS
+# ============================================================
+@app.route("/api/tracker/data", methods=["GET"])
+def api_get_tracker_data():
+    """Retrieve actual reading tracker data strictly for the authenticated user"""
+    user = get_current_user()
+    
+    # 1. Currently Reading
+    reading_ubs = UserBook.query.filter_by(user_id=user.id, status='reading').all()
+    currently_reading = []
+    for ub in reading_ubs:
+        b = ub.book
+        if not b:
+            continue
+        currently_reading.append({
+            "user_book_id": ub.id,
+            "book_id": b.id,
+            "title": b.title,
+            "author": b.author,
+            "cover": b.cover or "",
+            "genre": b.genre or "Fiction",
+            "pages": b.pages or 0,
+            "current_page": ub.current_page or 0,
+            "progress": ub.progress or 0,
+            "date_started": ub.date_started.strftime("%b %d, %Y") if ub.date_started else (ub.date_added.strftime("%b %d, %Y") if ub.date_added else "")
+        })
+        
+    # 2. Completed Books
+    completed_ubs = UserBook.query.filter_by(user_id=user.id, status='completed').order_by(
+        UserBook.date_finished.desc(), UserBook.date_added.desc()
+    ).all()
+    completed_books = []
+    for ub in completed_ubs:
+        b = ub.book
+        if not b:
+            continue
+        completed_books.append({
+            "user_book_id": ub.id,
+            "book_id": b.id,
+            "title": b.title,
+            "author": b.author,
+            "cover": b.cover or "",
+            "genre": b.genre or "Fiction",
+            "pages": b.pages or 0,
+            "rating": ub.rating,
+            "date_finished": ub.date_finished.strftime("%b %d, %Y") if ub.date_finished else (ub.date_added.strftime("%b %d, %Y") if ub.date_added else "Completed")
+        })
+        
+    # 3. Calculate Genuine Statistics
+    total_books_completed = len(completed_books)
+    total_currently_reading = len(currently_reading)
+    
+    all_user_books = UserBook.query.filter_by(user_id=user.id).all()
+    total_pages_read = 0
+    for ub in all_user_books:
+        if ub.status == 'completed':
+            total_pages_read += (ub.book.pages if (ub.book and ub.book.pages) else (ub.current_page or 0))
+        else:
+            total_pages_read += (ub.current_page or 0)
+            
+    # 4. Reading Goal (never assigned without user's input)
+    goal_record = ReadingGoal.query.filter_by(user_id=user.id).first()
+    goal_data = None
+    if goal_record and goal_record.target_books > 0:
+        current_year = datetime.utcnow().year
+        current_month = datetime.utcnow().month
+        
+        if goal_record.period == 'monthly':
+            completed_in_period = sum(
+                1 for ub in completed_ubs 
+                if ub.date_finished and ub.date_finished.year == current_year and ub.date_finished.month == current_month
+            )
+        else:
+            completed_in_period = sum(
+                1 for ub in completed_ubs 
+                if not ub.date_finished or ub.date_finished.year == current_year
+            )
+            
+        progress_pct = min(100, int((completed_in_period / goal_record.target_books) * 100)) if goal_record.target_books > 0 else 0
+        goal_data = {
+            "target_books": goal_record.target_books,
+            "period": goal_record.period,
+            "completed": completed_in_period,
+            "progress_pct": progress_pct
+        }
+        
+    # 5. Reading History
+    history_items = []
+    for ub in completed_ubs:
+        if ub.book:
+            history_items.append({
+                "type": "completed",
+                "book_id": ub.book.id,
+                "title": ub.book.title,
+                "author": ub.book.author,
+                "date": ub.date_finished.strftime("%b %d, %Y") if ub.date_finished else ub.date_added.strftime("%b %d, %Y"),
+                "pages": ub.book.pages or 0
+            })
+    for ub in reading_ubs:
+        if ub.book:
+            history_items.append({
+                "type": "reading",
+                "book_id": ub.book.id,
+                "title": ub.book.title,
+                "author": ub.book.author,
+                "date": ub.date_started.strftime("%b %d, %Y") if ub.date_started else ub.date_added.strftime("%b %d, %Y"),
+                "pages": ub.book.pages or 0,
+                "progress": ub.progress or 0
+            })
+
+    return jsonify({
+        "success": True,
+        "currently_reading": currently_reading,
+        "completed_books": completed_books,
+        "stats": {
+            "books_completed": total_books_completed,
+            "pages_read": total_pages_read,
+            "currently_reading_count": total_currently_reading,
+            "goal": goal_data
+        },
+        "history": history_items[:20]
+    })
+
+@app.route("/api/tracker/goal", methods=["POST"])
+def api_set_tracker_goal():
+    """Set, update, or remove the authenticated user's reading goal"""
+    user = get_current_user()
+    data = request.get_json() or request.form.to_dict()
+    
+    target = data.get("target_books")
+    period = (data.get("period") or "yearly").strip().lower()
+    if period not in ("yearly", "monthly"):
+        period = "yearly"
+        
+    try:
+        target = int(target) if target is not None else 0
+    except (ValueError, TypeError):
+        return jsonify({"success": False, "error": "Invalid target book count"}), 400
+        
+    goal_record = ReadingGoal.query.filter_by(user_id=user.id).first()
+    
+    if target <= 0:
+        if goal_record:
+            db.session.delete(goal_record)
+            db.session.commit()
+        return jsonify({"success": True, "goal": None, "message": "Reading goal removed."})
+        
+    if not goal_record:
+        goal_record = ReadingGoal(
+            user_id=user.id,
+            target_books=target,
+            period=period,
+            year=datetime.utcnow().year
+        )
+        db.session.add(goal_record)
+    else:
+        goal_record.target_books = target
+        goal_record.period = period
+        goal_record.year = datetime.utcnow().year
+        goal_record.updated_at = datetime.utcnow()
+        
+    db.session.commit()
+    return jsonify({
+        "success": True,
+        "goal": {
+            "target_books": goal_record.target_books,
+            "period": goal_record.period
+        },
+        "message": f"Reading goal set to {target} books per {period[:-2]}."
+    })
 
 # ============================================================
 # REST API: READING MUSIC (SPOTIFY SOUNDSCAPES)

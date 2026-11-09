@@ -1207,6 +1207,44 @@
   }
 
   /* ============================================================
+     11b. DISCOVER NAVIGATION SMOOTH SCROLL
+     ============================================================ */
+  function initDiscoverNavigation() {
+    function scrollToDiscover(smooth = true) {
+      const target = document.getElementById('discover-section') || document.getElementById('discover-shelf-section');
+      if (!target) return;
+      const header = document.querySelector('.dashboard-header');
+      const headerHeight = header ? header.offsetHeight : 70;
+      const targetRect = target.getBoundingClientRect();
+      const targetPosition = window.pageYOffset + targetRect.top - headerHeight - 16;
+
+      window.scrollTo({
+        top: Math.max(0, targetPosition),
+        behavior: smooth ? 'smooth' : 'auto'
+      });
+    }
+
+    const discoverLink = document.getElementById('nav-discover');
+    if (discoverLink) {
+      discoverLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (window.location.pathname.endsWith('/home') || window.location.pathname === '/') {
+          history.pushState(null, null, '#discover-section');
+          scrollToDiscover(true);
+        } else {
+          window.location.href = '/home#discover-section';
+        }
+      });
+    }
+
+    const currentHash = window.location.hash;
+    if (currentHash === '#discover-section' || currentHash === '#discover-shelf-section') {
+      setTimeout(() => scrollToDiscover(true), 150);
+      setTimeout(() => scrollToDiscover(true), 600);
+    }
+  }
+
+  /* ============================================================
      12. INITIALISE
      ============================================================ */
   function init() {
@@ -1214,6 +1252,7 @@
     initSchedule();
     initHeaderSearch();
     initDiscoverSearch();
+    initDiscoverNavigation();
 
     // Load user data then immediately fetch discover content
     loadUserBooks().then(() => {
