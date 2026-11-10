@@ -13,7 +13,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <!-- Dashboard Stylesheet (only) with cache-busting -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}?v=enchanted_ivy_butterfly_v1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}?v=ivy_crowned_butterfly_v2">
 </head>
 
 <body>
@@ -756,275 +756,283 @@
     <div class="enchanted-bookshelf-wrapper" role="region" aria-label="Enchanted Wooden Bookshelf">
       <div class="enchanted-bookshelf">
 
-        <!-- ── Enchanted Ivy Creeper (Inspired by BookVerse Illustration) ── -->
+        <!-- ── Enchanted Ivy Creeper (Inspired by Ivy-Crowned Archives Bookshelf.png) ── -->
         <div class="bookshelf-enchanted-ivy" aria-hidden="true">
-          <svg class="ivy-svg" viewBox="0 0 170 640" xmlns="http://www.w3.org/2000/svg">
+          <svg class="ivy-svg" viewBox="-50 -30 380 660" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <!-- Soft Drop Shadow Filter for Natural Botanical Depth -->
-              <filter id="ivy-soft-shadow" x="-30%" y="-30%" width="160%" height="160%">
-                <feDropShadow dx="3" dy="6" stdDeviation="4.5" flood-color="#040905" flood-opacity="0.8"/>
+              <filter id="ivy-deep-shadow" x="-40%" y="-40%" width="180%" height="180%">
+                <feDropShadow dx="3" dy="6" stdDeviation="5" flood-color="#020804" flood-opacity="0.85"/>
               </filter>
-              <filter id="leaf-inner-depth" x="-20%" y="-20%" width="140%" height="140%">
-                <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#020803" flood-opacity="0.6"/>
+              <filter id="leaf-soft-shadow" x="-30%" y="-30%" width="160%" height="160%">
+                <feDropShadow dx="1.5" dy="3.5" stdDeviation="3" flood-color="#020603" flood-opacity="0.7"/>
               </filter>
 
-              <!-- Rich Forest Green and Dark Emerald Gradients (from BookVerse illustration) -->
-              <linearGradient id="leaf-dark-emerald" x1="15%" y1="0%" x2="85%" y2="100%">
-                <stop offset="0%" stop-color="#2a5c37"/>
-                <stop offset="35%" stop-color="#1b4226"/>
-                <stop offset="75%" stop-color="#122e1b"/>
-                <stop offset="100%" stop-color="#0a1c10"/>
+              <linearGradient id="ivy-grad-mature" x1="20%" y1="0%" x2="80%" y2="100%">
+                <stop offset="0%" stop-color="#3d7549"/>
+                <stop offset="30%" stop-color="#245831"/>
+                <stop offset="70%" stop-color="#153e20"/>
+                <stop offset="100%" stop-color="#0c2513"/>
               </linearGradient>
 
-              <linearGradient id="leaf-deep-forest" x1="10%" y1="0%" x2="90%" y2="100%">
-                <stop offset="0%" stop-color="#32683f"/>
-                <stop offset="40%" stop-color="#214b2d"/>
-                <stop offset="80%" stop-color="#15361f"/>
-                <stop offset="100%" stop-color="#0c2314"/>
+              <linearGradient id="ivy-grad-deep" x1="10%" y1="0%" x2="90%" y2="100%">
+                <stop offset="0%" stop-color="#2d6039"/>
+                <stop offset="40%" stop-color="#1c4727"/>
+                <stop offset="80%" stop-color="#11311b"/>
+                <stop offset="100%" stop-color="#081d0f"/>
               </linearGradient>
 
-              <linearGradient id="leaf-tender-shoot" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#3e7a4c"/>
-                <stop offset="45%" stop-color="#295c35"/>
-                <stop offset="100%" stop-color="#183e22"/>
+              <linearGradient id="ivy-grad-young" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#569c64"/>
+                <stop offset="40%" stop-color="#367944"/>
+                <stop offset="85%" stop-color="#1f512c"/>
+                <stop offset="100%" stop-color="#12351c"/>
               </linearGradient>
 
-              <linearGradient id="leaf-under-shadow" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#142b1a"/>
-                <stop offset="50%" stop-color="#0e1f13"/>
-                <stop offset="100%" stop-color="#060f09"/>
+              <linearGradient id="ivy-grad-underside" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#132b18"/>
+                <stop offset="60%" stop-color="#0a1d10"/>
+                <stop offset="100%" stop-color="#040c06"/>
               </linearGradient>
 
-              <!-- Cuticle Sheen Highlight -->
-              <radialGradient id="leaf-sheen" cx="40%" cy="30%" r="65%">
-                <stop offset="0%" stop-color="#73b281" stop-opacity="0.32"/>
-                <stop offset="50%" stop-color="#4d855a" stop-opacity="0.10"/>
-                <stop offset="100%" stop-color="#16381e" stop-opacity="0"/>
+              <radialGradient id="leaf-sheen-highlight" cx="38%" cy="28%" r="62%">
+                <stop offset="0%" stop-color="#98e0a8" stop-opacity="0.32"/>
+                <stop offset="45%" stop-color="#58a86e" stop-opacity="0.12"/>
+                <stop offset="100%" stop-color="#1a4726" stop-opacity="0"/>
               </radialGradient>
 
-              <!-- Woody Stem Bark Gradient -->
-              <linearGradient id="stem-wood" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#23170d"/>
-                <stop offset="40%" stop-color="#42301e"/>
-                <stop offset="75%" stop-color="#302214"/>
-                <stop offset="100%" stop-color="#191008"/>
+              <linearGradient id="trunk-bark" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#23170e"/>
+                <stop offset="35%" stop-color="#4d3521"/>
+                <stop offset="60%" stop-color="#644830"/>
+                <stop offset="85%" stop-color="#3a2515"/>
+                <stop offset="100%" stop-color="#1e1108"/>
               </linearGradient>
+
+              <linearGradient id="branch-bark" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#2a1c12"/>
+                <stop offset="50%" stop-color="#523924"/>
+                <stop offset="100%" stop-color="#21140b"/>
+              </linearGradient>
+
+              <!-- Large 5-Lobed Mature Leaf -->
+              <g id="hedera-leaf-large">
+                <g filter="url(#leaf-soft-shadow)">
+                  <path d="M 44,18 C 34,4 16,8 10,24 C 4,40 10,54 2,62 C -6,70 12,82 24,78 C 30,88 38,100 44,112 C 50,100 58,88 64,78 C 76,82 94,70 86,62 C 78,54 84,40 78,24 C 72,8 54,4 44,18 Z" 
+                        fill="url(#ivy-grad-mature)"/>
+                  <path d="M 44,18 C 34,4 16,8 10,24 C 4,40 10,54 2,62 C -6,70 12,82 24,78 C 30,88 38,100 44,112 C 50,100 58,88 64,78 C 76,82 94,70 86,62 C 78,54 84,40 78,24 C 72,8 54,4 44,18 Z" 
+                        fill="url(#leaf-sheen-highlight)"/>
+                </g>
+                <path d="M 44,18 Q 44,65 44,112" stroke="#bfe8b0" stroke-width="1.6" stroke-linecap="round" fill="none" opacity="0.85"/>
+                <path d="M 44,28 Q 24,45 2,62" stroke="#b0e0a0" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.8"/>
+                <path d="M 44,28 Q 64,45 86,62" stroke="#b0e0a0" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.8"/>
+                <path d="M 44,22 Q 26,18 10,24" stroke="#9dd48c" stroke-width="1.0" stroke-linecap="round" fill="none" opacity="0.65"/>
+                <path d="M 44,22 Q 62,18 78,24" stroke="#9dd48c" stroke-width="1.0" stroke-linecap="round" fill="none" opacity="0.65"/>
+                <path d="M 44,48 Q 32,56 24,78" stroke="#92cb82" stroke-width="0.9" stroke-linecap="round" fill="none" opacity="0.55"/>
+                <path d="M 44,48 Q 56,56 64,78" stroke="#92cb82" stroke-width="0.9" stroke-linecap="round" fill="none" opacity="0.55"/>
+                <path d="M 44,75 Q 38,88 34,96" stroke="#92cb82" stroke-width="0.8" stroke-linecap="round" fill="none" opacity="0.45"/>
+                <path d="M 44,75 Q 50,88 54,96" stroke="#92cb82" stroke-width="0.8" stroke-linecap="round" fill="none" opacity="0.45"/>
+              </g>
+
+              <!-- Medium 3-Lobed Leaf -->
+              <g id="hedera-leaf-med">
+                <g filter="url(#leaf-soft-shadow)">
+                  <path d="M 32,14 C 24,2 10,6 6,18 C 1,30 6,42 0,50 C -6,56 8,66 18,62 C 24,70 30,80 32,90 C 34,80 40,70 46,62 C 56,66 70,56 64,50 C 58,42 63,30 58,18 C 54,6 40,2 32,14 Z" 
+                        fill="url(#ivy-grad-deep)"/>
+                  <path d="M 32,14 C 24,2 10,6 6,18 C 1,30 6,42 0,50 C -6,56 8,66 18,62 C 24,70 30,80 32,90 C 34,80 40,70 46,62 C 56,66 70,56 64,50 C 58,42 63,30 58,18 C 54,6 40,2 32,14 Z" 
+                        fill="url(#leaf-sheen-highlight)"/>
+                </g>
+                <path d="M 32,14 Q 32,52 32,90" stroke="#bfe8b0" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.85"/>
+                <path d="M 32,22 Q 18,36 0,50" stroke="#b0e0a0" stroke-width="1.1" stroke-linecap="round" fill="none" opacity="0.75"/>
+                <path d="M 32,22 Q 46,36 64,50" stroke="#b0e0a0" stroke-width="1.1" stroke-linecap="round" fill="none" opacity="0.75"/>
+                <path d="M 32,18 Q 18,14 6,18" stroke="#9dd48c" stroke-width="0.9" stroke-linecap="round" fill="none" opacity="0.6"/>
+                <path d="M 32,18 Q 46,14 58,18" stroke="#9dd48c" stroke-width="0.9" stroke-linecap="round" fill="none" opacity="0.6"/>
+                <path d="M 32,40 Q 22,48 18,62" stroke="#92cb82" stroke-width="0.8" stroke-linecap="round" fill="none" opacity="0.5"/>
+                <path d="M 32,40 Q 42,48 46,62" stroke="#92cb82" stroke-width="0.8" stroke-linecap="round" fill="none" opacity="0.5"/>
+              </g>
+
+              <!-- Small Young Leaf -->
+              <g id="hedera-leaf-small">
+                <g filter="url(#leaf-soft-shadow)">
+                  <path d="M 22,10 C 16,1 6,4 4,14 C 1,22 4,30 0,36 C -4,40 6,48 12,44 C 16,50 20,58 22,64 C 24,58 28,50 32,44 C 38,48 48,40 44,36 C 40,30 43,22 40,14 C 38,4 28,1 22,10 Z" 
+                    fill="url(#ivy-grad-young)"/>
+                  <path d="M 22,10 C 16,1 6,4 4,14 C 1,22 4,30 0,36 C -4,40 6,48 12,44 C 16,50 20,58 22,64 C 24,58 28,50 32,44 C 38,48 48,40 44,36 C 40,30 43,22 40,14 C 38,4 28,1 22,10 Z" 
+                    fill="url(#leaf-sheen-highlight)"/>
+                </g>
+                <path d="M 22,10 Q 22,36 22,64" stroke="#cbf0bd" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.85"/>
+                <path d="M 22,16 Q 12,26 0,36" stroke="#bfe8b0" stroke-width="0.9" stroke-linecap="round" fill="none" opacity="0.7"/>
+                <path d="M 22,16 Q 32,26 44,36" stroke="#bfe8b0" stroke-width="0.9" stroke-linecap="round" fill="none" opacity="0.7"/>
+              </g>
+
+              <g id="hedera-leaf-under">
+                <path d="M 32,14 C 24,2 10,6 6,18 C 1,30 6,42 0,50 C -6,56 8,66 18,62 C 24,70 30,80 32,90 C 34,80 40,70 46,62 C 56,66 70,56 64,50 C 58,42 63,30 58,18 C 54,6 40,2 32,14 Z" 
+                      fill="url(#ivy-grad-underside)" opacity="0.92"/>
+              </g>
             </defs>
 
-            <!-- Main Climbing Vine Group -->
-            <g class="ivy-main-trunk" filter="url(#ivy-soft-shadow)">
+            <g class="ivy-main-trunk" filter="url(#ivy-deep-shadow)">
 
-              <!-- Layer 0: Background Deep Canopy Leaves (Mature Foliage Density) -->
-              <g class="under-canopy-leaves" opacity="0.88">
-                <g class="leaf-sway-3" style="transform-origin: 40px 38px;">
-                  <path d="M 40,38 C 26,22 4,32 6,54 C 8,76 30,98 48,108 C 64,95 74,72 68,52 C 62,36 50,32 40,38 Z" fill="url(#leaf-under-shadow)"/>
-                  <path d="M 40,38 Q 46,74 48,108" stroke="#6b9975" stroke-width="1.1" opacity="0.35" fill="none"/>
-                </g>
-                <g class="leaf-sway-1" style="transform-origin: 92px 92px;">
-                  <path d="M 92,92 C 110,76 132,86 132,108 C 132,128 114,148 98,158 C 82,145 74,124 78,106 C 82,94 88,90 92,92 Z" fill="url(#leaf-under-shadow)"/>
-                </g>
-                <g class="leaf-sway-4" style="transform-origin: 44px 218px;">
-                  <path d="M 44,218 C 24,202 6,212 6,234 C 6,256 26,276 42,286 C 58,274 66,252 62,234 C 58,220 50,216 44,218 Z" fill="url(#leaf-under-shadow)"/>
-                </g>
-                <g class="leaf-sway-2" style="transform-origin: 82px 328px;">
-                  <path d="M 82,328 C 98,314 116,322 116,340 C 116,356 102,372 88,380 C 74,370 68,352 70,338 C 72,328 78,326 82,328 Z" fill="url(#leaf-under-shadow)"/>
-                </g>
+              <!-- LAYER 0: UNDER-CANOPY DEEP SHADOW LEAVES -->
+              <g class="under-canopy-group">
+                <g transform="translate(32, -18) rotate(15) scale(0.95)"><g class="leaf-sway-slow"><use href="#hedera-leaf-under"/></g></g>
+                <g transform="translate(-40, 48) rotate(-42) scale(0.9)"><g class="leaf-sway-med"><use href="#hedera-leaf-under"/></g></g>
+                <g transform="translate(18, 115) rotate(26) scale(0.92)"><g class="leaf-sway-slow"><use href="#hedera-leaf-under"/></g></g>
+                <g transform="translate(-44, 225) rotate(-36) scale(0.88)"><g class="leaf-sway-med"><use href="#hedera-leaf-under"/></g></g>
+                <g transform="translate(24, 325) rotate(18) scale(0.85)"><g class="leaf-sway-slow"><use href="#hedera-leaf-under"/></g></g>
+                <g transform="translate(-36, 395) rotate(-28) scale(0.82)"><g class="leaf-sway-med"><use href="#hedera-leaf-under"/></g></g>
               </g>
 
-              <!-- Layer 1: Woody Branching Stems & Curling Tendrils -->
-              <g class="ivy-stems">
-                <!-- Main climbing twisting stem -->
-                <path d="M 62,-12 Q 68,35 58,80 T 52,165 T 66,250 T 50,340 T 62,425 T 52,495 T 56,545"
-                      stroke="url(#stem-wood)" stroke-width="3.8" stroke-linecap="round" fill="none"/>
-                <path d="M 63,-12 Q 69,35 59,80 T 53,165 T 67,250 T 51,340 T 63,425 T 53,495 T 57,545"
-                      stroke="#180e07" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.6"/>
+              <!-- LAYER 1: GNARLED TWISTING WOODY VINE TRUNK & CORNICE BRANCHES -->
+              <g class="ivy-branches-network">
+                <!-- Main twisting trunk -->
+                <path d="M 38,-22 C 34,15 16,50 12,95 C 8,140 24,180 18,225 C 12,270 4,310 10,355 C 16,400 22,440 16,485 C 12,515 18,535 20,555" 
+                      stroke="url(#trunk-bark)" stroke-width="6.5" stroke-linecap="round" fill="none"/>
+                <path d="M 30,-20 C 42,20 26,60 16,105 C 6,150 12,190 20,235 C 28,280 16,320 8,365 C 0,410 10,450 18,490 C 22,515 16,538 18,555" 
+                      stroke="url(#trunk-bark)" stroke-width="4.2" stroke-linecap="round" fill="none"/>
+                <path d="M 34,-22 C 37,18 20,55 14,100 C 10,145 18,185 19,230 C 20,275 10,315 9,360 C 8,405 16,445 17,488" 
+                      stroke="#120a05" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.75"/>
 
-                <!-- Secondary cascading branch -->
-                <path d="M 58,80 Q 36,120 32,175 T 42,260 T 30,340"
-                      stroke="url(#stem-wood)" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+                <!-- Upper Cornice Runner Branch (Arches across top wooden cornice) -->
+                <path d="M 38,-15 C 75,-18 120,-10 165,-12 C 190,-14 215,-8 235,-4" 
+                      stroke="url(#branch-bark)" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+                <path d="M 165,-12 C 185,-6 205,2 225,0" 
+                      stroke="url(#branch-bark)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
 
-                <!-- Petioles connecting leaves to main stems -->
-                <path d="M 60,22 Q 44,16 32,24" stroke="#332416" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-                <path d="M 60,65 Q 76,58 90,68" stroke="#332416" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-                <path d="M 54,115 Q 34,110 20,122" stroke="#332416" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-                <path d="M 55,165 Q 74,158 88,170" stroke="#332416" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-                <path d="M 36,205 Q 22,202 12,216" stroke="#332416" stroke-width="1.6" stroke-linecap="round" fill="none"/>
-                <path d="M 64,248 Q 84,242 98,256" stroke="#332416" stroke-width="1.6" stroke-linecap="round" fill="none"/>
-                <path d="M 52,310 Q 36,306 22,322" stroke="#332416" stroke-width="1.6" stroke-linecap="round" fill="none"/>
-                <path d="M 60,375 Q 78,372 90,386" stroke="#332416" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-                <path d="M 54,435 Q 40,432 30,446" stroke="#332416" stroke-width="1.4" stroke-linecap="round" fill="none"/>
-                <path d="M 53,495 Q 62,496 68,510" stroke="#332416" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+                <!-- Petioles connecting leaves to stems -->
+                <path d="M 120,-10 Q 115,6 108,18" stroke="#3d2919" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+                <path d="M 210,-14 Q 220,0 230,12" stroke="#3d2919" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+                <path d="M 38,-10 Q 42,4 48,16" stroke="#3d2919" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                <path d="M 24,35 Q 0,30 -22,38" stroke="#3d2919" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                <path d="M 18,80 Q -8,82 -30,94" stroke="#3d2919" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                <path d="M 16,125 Q 35,130 52,142" stroke="#3d2919" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                <path d="M 20,180 Q -4,185 -24,198" stroke="#3d2919" stroke-width="1.7" stroke-linecap="round" fill="none"/>
+                <path d="M 22,235 Q 40,242 58,254" stroke="#3d2919" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+                <path d="M 12,290 Q -12,295 -28,308" stroke="#3d2919" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+                <path d="M 12,355 Q 32,362 48,375" stroke="#3d2919" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+                <path d="M 18,420 Q -8,425 -22,438" stroke="#3d2919" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+                <path d="M 18,485 Q 26,492 32,504" stroke="#3d2919" stroke-width="1.3" stroke-linecap="round" fill="none"/>
 
-                <!-- Delicate Curling Ivy Tendrils -->
+                <!-- Spiraling Tendrils -->
                 <g class="tendril-sway-1">
-                  <path d="M 30,340 C 24,365 18,380 22,395 C 26,410 36,408 34,396 C 32,386 24,388 26,398"
-                        stroke="#2d4223" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+                  <path d="M 225,0 C 245,-8 265,-18 278,-12 C 288,-6 284,8 274,6 C 266,4 268,-6 275,-4" 
+                        stroke="#588544" stroke-width="1.2" stroke-linecap="round" fill="none"/>
                 </g>
                 <g class="tendril-sway-2">
-                  <path d="M 56,545 C 54,565 48,578 52,588 C 56,596 62,594 60,586 C 58,580 52,582 54,588"
-                        stroke="#334b28" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+                  <path d="M 235,-4 C 248,4 256,14 250,22 C 244,28 236,22 240,16" 
+                        stroke="#62944b" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+                </g>
+                <g class="tendril-sway-3">
+                  <path d="M 22,235 C 40,240 60,248 68,260 C 74,272 65,282 55,278 C 47,272 52,260 62,264" 
+                        stroke="#507c3d" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+                </g>
+                <g class="tendril-sway-4">
+                  <path d="M 20,555 C 18,572 12,586 16,596 C 20,604 28,600 25,592 C 22,586 16,588 18,594" 
+                        stroke="#689e52" stroke-width="1.1" stroke-linecap="round" fill="none"/>
                 </g>
               </g>
 
-              <!-- Layer 2: Mature Broad Heart-Shaped Ivy Leaves (Inspired by BookVerse Illustration) -->
-
-              <!-- Leaf 1: Top Cornice Overhang (Left) -->
-              <g class="leaf-sway-1" style="transform-origin: 32px 24px;">
-                <g filter="url(#leaf-inner-depth)">
-                  <path d="M 32,24 C 20,8 0,16 2,36 C 4,56 24,74 40,84 C 54,72 62,52 58,34 C 52,18 42,14 32,24 Z"
-                        fill="url(#leaf-dark-emerald)"/>
-                  <path d="M 32,24 C 20,8 0,16 2,36 C 4,56 24,74 40,84 C 54,72 62,52 58,34 C 52,18 42,14 32,24 Z"
-                        fill="url(#leaf-sheen)"/>
-                </g>
-                <path d="M 32,24 Q 36,54 40,84" stroke="#90c29b" stroke-width="1.3" opacity="0.65" fill="none"/>
-                <path d="M 33,38 Q 16,32 8,36 M 34,52 Q 18,50 12,58" stroke="#7eb58a" stroke-width="0.9" opacity="0.45" fill="none"/>
-                <path d="M 34,38 Q 46,32 52,34 M 35,52 Q 48,48 52,54" stroke="#7eb58a" stroke-width="0.9" opacity="0.45" fill="none"/>
+              <!-- LAYER 2: LUSH OVERLAPPING LEAVES -->
+              <!-- Cornice Runner Leaves -->
+              <g class="ivy-leaves-cornice">
+                <g transform="translate(205, -6) rotate(-14) scale(0.78)"><g class="leaf-sway-med"><use href="#hedera-leaf-med"/></g></g>
+                <g transform="translate(104, 0) rotate(16) scale(0.88)"><g class="leaf-sway-slow"><use href="#hedera-leaf-med"/></g></g>
               </g>
 
-              <!-- Leaf 2: Top Cornice Cluster (Right) -->
-              <g class="leaf-sway-2" style="transform-origin: 90px 68px;">
-                <g filter="url(#leaf-inner-depth)">
-                  <path d="M 90,68 C 104,54 124,62 124,80 C 124,98 110,116 96,126 C 82,114 74,96 78,78 C 82,64 86,60 90,68 Z"
-                        fill="url(#leaf-deep-forest)"/>
-                  <path d="M 90,68 C 104,54 124,62 124,80 C 124,98 110,116 96,126 C 82,114 74,96 78,78 C 82,64 86,60 90,68 Z"
-                        fill="url(#leaf-sheen)"/>
-                </g>
-                <path d="M 90,68 Q 94,96 96,126" stroke="#90c29b" stroke-width="1.3" opacity="0.65" fill="none"/>
-                <path d="M 91,82 Q 108,78 116,82 M 92,96 Q 108,96 112,104" stroke="#7eb58a" stroke-width="0.9" opacity="0.45" fill="none"/>
-                <path d="M 91,82 Q 78,78 74,82 M 92,96 Q 80,94 78,100" stroke="#7eb58a" stroke-width="0.9" opacity="0.45" fill="none"/>
+              <!-- Upper-Left Corner Crown Foliage -->
+              <g class="ivy-leaves-crown">
+                <g transform="translate(14, -26) rotate(-14) scale(1.06)"><g class="leaf-sway-slow"><use href="#hedera-leaf-large"/></g></g>
+                <g transform="translate(-46, 10) rotate(-38) scale(0.98)"><g class="leaf-sway-med"><use href="#hedera-leaf-large"/></g></g>
+                <g transform="translate(4, 16) rotate(6) scale(1.14)"><g class="leaf-sway-slow"><use href="#hedera-leaf-large"/></g></g>
+                <g transform="translate(-54, 76) rotate(-26) scale(0.92)"><g class="leaf-sway-fast"><use href="#hedera-leaf-med"/></g></g>
+                <g transform="translate(38, 70) rotate(26) scale(0.92)"><g class="leaf-sway-med"><use href="#hedera-leaf-med"/></g></g>
               </g>
 
-              <!-- Leaf 3: Upper-Mid Cascading Heartleaf (Hero Leaf 1) -->
-              <g class="leaf-sway-3" style="transform-origin: 20px 122px;">
-                <g filter="url(#leaf-inner-depth)">
-                  <path d="M 20,122 C 6,106 -14,116 -12,138 C -10,160 12,180 28,192 C 44,180 54,158 50,138 C 44,120 32,114 20,122 Z"
-                        fill="url(#leaf-dark-emerald)"/>
-                  <path d="M 20,122 C 6,106 -14,116 -12,138 C -10,160 12,180 28,192 C 44,180 54,158 50,138 C 44,120 32,114 20,122 Z"
-                        fill="url(#leaf-sheen)"/>
-                </g>
-                <path d="M 20,122 Q 24,156 28,192" stroke="#90c29b" stroke-width="1.4" opacity="0.68" fill="none"/>
-                <path d="M 21,138 Q 4,132 -4,136 M 22,154 Q 4,154 -2,162" stroke="#7eb58a" stroke-width="1.0" opacity="0.5" fill="none"/>
-                <path d="M 22,138 Q 36,132 44,134 M 23,154 Q 38,150 44,156" stroke="#7eb58a" stroke-width="1.0" opacity="0.5" fill="none"/>
+              <!-- Left Jamb Cascading Foliage (Dense & Organic) -->
+              <g class="ivy-leaves-jamb">
+                <!-- Upper Jamb Tier 1 -->
+                <g transform="translate(-18, 122) rotate(-10) scale(1.08)"><g class="leaf-sway-slow"><use href="#hedera-leaf-large"/></g></g>
+                <g transform="translate(-52, 175) rotate(-34) scale(0.9)"><g class="leaf-sway-fast"><use href="#hedera-leaf-med"/></g></g>
+                <g transform="translate(26, 182) rotate(24) scale(0.94)"><g class="leaf-sway-med"><use href="#hedera-leaf-med"/></g></g>
+
+                <!-- Mid Jamb Hero Leaves -->
+                <g transform="translate(-10, 238) rotate(4) scale(1.16)"><g class="leaf-sway-slow"><use href="#hedera-leaf-large"/></g></g>
+                <g transform="translate(-48, 294) rotate(-26) scale(0.96)"><g class="leaf-sway-med"><use href="#hedera-leaf-med"/></g></g>
+                <g transform="translate(30, 302) rotate(18) scale(0.88)"><g class="leaf-sway-fast"><use href="#hedera-leaf-med"/></g></g>
+
+                <!-- Lower-Mid Leaves -->
+                <g transform="translate(-14, 360) rotate(-8) scale(1.05)"><g class="leaf-sway-slow"><use href="#hedera-leaf-large"/></g></g>
+                <g transform="translate(-42, 420) rotate(-30) scale(0.86)"><g class="leaf-sway-med"><use href="#hedera-leaf-med"/></g></g>
+                <g transform="translate(14, 432) rotate(15) scale(0.82)"><g class="leaf-sway-fast"><use href="#hedera-leaf-small"/></g></g>
+
+                <!-- Terminal Young Shoots -->
+                <g transform="translate(-10, 485) rotate(6) scale(0.76)"><g class="leaf-sway-med"><use href="#hedera-leaf-small"/></g></g>
+                <g transform="translate(8, 524) rotate(-14) scale(0.64)"><g class="leaf-sway-fast"><use href="#hedera-leaf-small"/></g></g>
               </g>
 
-              <!-- Leaf 4: Upper Inward Heartleaf -->
-              <g class="leaf-sway-5" style="transform-origin: 88px 170px;">
-                <g filter="url(#leaf-inner-depth)">
-                  <path d="M 88,170 C 102,156 122,164 122,182 C 122,200 108,216 94,224 C 80,214 72,196 76,180 C 80,166 84,162 88,170 Z"
-                        fill="url(#leaf-deep-forest)"/>
-                  <path d="M 88,170 C 102,156 122,164 122,182 C 122,200 108,216 94,224 C 80,214 72,196 76,180 C 80,166 84,162 88,170 Z"
-                        fill="url(#leaf-sheen)"/>
-                </g>
-                <path d="M 88,170 Q 92,196 94,224" stroke="#90c29b" stroke-width="1.3" opacity="0.65" fill="none"/>
-                <path d="M 89,184 Q 106,180 114,184 M 90,198 Q 104,198 110,204" stroke="#7eb58a" stroke-width="0.9" opacity="0.45" fill="none"/>
-              </g>
-
-              <!-- Leaf 5: Mid-Shelf Hero Heartleaf (Lush Centerpiece) -->
-              <g class="leaf-sway-4" style="transform-origin: 12px 216px;">
-                <g filter="url(#leaf-inner-depth)">
-                  <path d="M 12,216 C -2,198 -24,208 -22,232 C -20,256 4,278 22,290 C 40,276 50,252 46,232 C 40,212 26,206 12,216 Z"
-                        fill="url(#leaf-dark-emerald)"/>
-                  <path d="M 12,216 C -2,198 -24,208 -22,232 C -20,256 4,278 22,290 C 40,276 50,252 46,232 C 40,212 26,206 12,216 Z"
-                        fill="url(#leaf-sheen)"/>
-                </g>
-                <path d="M 12,216 Q 16,252 22,290" stroke="#90c29b" stroke-width="1.5" opacity="0.7" fill="none"/>
-                <path d="M 13,234 Q -4,226 -12,232 M 15,252 Q -2,252 -8,262" stroke="#7eb58a" stroke-width="1.0" opacity="0.5" fill="none"/>
-                <path d="M 15,234 Q 30,226 38,230 M 17,252 Q 32,248 38,256" stroke="#7eb58a" stroke-width="1.0" opacity="0.5" fill="none"/>
-              </g>
-
-              <!-- Leaf 6: Mid-Shelf Inward Branch -->
-              <g class="leaf-sway-1" style="transform-origin: 98px 256px;">
-                <g filter="url(#leaf-inner-depth)">
-                  <path d="M 98,256 C 110,242 128,248 128,264 C 128,280 116,296 104,304 C 92,294 84,278 88,264 C 92,252 96,250 98,256 Z"
-                        fill="url(#leaf-deep-forest)"/>
-                  <path d="M 98,256 C 110,242 128,248 128,264 C 128,280 116,296 104,304 C 92,294 84,278 88,264 C 92,252 96,250 98,256 Z"
-                        fill="url(#leaf-sheen)"/>
-                </g>
-                <path d="M 98,256 Q 102,280 104,304" stroke="#90c29b" stroke-width="1.2" opacity="0.6" fill="none"/>
-              </g>
-
-              <!-- Leaf 7: Lower-Mid Outward Heartleaf -->
-              <g class="leaf-sway-2" style="transform-origin: 22px 322px;">
-                <g filter="url(#leaf-inner-depth)">
-                  <path d="M 22,322 C 10,308 -6,316 -4,334 C -2,352 14,368 28,378 C 42,366 50,348 46,334 C 40,320 32,316 22,322 Z"
-                        fill="url(#leaf-dark-emerald)"/>
-                  <path d="M 22,322 C 10,308 -6,316 -4,334 C -2,352 14,368 28,378 C 42,366 50,348 46,334 C 40,320 32,316 22,322 Z"
-                        fill="url(#leaf-sheen)"/>
-                </g>
-                <path d="M 22,322 Q 26,350 28,378" stroke="#90c29b" stroke-width="1.3" opacity="0.65" fill="none"/>
-              </g>
-
-              <!-- Leaf 8: Lower Inward Cluster -->
-              <g class="leaf-sway-3" style="transform-origin: 90px 386px;">
-                <g filter="url(#leaf-inner-depth)">
-                  <path d="M 90,386 C 102,374 116,380 116,394 C 116,408 106,420 96,428 C 86,418 78,406 82,394 C 86,382 88,380 90,386 Z"
-                        fill="url(#leaf-deep-forest)"/>
-                </g>
-                <path d="M 90,386 Q 94,406 96,428" stroke="#90c29b" stroke-width="1.2" opacity="0.6" fill="none"/>
-              </g>
-
-              <!-- Leaf 9: Lower Tapering Leaf -->
-              <g class="leaf-sway-4" style="transform-origin: 30px 446px;">
-                <g filter="url(#leaf-inner-depth)">
-                  <path d="M 30,446 C 20,436 8,442 10,456 C 12,468 22,480 32,486 C 42,478 48,466 44,456 C 40,444 36,442 30,446 Z"
-                        fill="url(#leaf-tender-shoot)"/>
-                </g>
-                <path d="M 30,446 Q 32,466 32,486" stroke="#90c29b" stroke-width="1.1" opacity="0.6" fill="none"/>
-              </g>
-
-              <!-- Leaf 10: Terminal Tender Shoot (Ends gracefully with visible gap before bottom) -->
-              <g class="leaf-sway-1" style="transform-origin: 68px 510px;">
-                <g filter="url(#leaf-inner-depth)">
-                  <path d="M 68,510 C 60,504 50,508 52,518 C 54,528 62,536 70,540 C 76,534 80,526 78,518 C 76,510 72,506 68,510 Z"
-                        fill="url(#leaf-tender-shoot)"/>
-                </g>
-                <path d="M 68,510 Q 70,525 70,540" stroke="#90c29b" stroke-width="0.9" opacity="0.55" fill="none"/>
-              </g>
-
-            </g><!-- /.ivy-main-trunk -->
+            </g>
           </svg>
         </div>
 
-        <!-- ── Realistic 3D Fluttering Lavender Butterfly (Inspired by BUTTERFLY.jpg) ── -->
+        <!-- ── REALISTIC GLITTERY BUTTERFLY (Near TOP of Vine at Upper-Left Corner) ── -->
         <div class="bookshelf-butterfly-scene" aria-hidden="true">
           <div class="butterfly-flight-rig">
 
-            <!-- Occasional Subtle Golden Shimmer Motes -->
-            <div class="shimmer-mote mote-1"></div>
-            <div class="shimmer-mote mote-2"></div>
+            <div class="glitter-sparkle sparkle-1">✦</div>
+            <div class="glitter-sparkle sparkle-2">✧</div>
+            <div class="glitter-sparkle sparkle-3">✦</div>
 
             <div class="butterfly-3d-body">
 
-              <!-- Left Wing: flaps sideways around right hinge (100% 45%) -->
+              <!-- Left Wing: Translucent Blue-Lavender with 3D Sideways Flap -->
               <div class="wing-wrapper-left">
-                <svg class="wing-svg" viewBox="0 0 32 44" xmlns="http://www.w3.org/2000/svg">
+                <svg class="wing-svg" viewBox="0 0 34 46" xmlns="http://www.w3.org/2000/svg">
                   <defs>
-                    <linearGradient id="bf-lav-l" x1="100%" y1="20%" x2="0%" y2="80%">
-                      <stop offset="0%" stop-color="#b684d4"/>
-                      <stop offset="35%" stop-color="#9d5ebd"/>
-                      <stop offset="70%" stop-color="#803fa0"/>
-                      <stop offset="100%" stop-color="#4d2263"/>
+                    <linearGradient id="bf-trans-lav-blue-l" x1="100%" y1="15%" x2="0%" y2="85%">
+                      <stop offset="0%" stop-color="#c4d8ff" stop-opacity="0.95"/>
+                      <stop offset="28%" stop-color="#9bbef8" stop-opacity="0.92"/>
+                      <stop offset="65%" stop-color="#a472d8" stop-opacity="0.90"/>
+                      <stop offset="100%" stop-color="#55247c" stop-opacity="0.88"/>
                     </linearGradient>
-                    <linearGradient id="bf-pink-l" x1="100%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stop-color="#dcbbf0"/>
-                      <stop offset="50%" stop-color="#b883d6"/>
-                      <stop offset="100%" stop-color="#6e3187"/>
+                    <linearGradient id="bf-shimmer-l" x1="100%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#e2ecff" stop-opacity="0.92"/>
+                      <stop offset="45%" stop-color="#c4adfc" stop-opacity="0.88"/>
+                      <stop offset="100%" stop-color="#6e3195" stop-opacity="0.85"/>
                     </linearGradient>
+                    <radialGradient id="wing-glitter-sheen-l" cx="45%" cy="35%" r="65%">
+                      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.55"/>
+                      <stop offset="40%" stop-color="#a8dbff" stop-opacity="0.25"/>
+                      <stop offset="100%" stop-color="#7040b0" stop-opacity="0"/>
+                    </radialGradient>
                   </defs>
-                  <path d="M 32,18 C 28,12 18,2 6,1 C 1,0 -1,4 1,9 C 2,13 4,17 7,20 C 12,24 22,25 32,22 Z" fill="url(#bf-lav-l)"/>
-                  <path d="M 32,22 C 26,22 18,25 12,30 C 8,33 9,39 13,42 C 18,44 26,40 32,30 Z" fill="url(#bf-pink-l)"/>
-                  <path d="M 32,20 C 24,16 16,12 6,4 M 32,20 C 22,18 14,16 5,14 M 32,20 C 24,21 16,22 8,22 M 32,24 C 24,28 16,33 13,41 M 32,24 C 26,30 20,36 17,42" stroke="#160c1d" stroke-width="1.1" stroke-linecap="round" fill="none"/>
-                  <path d="M 6,1 C 1,0 -1,4 1,9 C 2,13 4,17 7,20 C 12,24 16,28 12,30 C 8,33 9,39 13,42 C 16,43 18,43 19,42 C 16,39 12,32 14,24 C 11,21 6,15 4,8 C 3,4 5,2 6,1 Z" fill="#110816"/>
-                  <circle cx="1.5" cy="5" r="0.8" fill="#ffffff" opacity="0.9"/>
-                  <circle cx="2.2" cy="10" r="0.8" fill="#ffffff" opacity="0.9"/>
-                  <circle cx="4.5" cy="16" r="0.8" fill="#ffffff" opacity="0.9"/>
-                  <circle cx="9" cy="22" r="0.8" fill="#ffffff" opacity="0.9"/>
-                  <circle cx="10" cy="34" r="0.8" fill="#ffffff" opacity="0.9"/>
-                  <circle cx="14" cy="41" r="0.8" fill="#ffffff" opacity="0.9"/>
+
+                  <path d="M 34,19 C 30,12 20,2 7,1 C 1,0 -1,4 1,9 C 2,14 4,18 8,21 C 13,25 24,26 34,23 Z" 
+                        fill="url(#bf-trans-lav-blue-l)"/>
+                  <path d="M 34,23 C 27,23 19,26 13,31 C 8,34 9,41 14,44 C 19,46 28,42 34,31 Z" 
+                        fill="url(#bf-shimmer-l)"/>
+                  <path d="M 34,19 C 30,12 20,2 7,1 C 1,0 -1,4 1,9 C 2,14 4,18 8,21 C 13,25 24,26 34,23 Z" 
+                        fill="url(#wing-glitter-sheen-l)"/>
+
+                  <!-- Monarch Black Venation (from BUTTERFLY.jpg) -->
+                  <path d="M 34,21 C 25,17 17,12 7,4 
+                           M 34,21 C 23,19 14,17 5,14 
+                           M 34,21 C 25,22 17,23 8,23 
+                           M 34,25 C 25,29 17,34 14,43 
+                           M 34,25 C 27,31 21,38 18,44" 
+                        stroke="#150a1c" stroke-width="1.15" stroke-linecap="round" fill="none"/>
+
+                  <path d="M 7,1 C 1,0 -1,4 1,9 C 2,14 4,18 8,21 C 13,25 17,29 13,31 C 8,34 9,41 14,44 C 17,45 19,45 20,44 C 17,41 13,33 15,25 C 12,22 7,16 5,8 C 4,4 6,2 7,1 Z" 
+                        fill="#0f0714"/>
+
+                  <!-- Pearl-White Border Dots (from BUTTERFLY.jpg) -->
+                  <circle cx="1.6" cy="5.2" r="0.85" fill="#ffffff" opacity="0.95"/>
+                  <circle cx="2.4" cy="10.5" r="0.85" fill="#ffffff" opacity="0.95"/>
+                  <circle cx="4.8" cy="16.5" r="0.85" fill="#ffffff" opacity="0.95"/>
+                  <circle cx="9.6" cy="22.5" r="0.85" fill="#ffffff" opacity="0.95"/>
+                  <circle cx="10.8" cy="35" r="0.85" fill="#ffffff" opacity="0.95"/>
+                  <circle cx="15" cy="42.5" r="0.85" fill="#ffffff" opacity="0.95"/>
                 </svg>
               </div>
 
-              <!-- Slender Center Torso & Antennae -->
+              <!-- Slender Stable Torso -->
               <div class="butterfly-torso-center">
                 <div class="antenna-left"></div>
                 <div class="antenna-right"></div>
@@ -1032,38 +1040,58 @@
                 <div class="torso-segment"></div>
               </div>
 
-              <!-- Right Wing: flaps sideways around left hinge (0% 45%) -->
+              <!-- Right Wing -->
               <div class="wing-wrapper-right">
-                <svg class="wing-svg" viewBox="0 0 32 44" xmlns="http://www.w3.org/2000/svg">
+                <svg class="wing-svg" viewBox="0 0 34 46" xmlns="http://www.w3.org/2000/svg">
                   <defs>
-                    <linearGradient id="bf-lav-r" x1="0%" y1="20%" x2="100%" y2="80%">
-                      <stop offset="0%" stop-color="#b684d4"/>
-                      <stop offset="35%" stop-color="#9d5ebd"/>
-                      <stop offset="70%" stop-color="#803fa0"/>
-                      <stop offset="100%" stop-color="#4d2263"/>
+                    <linearGradient id="bf-trans-lav-blue-r" x1="0%" y1="15%" x2="100%" y2="85%">
+                      <stop offset="0%" stop-color="#c4d8ff" stop-opacity="0.95"/>
+                      <stop offset="28%" stop-color="#9bbef8" stop-opacity="0.92"/>
+                      <stop offset="65%" stop-color="#a472d8" stop-opacity="0.90"/>
+                      <stop offset="100%" stop-color="#55247c" stop-opacity="0.88"/>
                     </linearGradient>
-                    <linearGradient id="bf-pink-r" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stop-color="#dcbbf0"/>
-                      <stop offset="50%" stop-color="#b883d6"/>
-                      <stop offset="100%" stop-color="#6e3187"/>
+                    <linearGradient id="bf-shimmer-r" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#e2ecff" stop-opacity="0.92"/>
+                      <stop offset="45%" stop-color="#c4adfc" stop-opacity="0.88"/>
+                      <stop offset="100%" stop-color="#6e3195" stop-opacity="0.85"/>
                     </linearGradient>
+                    <radialGradient id="wing-glitter-sheen-r" cx="55%" cy="35%" r="65%">
+                      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.55"/>
+                      <stop offset="40%" stop-color="#a8dbff" stop-opacity="0.25"/>
+                      <stop offset="100%" stop-color="#7040b0" stop-opacity="0"/>
+                    </radialGradient>
                   </defs>
-                  <path d="M 0,18 C 4,12 14,2 26,1 C 31,0 33,4 31,9 C 30,13 28,17 25,20 C 20,24 10,25 0,22 Z" fill="url(#bf-lav-r)"/>
-                  <path d="M 0,22 C 6,22 14,25 20,30 C 24,33 23,39 19,42 C 14,44 6,40 0,30 Z" fill="url(#bf-pink-r)"/>
-                  <path d="M 0,20 C 8,16 16,12 26,4 M 0,20 C 10,18 18,16 27,14 M 0,20 C 8,21 16,22 24,22 M 0,24 C 8,28 16,33 19,41 M 0,24 C 6,30 12,36 15,42" stroke="#160c1d" stroke-width="1.1" stroke-linecap="round" fill="none"/>
-                  <path d="M 26,1 C 31,0 33,4 31,9 C 30,13 28,17 25,20 C 20,24 16,28 20,30 C 24,33 23,39 19,42 C 16,43 14,43 13,42 C 16,39 20,32 18,24 C 21,21 26,15 28,8 C 29,4 27,2 26,1 Z" fill="#110816"/>
-                  <circle cx="30.5" cy="5" r="0.8" fill="#ffffff" opacity="0.9"/>
-                  <circle cx="29.8" cy="10" r="0.8" fill="#ffffff" opacity="0.9"/>
-                  <circle cx="27.5" cy="16" r="0.8" fill="#ffffff" opacity="0.9"/>
-                  <circle cx="23" cy="22" r="0.8" fill="#ffffff" opacity="0.9"/>
-                  <circle cx="22" cy="34" r="0.8" fill="#ffffff" opacity="0.9"/>
-                  <circle cx="18" cy="41" r="0.8" fill="#ffffff" opacity="0.9"/>
+
+                  <path d="M 0,19 C 4,12 14,2 27,1 C 33,0 35,4 33,9 C 32,14 30,18 26,21 C 21,25 10,26 0,23 Z" 
+                        fill="url(#bf-trans-lav-blue-r)"/>
+                  <path d="M 0,23 C 7,23 15,26 21,31 C 26,34 25,41 20,44 C 15,46 6,42 0,31 Z" 
+                        fill="url(#bf-shimmer-r)"/>
+                  <path d="M 0,19 C 4,12 14,2 27,1 C 33,0 35,4 33,9 C 32,14 30,18 26,21 C 21,25 10,26 0,23 Z" 
+                        fill="url(#wing-glitter-sheen-r)"/>
+
+                  <path d="M 0,21 C 9,17 17,12 27,4 
+                           M 0,21 C 11,19 20,17 29,14 
+                           M 0,21 C 9,22 17,23 26,23 
+                           M 0,25 C 9,29 17,34 20,43 
+                           M 0,25 C 7,31 13,38 16,44" 
+                        stroke="#150a1c" stroke-width="1.15" stroke-linecap="round" fill="none"/>
+
+                  <path d="M 27,1 C 33,0 35,4 33,9 C 32,14 30,18 26,21 C 21,25 17,29 21,31 C 26,34 25,41 20,44 C 17,45 15,45 14,44 C 17,41 21,33 19,25 C 22,22 27,16 29,8 C 30,4 28,2 27,1 Z" 
+                    fill="#0f0714"/>
+
+                  <circle cx="32.4" cy="5.2" r="0.85" fill="#ffffff" opacity="0.95"/>
+                  <circle cx="31.6" cy="10.5" r="0.85" fill="#ffffff" opacity="0.95"/>
+                  <circle cx="29.2" cy="16.5" r="0.85" fill="#ffffff" opacity="0.95"/>
+                  <circle cx="24.4" cy="22.5" r="0.85" fill="#ffffff" opacity="0.95"/>
+                  <circle cx="23.2" cy="35" r="0.85" fill="#ffffff" opacity="0.95"/>
+                  <circle cx="19" cy="42.5" r="0.85" fill="#ffffff" opacity="0.95"/>
                 </svg>
               </div>
 
-            </div><!-- /.butterfly-3d-body -->
-          </div><!-- /.butterfly-flight-rig -->
-        </div><!-- /.bookshelf-butterfly-scene -->
+            </div>
+          </div>
+        </div>
+
 
         <!-- Top Walnut Cornice -->
         <div class="bookshelf-header-cornice" aria-hidden="true">

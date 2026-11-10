@@ -1947,24 +1947,25 @@ body {
 }
 
 /* ==========================================================================
-   Enchanted Ivy Creeper & 3D Fluttering Butterfly
-   Inspired by BookVerse Illustration (LIB1.jpg) & BUTTERFLY.jpg
-   Left-side climbing ivy vine that gracefully terminates before the bottom,
-   paired with a 3D fluttering lavender-violet monarch butterfly.
+   Enchanted Ivy Creeper & Realistic 3D Fluttering Butterfly
+   Inspired by Ivy-Crowned Archives Bookshelf.png & BUTTERFLY.jpg
+   Left-side climbing mature English ivy creeper (Hedera helix) arching over
+   the upper-left corner and terminating before the bottom shelf, paired with
+   a realistic translucent blue/lavender glittery butterfly near the top.
    ========================================================================== */
 
 /* ── Enchanted Ivy Creeper (Left Outer Frame) ── */
 .bookshelf-enchanted-ivy {
   position: absolute;
-  top: -14px;
-  left: -36px;
-  width: 165px;
-  height: 74%;
-  max-height: 640px;
+  top: -22px;
+  left: -48px;
+  width: 420px;
+  height: 82%;
+  max-height: 690px;
   pointer-events: none;
   z-index: 18;
   overflow: visible;
-  filter: drop-shadow(3px 8px 18px rgba(0, 0, 0, 0.78));
+  filter: drop-shadow(4px 10px 24px rgba(0, 0, 0, 0.88));
 }
 
 .bookshelf-enchanted-ivy .ivy-svg {
@@ -1974,180 +1975,151 @@ body {
   overflow: visible;
 }
 
-/* Main Vine Gentle Sway */
+/* Living Ivy Main Vine Slow Breeze (9.8s cycle) */
 @keyframes ivyMainTrunkBreeze {
   0% { transform: rotate(0deg) translateY(0); }
-  28% { transform: rotate(0.45deg) translateY(0.3px); }
-  65% { transform: rotate(-0.35deg) translateY(-0.2px); }
+  25% { transform: rotate(0.4deg) translateY(0.25px); }
+  65% { transform: rotate(-0.3deg) translateY(-0.2px); }
   100% { transform: rotate(0deg) translateY(0); }
 }
 
 .ivy-main-trunk {
-  transform-origin: 60px 0px;
-  animation: ivyMainTrunkBreeze 10.5s ease-in-out infinite;
+  transform-origin: 38px 0px;
+  animation: ivyMainTrunkBreeze 9.8s ease-in-out infinite;
 }
 
-/* Staggered Leaf Sway Animations (Natural Organic Motion) */
-@keyframes leafBreezeA {
+/* Independent Leaf Tilts & Sway (Smaller leaves move slightly more than larger leaves) */
+@keyframes leafSwaySlow {
   0% { transform: rotate(0deg); }
-  100% { transform: rotate(2.4deg); }
+  100% { transform: rotate(1.6deg); }
 }
-@keyframes leafBreezeB {
+@keyframes leafSwayMed {
   0% { transform: rotate(0deg); }
-  100% { transform: rotate(-2.1deg); }
+  100% { transform: rotate(-2.4deg); }
 }
-@keyframes leafBreezeC {
+@keyframes leafSwayFast {
   0% { transform: rotate(0deg); }
-  100% { transform: rotate(1.8deg); }
-}
-@keyframes leafBreezeD {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(-2.6deg); }
-}
-@keyframes leafBreezeE {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(2.0deg); }
+  100% { transform: rotate(3.4deg); }
 }
 
-.leaf-sway-1 { animation: leafBreezeA 6.8s ease-in-out infinite alternate; }
-.leaf-sway-2 { animation: leafBreezeB 7.6s ease-in-out infinite alternate; }
-.leaf-sway-3 { animation: leafBreezeC 8.4s ease-in-out infinite alternate; }
-.leaf-sway-4 { animation: leafBreezeD 6.2s ease-in-out infinite alternate; }
-.leaf-sway-5 { animation: leafBreezeE 9.1s ease-in-out infinite alternate; }
+.leaf-sway-slow { 
+  transform-box: fill-box;
+  transform-origin: 50% 18%;
+  animation: leafSwaySlow 8.5s ease-in-out infinite alternate; 
+}
+.leaf-sway-med { 
+  transform-box: fill-box;
+  transform-origin: 50% 18%;
+  animation: leafSwayMed 6.8s ease-in-out infinite alternate; 
+}
+.leaf-sway-fast { 
+  transform-box: fill-box;
+  transform-origin: 50% 18%;
+  animation: leafSwayFast 5.2s ease-in-out infinite alternate; 
+}
 
-/* Tendril Oscillation */
+/* Delicate Tendril Oscillations */
 @keyframes tendrilBreeze1 {
   0% { transform: rotate(0deg) scale(1); }
-  100% { transform: rotate(3.2deg) scale(1.02); }
+  100% { transform: rotate(3.8deg) scale(1.02); }
 }
 @keyframes tendrilBreeze2 {
   0% { transform: rotate(0deg) scale(1); }
-  100% { transform: rotate(-3.5deg) scale(0.98); }
+  100% { transform: rotate(-4.0deg) scale(0.98); }
+}
+@keyframes tendrilBreeze3 {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(4.5deg); }
+}
+@keyframes tendrilBreeze4 {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-3.5deg); }
 }
 
-.tendril-sway-1 {
-  transform-origin: 30px 340px;
-  animation: tendrilBreeze1 5.4s ease-in-out infinite alternate;
-}
-.tendril-sway-2 {
-  transform-origin: 56px 545px;
-  animation: tendrilBreeze2 6.5s ease-in-out infinite alternate;
-}
+.tendril-sway-1 { transform-origin: 225px 0px; animation: tendrilBreeze1 6.2s ease-in-out infinite alternate; }
+.tendril-sway-2 { transform-origin: 235px -4px; animation: tendrilBreeze2 7.4s ease-in-out infinite alternate; }
+.tendril-sway-3 { transform-origin: 22px 235px; animation: tendrilBreeze3 5.8s ease-in-out infinite alternate; }
+.tendril-sway-4 { transform-origin: 20px 555px; animation: tendrilBreeze4 8.0s ease-in-out infinite alternate; }
 
-/* ── Realistic 3D Fluttering Butterfly Scene ── */
+/* ── Realistic Glittery Butterfly (Near TOP of Vine at Upper-Left Corner) ── */
 .bookshelf-butterfly-scene {
   position: absolute;
-  top: 155px;
-  left: 18px;
-  width: 70px;
-  height: 70px;
+  top: 26px;
+  left: 48px;
+  width: 74px;
+  height: 74px;
   pointer-events: none;
-  z-index: 22;
+  z-index: 24;
   overflow: visible;
 }
 
-/* Organic Curved Flight & Hover Drift */
-@keyframes butterflyFlightLoop {
-  0% {
-    transform: translate3d(0, 0, 0) rotate(2deg);
-  }
-  16% {
-    transform: translate3d(8px, -18px, 0) rotate(-4deg);
-  }
-  34% {
-    transform: translate3d(-8px, -36px, 0) rotate(5deg);
-  }
-  50% {
-    transform: translate3d(14px, -14px, 0) rotate(-2deg);
-  }
-  64% {
-    transform: translate3d(4px, 12px, 0) rotate(4deg);
-  }
-  80% {
-    transform: translate3d(-10px, 22px, 0) rotate(-3deg);
-  }
-  92% {
-    transform: translate3d(-3px, 8px, 0) rotate(1deg);
-  }
-  100% {
-    transform: translate3d(0, 0, 0) rotate(2deg);
-  }
+/* Stable Flight Rig: "it should not fly much, it should flap" */
+@keyframes butterflyMicroHover {
+  0% { transform: translate3d(0, 0, 0) rotate(1deg); }
+  25% { transform: translate3d(2.5px, -3px, 0) rotate(-1.5deg); }
+  50% { transform: translate3d(-2px, -1px, 0) rotate(2deg); }
+  75% { transform: translate3d(1.5px, 2px, 0) rotate(-1deg); }
+  100% { transform: translate3d(0, 0, 0) rotate(1deg); }
 }
 
 .butterfly-flight-rig {
   position: relative;
   width: 100%;
   height: 100%;
-  animation: butterflyFlightLoop 15s ease-in-out infinite;
+  animation: butterflyMicroHover 6.8s ease-in-out infinite;
 }
 
-/* 3D Perspective Body Stage */
+/* 3D Body Stage */
 .butterfly-3d-body {
   position: absolute;
-  top: 13px;
+  top: 12px;
   left: 2px;
-  width: 66px;
-  height: 44px;
-  perspective: 500px;
-  -webkit-perspective: 500px;
+  width: 70px;
+  height: 48px;
+  perspective: 550px;
+  -webkit-perspective: 550px;
   perspective-origin: center center;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
   display: flex;
   align-items: center;
   justify-content: center;
-  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.55));
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.65)) drop-shadow(0 0 10px rgba(160, 205, 255, 0.75));
 }
 
-/* True 3D Sideways Wing Flapping (folds upward/together sideways like real butterflies) */
+/* True 3D Sideways Wing-Flapping (visibly folds upward/together sideways) */
 @keyframes wingFlapLeftSideways {
-  0% {
-    transform: rotateY(0deg) rotateZ(0deg);
-  }
-  15% {
-    transform: rotateY(16deg) rotateZ(-1deg);
-  }
-  50% {
-    transform: rotateY(54deg) rotateZ(-3deg);
-  }
-  100% {
-    transform: rotateY(68deg) rotateZ(-4deg);
-  }
+  0% { transform: rotateY(0deg) rotateZ(0deg); }
+  16% { transform: rotateY(18deg) rotateZ(-1deg); }
+  50% { transform: rotateY(58deg) rotateZ(-2.5deg); }
+  100% { transform: rotateY(70deg) rotateZ(-3.5deg); }
 }
 
 @keyframes wingFlapRightSideways {
-  0% {
-    transform: rotateY(0deg) rotateZ(0deg);
-  }
-  15% {
-    transform: rotateY(-16deg) rotateZ(1deg);
-  }
-  50% {
-    transform: rotateY(-54deg) rotateZ(3deg);
-  }
-  100% {
-    transform: rotateY(-68deg) rotateZ(4deg);
-  }
+  0% { transform: rotateY(0deg) rotateZ(0deg); }
+  16% { transform: rotateY(-18deg) rotateZ(1deg); }
+  50% { transform: rotateY(-58deg) rotateZ(2.5deg); }
+  100% { transform: rotateY(-70deg) rotateZ(3.5deg); }
 }
 
 .wing-wrapper-left {
-  width: 32px;
-  height: 44px;
-  transform-origin: 100% 45%;
+  width: 35px;
+  height: 48px;
+  transform-origin: 100% 48%;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
   backface-visibility: visible;
-  animation: wingFlapLeftSideways 0.44s ease-in-out infinite alternate;
+  animation: wingFlapLeftSideways 0.35s ease-in-out infinite alternate;
 }
 
 .wing-wrapper-right {
-  width: 32px;
-  height: 44px;
-  transform-origin: 0% 45%;
+  width: 35px;
+  height: 48px;
+  transform-origin: 0% 48%;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
   backface-visibility: visible;
-  animation: wingFlapRightSideways 0.44s ease-in-out infinite alternate;
+  animation: wingFlapRightSideways 0.35s ease-in-out infinite alternate;
 }
 
 .wing-svg {
@@ -2160,7 +2132,7 @@ body {
 .butterfly-torso-center {
   position: relative;
   width: 3.2px;
-  height: 30px;
+  height: 32px;
   margin: 0 -0.5px;
   z-index: 5;
   display: flex;
@@ -2178,8 +2150,8 @@ body {
 
 .torso-segment {
   width: 3px;
-  height: 24px;
-  background: linear-gradient(180deg, #180c20 0%, #0d0611 100%);
+  height: 26px;
+  background: linear-gradient(180deg, #190c22 0%, #0d0611 100%);
   border-radius: 2px;
   margin-top: -1px;
 }
@@ -2187,7 +2159,7 @@ body {
 .antenna-left,
 .antenna-right {
   position: absolute;
-  top: -4px;
+  top: -5px;
   width: 5px;
   height: 5px;
   border-top: 1px solid #1a0f23;
@@ -2208,92 +2180,69 @@ body {
   transform: rotate(15deg);
 }
 
-/* Subtle Shimmer Motes */
-.shimmer-mote {
+/* Glitter Sparkles */
+.glitter-sparkle {
   position: absolute;
-  width: 3.5px;
-  height: 3.5px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #f5e4a8 0%, rgba(218, 178, 97, 0) 70%);
-  opacity: 0;
+  font-size: 8px;
+  color: #e2efff;
+  text-shadow: 0 0 4px #8bb7ff, 0 0 8px #d6a8ff;
   pointer-events: none;
-  filter: blur(0.3px);
+  opacity: 0;
 }
 
-.mote-1 {
-  top: 10px;
-  left: 16px;
-  animation: shimmerDrift 6.8s ease-in-out infinite;
+@keyframes glitterTwinkle {
+  0% { opacity: 0; transform: scale(0.3) rotate(0deg); }
+  50% { opacity: 0.95; transform: scale(1.15) rotate(45deg); }
+  100% { opacity: 0; transform: scale(0.2) rotate(90deg); }
 }
 
-.mote-2 {
-  top: 36px;
-  left: 42px;
-  animation: shimmerDrift 8.2s ease-in-out infinite 2.5s;
-}
-
-@keyframes shimmerDrift {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 0, 0) scale(0.5);
-  }
-  25% {
-    opacity: 0.75;
-    transform: translate3d(4px, -8px, 0) scale(1.1);
-  }
-  60% {
-    opacity: 0.4;
-    transform: translate3d(10px, -20px, 0) scale(0.85);
-  }
-  100% {
-    opacity: 0;
-    transform: translate3d(15px, -32px, 0) scale(0.4);
-  }
-}
+.sparkle-1 { top: -4px; left: 16px; animation: glitterTwinkle 2.8s ease-in-out infinite; }
+.sparkle-2 { top: 36px; left: 48px; animation: glitterTwinkle 3.4s ease-in-out infinite 1.1s; }
+.sparkle-3 { top: 4px; left: 54px; animation: glitterTwinkle 2.5s ease-in-out infinite 1.8s; }
 
 /* Responsive Scaling for Ivy & Butterfly */
 @media (max-width: 900px) {
   .bookshelf-enchanted-ivy {
-    width: 120px;
-    left: -24px;
-    height: 68%;
-    max-height: 520px;
+    width: 300px;
+    left: -32px;
+    height: 76%;
+    max-height: 580px;
   }
   .bookshelf-butterfly-scene {
-    top: 130px;
-    left: 10px;
+    top: 20px;
+    left: 36px;
     transform: scale(0.85);
   }
 }
 
 @media (max-width: 600px) {
   .bookshelf-enchanted-ivy {
-    width: 75px;
-    left: -10px;
-    height: 60%;
-    max-height: 420px;
+    width: 160px;
+    left: -16px;
+    height: 65%;
+    max-height: 480px;
   }
   .bookshelf-butterfly-scene {
-    top: 90px;
-    left: -4px;
-    transform: scale(0.62);
+    top: 12px;
+    left: 10px;
+    transform: scale(0.65);
   }
 }
 
 /* Accessibility: Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
   .ivy-main-trunk,
-  .leaf-sway-1,
-  .leaf-sway-2,
-  .leaf-sway-3,
-  .leaf-sway-4,
-  .leaf-sway-5,
+  .leaf-sway-slow,
+  .leaf-sway-med,
+  .leaf-sway-fast,
   .tendril-sway-1,
   .tendril-sway-2,
+  .tendril-sway-3,
+  .tendril-sway-4,
   .butterfly-flight-rig,
   .wing-wrapper-left,
   .wing-wrapper-right,
-  .shimmer-mote {
+  .glitter-sparkle {
     animation: none !important;
     transform: none !important;
   }
@@ -2987,14 +2936,14 @@ body {
     padding: 0 16px;
   }
   .bookshelf-enchanted-ivy {
-    width: 95px;
-    left: -16px;
-    opacity: 0.92;
+    width: 220px;
+    left: -24px;
+    opacity: 0.94;
   }
   .bookshelf-butterfly-scene {
-    top: 110px;
-    left: 2px;
-    transform: scale(0.72);
+    top: 16px;
+    left: 24px;
+    transform: scale(0.75);
   }
   .bookshelf-tier-books {
     flex-wrap: wrap;
